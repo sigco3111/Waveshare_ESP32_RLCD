@@ -6,7 +6,7 @@
     "esptool": true,
     "esptool_output": "esptool v5.4.0\r\n5.4.0\r\n",
     "reporter_mode": true,
-    "chinese_protocol": true
+    "localized_path_protocol": true
   },
   "reporter_tests": {
     "total": 66,

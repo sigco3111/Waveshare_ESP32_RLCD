@@ -23,6 +23,6 @@ python -c 'from pathlib import Path; p=str(Path.cwd()); assert p.isascii() and n
 # Resolve managed dependencies before applying the existing Wi-Fi extension hooks.
 idf.py -DIDF_TARGET=esp32s3 '-DSDKCONFIG_DEFAULTS=sdkconfig.defaults;syna.sdkconfig.defaults' -DBOARD_NAME=esp32-s3-rlcd-4.2 reconfigure
 python "$HERE/apply_ui_overlay.py" "$SOURCE" --phase components
-python scripts/build.py waveshare/esp32-s3-rlcd-4.2 --name esp32-s3-rlcd-4.2 --language zh-CN
+python scripts/build.py waveshare/esp32-s3-rlcd-4.2 --name esp32-s3-rlcd-4.2 --language en-US
 echo "Build complete: $SOURCE/build/xiaozhi.bin"
 echo 'No device was flashed. Back up flash and check partitions before installation.'

@@ -212,25 +212,25 @@ $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::None
 $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::Half
 $graphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::SingleBitPerPixelGridFit
 $pen1 = [System.Drawing.Pen]::new([System.Drawing.Color]::Black, 1)
-$cjk12 = New-PixelFont 'Microsoft YaHei UI' 12
-$cjk13 = New-PixelFont 'Microsoft YaHei UI' 13
-$cjk14 = New-PixelFont 'Microsoft YaHei UI' 14
-$cjk16 = New-PixelFont 'Microsoft YaHei UI' 16
-$cjk17 = New-PixelFont 'Microsoft YaHei UI' 17
+$latin12 = New-PixelFont 'Arial' 12
+$latin13 = New-PixelFont 'Arial' 13
+$latin14 = New-PixelFont 'Arial' 14
+$latin16 = New-PixelFont 'Arial' 16
+$latin17 = New-PixelFont 'Arial' 17
 $latin11 = New-PixelFont 'Consolas' 11
 $latin18 = New-PixelFont 'Arial' 18
-$textTemperature = -join [char[]](0x6E29, 0x5EA6)
-$textHumidity = -join [char[]](0x6E7F, 0x5EA6)
-$textRunning = -join [char[]](0x8FD0, 0x884C, 0x4E2D)
-$textNowPlaying = -join [char[]](0x6B63, 0x5728, 0x64AD, 0x653E)
-$textFiveHourQuota = '5' + (-join [char[]](0x5C0F, 0x65F6, 0x989D, 0x5EA6))
-$textWeekQuota = -join [char[]](0x5468, 0x989D, 0x5EA6)
-$textSong = -join [char[]](0x591C, 0x7684, 0x7B2C, 0x4E03, 0x7AE0)
-$textArtist = -join [char[]](0x5468, 0x6770, 0x4F26)
-$textLyric = -join [char[]](0x591C, 0x5E55, 0x964D, 0x4E34, 0x0020, 0x534E, 0x706F, 0x521D, 0x4E0A)
-$textWifi = 'WiFi' + (-join [char[]](0x5DF2, 0x8FDE, 0x63A5))
-$textDevice = -join [char[]](0x8BBE, 0x5907, 0x6B63, 0x5E38)
-$textConnectedPc = (-join [char[]](0x5DF2, 0x8FDE, 0x63A5, 0x5230)) + 'PC'
+$textTemperature = 'TEMP'
+$textHumidity = 'HUMID'
+$textRunning = 'WORK'
+$textNowPlaying = 'PLAYING'
+$textFiveHourQuota = '5H QUOTA'
+$textWeekQuota = 'WEEK QUOTA'
+$textSong = 'CHAPTER 7'
+$textArtist = 'JAY CHOU'
+$textLyric = 'NIGHT FALLS'
+$textWifi = 'WiFi LINK'
+$textDevice = 'Device OK'
+$textConnectedPc = 'PC LINK'
 
 try {
     Draw-RoundedOutline $graphics $pen1 6 7 388 55 11
@@ -243,27 +243,27 @@ try {
     Draw-GeneratedAsset $graphics $icons.Clock ([System.Drawing.Rectangle]::new(20, 23, 22, 22))
     Draw-GeneratedAsset $graphics $icons.Thermometer ([System.Drawing.Rectangle]::new(205, 15, 18, 32))
     Draw-GeneratedAsset $graphics $icons.Humidity ([System.Drawing.Rectangle]::new(306, 16, 18, 29))
-    Draw-Text $graphics $textTemperature $cjk14 230 15
-    Draw-Text $graphics $textHumidity $cjk14 331 15
+    Draw-Text $graphics $textTemperature $latin14 230 15
+    Draw-Text $graphics $textHumidity $latin14 331 15
     Draw-Text $graphics 'AI AGENT' $latin18 49 82
 
     Fill-RoundedRectangle $graphics ([System.Drawing.Brushes]::Black) 46 108 88 29 5
     Draw-GeneratedAsset $graphics $icons.AgentStatus ([System.Drawing.Rectangle]::new(52, 111, 23, 23)) -White
-    Draw-Text $graphics $textRunning $cjk16 81 112 ([System.Drawing.Color]::White)
+    Draw-Text $graphics $textRunning $latin16 81 112 ([System.Drawing.Color]::White)
     $graphics.DrawLine($pen1, 17, 146, 162, 146)
-    Draw-Text $graphics $textFiveHourQuota $cjk13 17 159
-    Draw-Text $graphics $textWeekQuota $cjk13 17 202
+    Draw-Text $graphics $textFiveHourQuota $latin13 17 159
+    Draw-Text $graphics $textWeekQuota $latin13 17 202
     Draw-RoundedOutline $graphics $pen1 17 177 146 15 4
     Draw-RoundedOutline $graphics $pen1 17 220 146 15 4
 
     Draw-GeneratedAsset $graphics $icons.Waveform ([System.Drawing.Rectangle]::new(193, 82, 24, 16))
-    Draw-Text $graphics $textNowPlaying $cjk14 223 82
+    Draw-Text $graphics $textNowPlaying $latin14 223 82
     $graphics.DrawLine($pen1, 193, 103, 380, 103)
     Draw-RoundedOutline $graphics $pen1 193 114 52 55 4
     Draw-GeneratedAsset $graphics $icons.MusicNote ([System.Drawing.Rectangle]::new(205, 124, 28, 35))
-    Draw-Text $graphics $textSong $cjk16 258 115
+    Draw-Text $graphics $textSong $latin16 258 115
     Draw-GeneratedAsset $graphics $icons.Artist ([System.Drawing.Rectangle]::new(259, 143, 12, 12))
-    Draw-Text $graphics $textArtist $cjk13 278 141
+    Draw-Text $graphics $textArtist $latin13 278 141
 
     $progressPen = [System.Drawing.Pen]::new([System.Drawing.Color]::Black, 1)
     try { $progressPen.DashStyle = [System.Drawing.Drawing2D.DashStyle]::Dot; $graphics.DrawLine($progressPen, 193, 181, 380, 181) }
@@ -271,23 +271,23 @@ try {
     $graphics.FillEllipse([System.Drawing.Brushes]::Black, 268, 178, 7, 7)
     Draw-Text $graphics '01:54' $latin11 193 188
     Draw-Text $graphics '04:31' $latin11 353 188
-    Draw-CenteredText $graphics $textLyric $cjk17 ([System.Drawing.RectangleF]::new(184, 215, 204, 25))
+    Draw-CenteredText $graphics $textLyric $latin17 ([System.Drawing.RectangleF]::new(184, 215, 204, 25))
 
     Draw-GeneratedAsset $graphics $icons.Wifi ([System.Drawing.Rectangle]::new(20, 270, 20, 14))
-    Draw-Text $graphics $textWifi $cjk12 48 270
+    Draw-Text $graphics $textWifi $latin12 48 270
     Draw-GeneratedAsset $graphics $icons.Desktop ([System.Drawing.Rectangle]::new(126, 270, 19, 14))
-    Draw-Text $graphics $textDevice $cjk12 150 270
+    Draw-Text $graphics $textDevice $latin12 150 270
     Draw-GeneratedAsset $graphics $icons.Laptop ([System.Drawing.Rectangle]::new(216, 270, 18, 14))
-    Draw-Text $graphics $textConnectedPc $cjk12 238 270
+    Draw-Text $graphics $textConnectedPc $latin12 238 270
     Draw-GeneratedAsset $graphics $icons.Battery ([System.Drawing.Rectangle]::new(314, 270, 35, 14))
-    Draw-Text $graphics '87%' $cjk13 358 270
+    Draw-Text $graphics '87%' $latin13 358 270
 
     Convert-ToOneBitPreview $screen
     $screen.Save((Join-Path $generatedDir 'screen_base.png'), [System.Drawing.Imaging.ImageFormat]::Png)
 }
 finally {
-    $latin18.Dispose(); $latin11.Dispose(); $cjk17.Dispose(); $cjk16.Dispose()
-    $cjk14.Dispose(); $cjk13.Dispose(); $cjk12.Dispose(); $pen1.Dispose()
+    $latin18.Dispose(); $latin11.Dispose(); $latin17.Dispose(); $latin16.Dispose()
+    $latin14.Dispose(); $latin13.Dispose(); $latin12.Dispose(); $pen1.Dispose()
     $graphics.Dispose(); $screen.Dispose()
 }
 
@@ -298,20 +298,20 @@ $performanceGraphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::N
 $performanceGraphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::Half
 $performanceGraphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::SingleBitPerPixelGridFit
 $performancePen = [System.Drawing.Pen]::new([System.Drawing.Color]::Black, 1)
-$performanceCjk12 = New-PixelFont 'Microsoft YaHei UI' 12
-$performanceCjk13 = New-PixelFont 'Microsoft YaHei UI' 13
-$performanceCjk14 = New-PixelFont 'Microsoft YaHei UI' 14
+$performanceArial12 = New-PixelFont 'Arial' 12
+$performanceArial13 = New-PixelFont 'Arial' 13
+$performanceArial14 = New-PixelFont 'Arial' 14
 $performanceLatin11 = New-PixelFont 'Consolas' 11
 $performanceLatin12 = New-PixelFont 'Consolas' 12
 
-$textSystemPerformance = -join [char[]](0x7CFB, 0x7EDF, 0x6027, 0x80FD)
-$textRealtimeStatus = -join [char[]](0x5B9E, 0x65F6, 0x72B6, 0x6001)
-$textCpuTemperature = 'CPU' + (-join [char[]](0x6E29, 0x5EA6))
-$textGpuTemperature = 'GPU' + (-join [char[]](0x6E29, 0x5EA6))
-$textHostHealthy = -join [char[]](0x4E3B, 0x673A, 0x8FD0, 0x884C, 0x6B63, 0x5E38)
-$textNetworkLatency = -join [char[]](0x7F51, 0x7EDC, 0x5EF6, 0x8FDF)
-$textUpload = -join [char[]](0x4E0A, 0x4F20)
-$textDownload = -join [char[]](0x4E0B, 0x8F7D)
+$textSystemPerformance = 'PERFORMANCE'
+$textRealtimeStatus = 'LIVE STATUS'
+$textCpuTemperature = 'CPU TEMP'
+$textGpuTemperature = 'GPU TEMP'
+$textHostHealthy = 'HOST OK'
+$textNetworkLatency = 'NET LATENCY'
+$textUpload = 'UPLOAD'
+$textDownload = 'DOWNLOAD'
 
 try {
     Draw-RoundedOutline $performanceGraphics $performancePen 6 7 388 50 11
@@ -324,11 +324,11 @@ try {
     Draw-GeneratedAsset $performanceGraphics $icons.Clock ([System.Drawing.Rectangle]::new(20, 22, 22, 22))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.CpuTemperature ([System.Drawing.Rectangle]::new(166, 16, 29, 32))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.GpuTemperature ([System.Drawing.Rectangle]::new(272, 17, 38, 30))
-    Draw-Text $performanceGraphics $textCpuTemperature $performanceCjk12 201 16
-    Draw-Text $performanceGraphics $textGpuTemperature $performanceCjk12 319 16
+    Draw-Text $performanceGraphics $textCpuTemperature $performanceArial12 201 16
+    Draw-Text $performanceGraphics $textGpuTemperature $performanceArial12 319 16
 
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Performance ([System.Drawing.Rectangle]::new(17, 75, 20, 15))
-    Draw-Text $performanceGraphics $textSystemPerformance $performanceCjk14 42 72
+    Draw-Text $performanceGraphics $textSystemPerformance $performanceArial14 42 72
     $performanceGraphics.DrawLine($performancePen, 16, 92, 170, 92)
 
     Draw-Text $performanceGraphics 'CPU' $performanceLatin12 17 103
@@ -340,17 +340,17 @@ try {
     }
 
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Realtime ([System.Drawing.Rectangle]::new(199, 74, 25, 17))
-    Draw-Text $performanceGraphics $textRealtimeStatus $performanceCjk14 230 72
+    Draw-Text $performanceGraphics $textRealtimeStatus $performanceArial14 230 72
     $performanceGraphics.DrawLine($performancePen, 199, 92, 383, 92)
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Host ([System.Drawing.Rectangle]::new(200, 106, 58, 62))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Healthy ([System.Drawing.Rectangle]::new(268, 102, 16, 18))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Network ([System.Drawing.Rectangle]::new(268, 123, 16, 17))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Upload ([System.Drawing.Rectangle]::new(269, 145, 14, 17))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Download ([System.Drawing.Rectangle]::new(269, 167, 14, 17))
-    Draw-Text $performanceGraphics $textHostHealthy $performanceCjk12 291 103
-    Draw-Text $performanceGraphics $textNetworkLatency $performanceCjk12 291 124
-    Draw-Text $performanceGraphics $textUpload $performanceCjk12 291 146
-    Draw-Text $performanceGraphics $textDownload $performanceCjk12 291 168
+    Draw-Text $performanceGraphics $textHostHealthy $performanceArial12 291 103
+    Draw-Text $performanceGraphics $textNetworkLatency $performanceArial12 291 124
+    Draw-Text $performanceGraphics $textUpload $performanceArial12 291 146
+    Draw-Text $performanceGraphics $textDownload $performanceArial12 291 168
 
     $graphPen = [System.Drawing.Pen]::new([System.Drawing.Color]::Black, 1)
     try {
@@ -362,20 +362,20 @@ try {
     $performanceGraphics.DrawLine($performancePen, 200, 239, 382, 239)
 
     Draw-GeneratedAsset $performanceGraphics $icons.Wifi ([System.Drawing.Rectangle]::new(20, 270, 20, 14))
-    Draw-Text $performanceGraphics $textWifi $performanceCjk12 48 270
+    Draw-Text $performanceGraphics $textWifi $performanceArial12 48 270
     Draw-GeneratedAsset $performanceGraphics $icons.Desktop ([System.Drawing.Rectangle]::new(126, 270, 19, 14))
-    Draw-Text $performanceGraphics $textDevice $performanceCjk12 150 270
+    Draw-Text $performanceGraphics $textDevice $performanceArial12 150 270
     Draw-GeneratedAsset $performanceGraphics $icons.Laptop ([System.Drawing.Rectangle]::new(216, 270, 18, 14))
-    Draw-Text $performanceGraphics $textConnectedPc $performanceCjk12 238 270
+    Draw-Text $performanceGraphics $textConnectedPc $performanceArial12 238 270
     Draw-GeneratedAsset $performanceGraphics $icons.Battery ([System.Drawing.Rectangle]::new(314, 270, 35, 14))
-    Draw-Text $performanceGraphics '87%' $performanceCjk13 358 270
+    Draw-Text $performanceGraphics '87%' $performanceArial13 358 270
 
     Convert-ToOneBitPreview $performanceScreen
     $performanceScreen.Save((Join-Path $generatedDir 'performance_base.png'), [System.Drawing.Imaging.ImageFormat]::Png)
 }
 finally {
     $performanceLatin12.Dispose(); $performanceLatin11.Dispose()
-    $performanceCjk14.Dispose(); $performanceCjk13.Dispose(); $performanceCjk12.Dispose()
+    $performanceArial14.Dispose(); $performanceArial13.Dispose(); $performanceArial12.Dispose()
     $performancePen.Dispose(); $performanceGraphics.Dispose(); $performanceScreen.Dispose()
 }
 
@@ -391,11 +391,10 @@ $synaGraphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::None
 $synaGraphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::Half
 $synaGraphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::SingleBitPerPixelGridFit
 $synaPen = [System.Drawing.Pen]::new([System.Drawing.Color]::Black, 1)
-$synaCjk12 = New-PixelFont 'Microsoft YaHei UI' 12
-$synaCjk14 = New-PixelFont 'Microsoft YaHei UI' 14
+$synaArial12 = New-PixelFont 'Arial' 12
 $synaLatin14 = New-PixelFont 'Arial' 14
-$textApiBalance = 'API' + (-join [char[]](0x4F59, 0x989D))
-$textTodayTodo = -join [char[]](0x4ECA, 0x65E5, 0x5F85, 0x529E)
+$textApiBalance = 'API BALANCE'
+$textTodayTodo = "TODAY'S TODOS"
 try {
     Draw-RoundedOutline $synaGraphics $synaPen 6 7 388 55 11
     Draw-RoundedOutline $synaGraphics $synaPen 6 69 198 182 8
@@ -404,40 +403,40 @@ try {
     $synaGraphics.DrawLine($synaPen, 190, 13, 190, 56)
 
     Draw-GeneratedAsset $synaGraphics $icons.Clock ([System.Drawing.Rectangle]::new(20, 23, 22, 22))
-    Draw-Text $synaGraphics $textApiBalance $synaCjk14 243 13
+    Draw-Text $synaGraphics $textApiBalance $synaLatin14 243 13
     Draw-Text $synaGraphics 'Syna-sama' $synaLatin14 43 79
     $synaGraphics.DrawLine($synaPen, 17, 103, 193, 103)
-    Draw-Text $synaGraphics $textTodayTodo $synaCjk14 244 79
+    Draw-Text $synaGraphics $textTodayTodo $synaLatin14 244 79
     $synaGraphics.DrawLine($synaPen, 221, 103, 383, 103)
 
     Draw-GeneratedAsset $synaGraphics $icons.Wifi ([System.Drawing.Rectangle]::new(20, 270, 20, 14))
-    Draw-Text $synaGraphics $textWifi $synaCjk12 48 270
+    Draw-Text $synaGraphics $textWifi $synaArial12 48 270
     Draw-GeneratedAsset $synaGraphics $icons.Desktop ([System.Drawing.Rectangle]::new(126, 270, 19, 14))
-    Draw-Text $synaGraphics $textDevice $synaCjk12 150 270
+    Draw-Text $synaGraphics $textDevice $synaArial12 150 270
     Draw-GeneratedAsset $synaGraphics $icons.Laptop ([System.Drawing.Rectangle]::new(216, 270, 18, 14))
-    Draw-Text $synaGraphics $textConnectedPc $synaCjk12 238 270
+    Draw-Text $synaGraphics $textConnectedPc $synaArial12 238 270
     Draw-GeneratedAsset $synaGraphics $icons.Battery ([System.Drawing.Rectangle]::new(314, 270, 35, 14))
-    Draw-Text $synaGraphics '87%' $synaCjk12 358 270
+    Draw-Text $synaGraphics '87%' $synaArial12 358 270
 
     Convert-ToOneBitPreview $synaScreen
     $synaScreen.Save((Join-Path $generatedDir 'syna_base.png'), [System.Drawing.Imaging.ImageFormat]::Png)
 }
 finally {
-    $synaLatin14.Dispose(); $synaCjk14.Dispose(); $synaCjk12.Dispose()
+$synaLatin14.Dispose(); $synaArial12.Dispose()
     $synaPen.Dispose(); $synaGraphics.Dispose(); $synaScreen.Dispose()
 }
 
 $statusDefinitions = [ordered]@{
-    'status_working' = (-join [char[]](0x8FD0, 0x884C, 0x4E2D))
-    'status_waiting' = (-join [char[]](0x7B49, 0x5F85, 0x4E2D))
-    'status_done' = (-join [char[]](0x5DF2, 0x5B8C, 0x6210))
-    'status_idle' = (-join [char[]](0x7A7A, 0x95F2))
-    'status_offline' = (-join [char[]](0x79BB, 0x7EBF))
+    'status_working' = 'WORKING'
+    'status_waiting' = 'WAITING'
+    'status_done' = 'DONE'
+    'status_idle' = 'IDLE'
+    'status_offline' = 'OFFLINE'
 }
 foreach($status in $statusDefinitions.GetEnumerator()) {
     $bitmap = [System.Drawing.Bitmap]::new(88, 29, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     $statusGraphics = [System.Drawing.Graphics]::FromImage($bitmap)
-    $statusFont = New-PixelFont 'Microsoft YaHei UI' 16
+    $statusFont = New-PixelFont 'Consolas' 12
     try {
         $statusGraphics.Clear([System.Drawing.Color]::White)
         $statusGraphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::None
@@ -452,15 +451,15 @@ foreach($status in $statusDefinitions.GetEnumerator()) {
 }
 
 $wifiStatusDefinitions = [ordered]@{
-    'wifi_unconfigured' = 'WiFi' + (-join [char[]](0x672A, 0x914D, 0x7F6E))
-    'wifi_connecting'   = 'WiFi' + (-join [char[]](0x8FDE, 0x63A5, 0x4E2D))
-    'wifi_provisioning' = -join [char[]](0x7B49, 0x5F85, 0x914D, 0x7F51)
-    'wifi_connected'    = 'WiFi' + (-join [char[]](0x5DF2, 0x8FDE, 0x63A5))
+    'wifi_unconfigured' = 'WiFi UNSET'
+    'wifi_connecting'   = 'WiFi BUSY'
+    'wifi_provisioning' = 'WiFi SETUP'
+    'wifi_connected'    = 'WiFi LINK'
 }
 foreach($wifiStatus in $wifiStatusDefinitions.GetEnumerator()) {
     $bitmap = [System.Drawing.Bitmap]::new(78, 18, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     $statusGraphics = [System.Drawing.Graphics]::FromImage($bitmap)
-    $statusFont = New-PixelFont 'Microsoft YaHei UI' 12
+    $statusFont = New-PixelFont 'Consolas' 12
     try {
         $statusGraphics.Clear([System.Drawing.Color]::White)
         $statusGraphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::SingleBitPerPixelGridFit
@@ -472,13 +471,13 @@ foreach($wifiStatus in $wifiStatusDefinitions.GetEnumerator()) {
 }
 
 $pcStatusDefinitions = [ordered]@{
-    'pc_disconnected' = (-join [char[]](0x672A, 0x8FDE, 0x63A5, 0x5230)) + 'PC'
-    'pc_connected'    = (-join [char[]](0x5DF2, 0x8FDE, 0x63A5, 0x5230)) + 'PC'
+    'pc_disconnected' = 'PC OFFLINE'
+    'pc_connected'    = 'PC LINKED'
 }
 foreach($pcStatus in $pcStatusDefinitions.GetEnumerator()) {
     $bitmap = [System.Drawing.Bitmap]::new(76, 18, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     $statusGraphics = [System.Drawing.Graphics]::FromImage($bitmap)
-    $statusFont = New-PixelFont 'Microsoft YaHei UI' 12
+    $statusFont = New-PixelFont 'Consolas' 12
     try {
         $statusGraphics.Clear([System.Drawing.Color]::White)
         $statusGraphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::SingleBitPerPixelGridFit

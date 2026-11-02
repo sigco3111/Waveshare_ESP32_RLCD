@@ -7,7 +7,7 @@ This file records the acceptance scope; a successful build is not treated as all
 - Reporter installation via the Windows standalone installer: user confirmed success.
 - Configuration-preserving flashing via the Windows standalone installer: user confirmed success.
 - Firmware full backup, read-back verification, and configuration-preservation check outside the application write range passed.
-- Installer Chinese JSON protocol fix, 11 source checks, and standalone EXE self-test passed.
+- Installer localized-path JSON protocol fix, 11 source checks, and standalone EXE self-test passed.
 - Single-turn firmware build and playback-completion logic host tests passed; flashed to the device.
 
 ## Still to complete before official release

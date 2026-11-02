@@ -378,10 +378,10 @@ def main():
         finished = process.waitForFinished(90000)
         if finished:
             window.install_finished(process.exitCode(), process.exitStatus())
-        results['chinese_protocol'] = (finished and window.completed and
+        results['localized_path_protocol'] = (finished and window.completed and
             window.progress.value() == 100 and 'Verifying localized path: Syna 🐱' in window.log.toPlainText())
         Path(sys.argv[2]).write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding='utf-8')
-        return 0 if all(results[key] for key in ('payload', 'backend', 'esptool', 'reporter_mode', 'chinese_protocol')) else 1
+        return 0 if all(results[key] for key in ('payload', 'backend', 'esptool', 'reporter_mode', 'localized_path_protocol')) else 1
     window = InstallerWindow()
     window.show()
     return app.exec()

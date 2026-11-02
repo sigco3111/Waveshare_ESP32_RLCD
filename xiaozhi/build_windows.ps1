@@ -23,7 +23,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'ESP-IDF dependency resolution failed.' }
     & python $synaOverlay $SourceRoot --phase components
     if ($LASTEXITCODE -ne 0) { throw 'Could not apply the Wi-Fi component overlay.' }
-    & python scripts/build.py 'waveshare/esp32-s3-rlcd-4.2' --name 'esp32-s3-rlcd-4.2' --language zh-CN
+    & python scripts/build.py 'waveshare/esp32-s3-rlcd-4.2' --name 'esp32-s3-rlcd-4.2' --language en-US
     if ($LASTEXITCODE -ne 0) { throw 'Firmware build failed.' }
     Write-Host "Build complete: $SourceRoot\build\xiaozhi.bin"
     Write-Host 'No device was flashed. Back up flash and check partitions before installation.'

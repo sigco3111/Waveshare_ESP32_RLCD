@@ -27,7 +27,7 @@ Output is `reporter/dist/SynaReporter.exe`. The source run entry is `reporter/re
 ```powershell
 idf.py -DIDF_TARGET=esp32s3 '-DSDKCONFIG_DEFAULTS=sdkconfig.defaults;syna.sdkconfig.defaults' -DBOARD_NAME=esp32-s3-rlcd-4.2 reconfigure
 python <project>/xiaozhi/apply_ui_overlay.py <upstream> --phase components
-python scripts/build.py waveshare/esp32-s3-rlcd-4.2 --name esp32-s3-rlcd-4.2 --language zh-CN
+python scripts/build.py waveshare/esp32-s3-rlcd-4.2 --name esp32-s3-rlcd-4.2 --language en-US
 ```
 
 `<project>` and `<upstream>` are paths to replace. Output is in the upstream `build` directory. `build_windows.ps1` is a convenience wrapper for the author's existing tool directory layout; prefer the manual entry points above for general environments. `build_macos.sh` accepts the upstream path and `SYNA_IDF_ROOT`.

@@ -1,6 +1,6 @@
 # UI asset notes
 
-The current home screen was rebuilt from the user-provided 400×300 monochrome music status screen reference. Every icon is generated separately with the built-in image generation mode and stored in `source/music_ui_icons/`; `generate_assets.ps1` only crops, scales, recolors, positions, and binarizes them, and does not redraw icons with drawing code.
+The current home screen was rebuilt from the user-provided 400×300 monochrome music status screen reference. Every icon is generated separately with the built-in image generation mode and stored in `source/music_ui_icons/`; `generate_assets.py` only crops, scales, recolors, positions, and binarizes them, and does not redraw icons with drawing code.
 
 ## Current icons and generation prompts
 
@@ -26,8 +26,11 @@ All prompts share these constraints: pure black 1-bit pixel graphics, a truly tr
 
 ## Regenerating the LVGL assets
 
-```powershell
-& .\simulator\assets\generate_assets.ps1
+```bash
+python3 simulator/assets/generate_assets.py
 ```
+
+The generator is portable and needs Pillow plus the vendored LVGL image
+converter (`pypng` and `lz4` for the converter, `pngquant` on `PATH`).
 
 The output includes `generated/screen_base.png` and the LVGL 1-bit C arrays in `src/assets/` that can be linked directly.

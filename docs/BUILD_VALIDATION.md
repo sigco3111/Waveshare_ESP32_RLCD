@@ -17,7 +17,7 @@ Verification directory: `D:/syna-release-validation-20260916`, separate from the
 - Firmware built successfully from the locked commit, 3,762,016-byte application, fitting partition capacity.
 - Single-turn conversation and quota display host tests passed; tests use the new firmware source path.
 - Installer source: 11 tests passed.
-- Standalone installer repackaged successfully; after removing Python/IDF paths and forcing a non-UTF-8 environment, the file manifest, backend, esptool, Reporter mode, and Chinese-language completion protocol self-tests all passed; exit code 0.
+- Standalone installer repackaged successfully; after removing Python/IDF paths and forcing a non-UTF-8 environment, the file manifest, backend, esptool, Reporter mode, and localized-path completion protocol self-tests all passed; exit code 0.
 
 Firmware SHA256: `e649f596410ecca44c1fcf6716871c0447b7c7e9e3f5b78a848fbbc1bc5cfcc6`.
 

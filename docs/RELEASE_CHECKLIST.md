@@ -1,33 +1,33 @@
-# 1.0.0 release checklist
+# 1.0.0 릴리스 체크리스트
 
-This file records the acceptance scope; a successful build is not treated as all functions being tested on real hardware.
+이 파일은 인수 범위를 기록합니다. 빌드 성공을 실기에서 모든 기능을 테스트한 것으로 간주하지 않습니다.
 
-## Validation already done in the development environment
+## 개발 환경에서 이미 완료된 검증
 
-- Reporter installation via the Windows standalone installer: user confirmed success.
-- Configuration-preserving flashing via the Windows standalone installer: user confirmed success.
-- Firmware full backup, read-back verification, and configuration-preservation check outside the application write range passed.
-- Installer localized-path JSON protocol fix, 11 source checks, and standalone EXE self-test passed.
-- Single-turn firmware build and playback-completion logic host tests passed; flashed to the device.
+- Windows 독립 설치 프로그램을 통한 Reporter 설치: 사용자 성공 확인.
+- Windows 독립 설치 프로그램을 통한 설정 유지 플래싱: 사용자 성공 확인.
+- 펌웨어 전체 백업, 읽기 되돌림 검증, 애플리케이션 쓰기 범위 밖 설정 유지 검사가 통과했습니다.
+- 설치 프로그램 로컬 경로 JSON 프로토콜 수정, 11개 소스 검사, 독립 EXE 셀프 테스트가 통과했습니다.
+- 단문 펌웨어 빌드와 재생 완료 로직 호스트 테스트가 통과했으며, 기기에 플래싱했습니다.
 
-## Still to complete before official release
+## 정식 릴리스 전 남은 항목
 
-- [x] Independent source copy and fresh Python environment rebuild of Reporter, firmware, and installer, without reusing old binaries; compiler still uses local ESP-IDF 6.0.2; details in BUILD_VALIDATION.md.
-- [ ] Voice real test: one round ends back to standby, wake again, not interrupted during playback.
-- [x] 2026-10-28 independent full BIN first-time clearing install succeeded, 16 MB read-back consistent, user confirmed success (not equivalent to installer first-time install mode re-verification).
-- [ ] Verify standalone installer run and installation on another Windows computer.
-- [ ] Item-by-item verification of final distribution package third-party licenses, model sources, Qt corresponding source acquisition, and rebuild instructions.
-  Actual dependency inventory, model hashes, Qt attribution, collection of 42 source packages, and repackaging after license completion are done; all 444 embedded license materials in both EXEs verified. Recombination testing after modifying Qt and author-applicable runtime licensing remain to be verified; see RELEASE_CANDIDATE.md.
-- [ ] Secret, configuration, private log, and device image checks on Git content to be officially uploaded.
-- [ ] Determine Mac release scope for this release; do not describe an old Mac package as this round's latest firmware.
-- [ ] Bind final binaries and source commit, regenerate hashes and release signatures.
+- [x] 기존 바이너리 재사용 없이 Reporter, 펌웨어, 설치 프로그램의 독립 소스 복사 및 새로운 Python 환경 재빌드. 컴파일러는 여전히 로컬 ESP-IDF 6.0.2를 사용. 자세한 내용은 BUILD_VALIDATION.md.
+- [ ] 음성 실사용 테스트: 한 번의 문답이 끝나 대기로 복귀하고, 다시 웨이크업하며, 재생 중 끊기지 않아야 합니다.
+- [x] 2026-10-28 독립 전체 BIN 최초 지우기 설치 성공, 16 MB 읽기 되돌림 일치, 사용자 성공 확인 (설치 프로그램 최초 설치 모드 재검증과 동등하지 않음).
+- [ ] 다른 Windows 컴퓨터에서 독립 설치 프로그램 실행과 설치를 검증하세요.
+- [ ] 최종 배포 패키지의 서드파티 라이선스, 모델 소스, Qt 대응 소스 취득, 재빌드 안내를 항목별로 검증하세요.
+  실제 의존성 목록, 모델 해시, Qt 저작자 표시, 42개 소스 패키지 수집, 라이선스 완성 후 재패키징이 완료되었으며, 두 EXE 안의 444개 내장 라이선스 자료를 모두 검증했습니다. Qt 수정 후 재조합 테스트와 작성자 적용 런타임 라이선스는 아직 검증이 필요합니다. RELEASE_CANDIDATE.md를 참조하세요.
+- [ ] 정식으로 업로드할 Git 내용의 시크릿, 설정, 개인 로그, 기기 이미지 검사를 수행하세요.
+- [ ] 이번 릴리스의 Mac 릴리스 범위를 확정하세요. 이전 Mac 패키지를 이번 라운드의 최신 펌웨어로 설명하지 마세요.
+- [ ] 최종 바이너리와 소스 커밋을 바인딩하고, 해시와 릴리스 서명을 다시 생성하세요.
 
-## Known limitations
+## 알려진 제한 사항
 
-- Music progress is current logic estimation; strict synchronization with the player is not guaranteed.
-- One question per wake still depends on server-side utterance segmentation; noisy-environment performance remains to be tested.
-- No Windows code signing or Mac notarization performed; state this clearly at release.
-- Simulator scripts and some host tests still contain author environment path defaults; configuration or later porting is needed.
-- The 2026-09-16 final candidate package completed local Reporter installation and configuration-preserving upgrade: independent re-verification of 16 MB backup, full firmware read-back, unchanged data outside the application write range, and installed Reporter hash all passed. The user confirmed normal screen light-up, automatic network connection, preserved computer binding, and continuous performance data refresh. Evidence in HARDWARE_ACCEPTANCE.json; voice, first-time clearing install, and another Windows acceptance remain.
+- 음악 진행률은 현재 로직 추정치이며, 플레이어와의 엄격한 동기화를 보장하지 않습니다.
+- 웨이크업당 한 문답은 여전히 서버 측 발화 분할에 의존하며, 소음 환경 성능은 아직 테스트하지 않았습니다.
+- Windows 코드 서명과 Mac 공증을 수행하지 않았으므로, 릴리스 시 명확히 밝히세요.
+- 시뮬레이터 스크립트와 일부 호스트 테스트에는 여전히 작성자 환경 경로 기본값이 들어 있으므로, 설정이나 이후 이식이 필요합니다.
+- 2026-09-16 최종 후보 패키지는 로컬 Reporter 설치와 설정 유지 업그레이드를 완료했습니다. 16 MB 백업, 전체 펌웨어 읽기 되돌림, 애플리케이션 쓰기 범위 밖 데이터 불변, 설치된 Reporter 해시의 독립 재검증이 모두 통과했습니다. 사용자는 정상적인 화면 점등, 자동 네트워크 연결, 컴퓨터 바인딩 유지, 지속적인 성능 데이터 새로고침을 확인했습니다. 근거는 HARDWARE_ACCEPTANCE.json에 있습니다. 음성, 최초 지우기 설치, 다른 Windows 인수 확인은 남았습니다.
 
-Test reports should state system, hardware, source commit, and build artifact hashes; do not publish full Flash, account information, or raw device logs.
+테스트 보고서는 시스템, 하드웨어, 소스 커밋, 빌드 산출물 해시를 밝혀야 하며, 전체 플래시, 계정 정보, 원시 기기 로그를 게시하지 마세요.

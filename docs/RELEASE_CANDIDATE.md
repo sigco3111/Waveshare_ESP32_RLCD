@@ -1,30 +1,30 @@
-# 1.0.0 local candidate release package
+# 1.0.0 로컬 후보 릴리스 패키지
 
-These artifacts are pre-release review materials: not uploaded, not signed. On 2026-09-16, local Reporter installation, configuration-preserving flashing, and independent read-back verification were completed; the user confirmed normal screen light-up, automatic network connection, preserved computer binding, and continuous performance data refresh (see HARDWARE_ACCEPTANCE.json). This is not an officially released version.
+이 산출물은 출시 전 검토 자료입니다. 업로드하지 않았고 서명하지 않았습니다. 2026-09-16에 로컬 Reporter 설치, 설정 유지 플래싱, 독립 읽기 되돌림 검증을 완료했으며, 사용자는 정상적인 화면 점등, 자동 네트워크 연결, 컴퓨터 바인딩 유지, 지속적인 성능 데이터 새로고침을 확인했습니다(HARDWARE_ACCEPTANCE.json 참조). 정식 릴리스 버전이 아닙니다.
 
-## Contents
+## 내용물
 
-- Windows all-in-one installer and standalone Reporter, rebuilt and passed read-only self-test.
-- Firmware application image (not a full Flash image).
-- Project source ZIP, including build scripts, version records, and documentation.
-- 42 versioned upstream source distribution packages, about 165 MB, including Qt/PySide, esptool, and Python dependencies.
-- Qt's 67 attributions and the licenses they reference; all references have been located.
-- `LICENSES/`, third-party notices, and per-file `SHA256SUMS.json`.
+- Windows 올인원 설치 프로그램과 독립 Reporter를 다시 빌드하고 읽기 전용 셀프 테스트를 통과했습니다.
+- 펌웨어 애플리케이션 이미지 (전체 플래시 이미지가 아님).
+- 프로젝트 소스 ZIP으로, 빌드 스크립트, 버전 기록, 문서를 포함합니다.
+- 42개의 버전 고정 업스트림 소스 배포 패키지 약 165 MB로, Qt/PySide, esptool, Python 의존성을 포함합니다.
+- Qt의 67개 저작자 표시와 해당 라이선스 참조. 모든 참조를 찾았습니다.
+- `LICENSES/`, 서드파티 고지, 파일별 `SHA256SUMS.json`.
 
-Machine-readable artifact hashes and self-test evidence: RELEASE_CANDIDATE.json. Both Reporter and installer verified the embedded 444 license materials file by file; their content matches the current source directory.
+기계 판독 가능한 산출물 해시와 셀프 테스트 근거: RELEASE_CANDIDATE.json. Reporter와 설치 프로그램 모두 내장된 444개 라이선스 자료를 파일 단위로 검증했으며, 내용은 현재 소스 디렉토리와 일치합니다.
 
-## Reproduction flow
+## 재현 흐름
 
-1. Build according to BUILD.md; in the validation environment run `release/collect_source_archives.py --python-sources --output <source package directory>` to collect the corresponding distribution packages.
-2. In the validation environment run `release/verify_candidate.py --validation-root <validation directory>`; this process does not install or flash.
-3. Run `release/assemble_candidate.py --validation-root <validation directory> --output <new empty directory>`.
+1. BUILD.md에 따라 빌드하고, 검증 환경에서 `release/collect_source_archives.py --python-sources --output <소스 패키지 디렉토리>`로 대응 배포 패키지를 수집하세요.
+2. 검증 환경에서 `release/verify_candidate.py --validation-root <검증 디렉토리>`를 실행하세요. 이 과정은 설치나 플래싱을 하지 않습니다.
+3. `release/assemble_candidate.py --validation-root <검증 디렉토리> --output <새 빈 디렉토리>`를 실행하세요.
 
-The source collection script reads fixed versions from Qt's official release directory, project upstream, and PyPI. PyPI source packages are also compared against their release metadata SHA256. Qt/GitHub downloads record SHA256 for later verification; download records are not claimed as publisher digital signatures.
+소스 수집 스크립트는 Qt 공식 릴리스 디렉토리, 프로젝트 업스트림, PyPI에서 고정 버전을 읽습니다. PyPI 소스 패키지는 릴리스 메타데이터 SHA256과도 대조합니다. Qt/GitHub 다운로드는 나중 검증을 위해 SHA256을 기록하며, 다운로드 기록을 배포자 디지털 서명이라고 주장하지 않습니다.
 
-## Items retained before release
+## 릴리스 전 유지 항목
 
-Local installation, configuration-preserving upgrade, and the above runtime checks have passed; this does not mean all functions are accepted. Single-turn voice, first-time clearing install, and another Windows test remain. RELEASE_CANDIDATE.json keeps the build-time read-only self-test record; later on-device results are in HARDWARE_ACCEPTANCE.json. Documentation inside existing candidate packages is a packaging-time snapshot; updated documentation and hash manifests must be re-aggregated before official release.
+로컬 설치, 설정 유지 업그레이드, 위 런타임 검사가 통과했으나, 모든 기능이 인수됐다는 뜻은 아닙니다. 단문 음성, 최초 지우기 설치, 다른 Windows 테스트가 남았습니다. RELEASE_CANDIDATE.json은 빌드 시점의 읽기 전용 셀프 테스트 기록을 유지하며, 이후 실기 결과는 HARDWARE_ACCEPTANCE.json에 있습니다. 기존 후보 패키지 안의 문서는 패키징 시점의 스냅샷이므로, 정식 릴리스 전에는 업데이트된 문서와 해시 매니페스트를 다시 모아야 합니다.
 
-Recombination testing after modifying Qt is not yet complete; applicability of Microsoft VC Runtime redistribution is to be verified by the author. Mesa/LLVM have only had version and source verified, not independent rebuild of vendor DLLs. Image sources follow the author's prior confirmation.
+Qt 수정 후 재조합 테스트는 아직 완료되지 않았으며, Microsoft VC 런타임 재배포 적용 여부는 작성자가 검증해야 합니다. Mesa/LLVM은 버전과 소스만 검증했고, 벤더 DLL의 독립 재빌드는 하지 않았습니다. 이미지 소스는 작성자의 기존 확인을 따릅니다.
 
-At official release, programs, project source, and third-party source materials should be provided together, not just a single EXE. The SHA256 manifest is for integrity verification and does not represent source signatures or satisfaction of all release conditions.
+정식 릴리스 시에는 프로그램, 프로젝트 소스, 서드파티 소스 자료를 함께 제공해야 하며, 단일 EXE만 제공하지 마세요. SHA256 매니페스트는 무결성 검증용이며, 소스 서명이나 모든 릴리스 조건 충족을 나타내지 않습니다.

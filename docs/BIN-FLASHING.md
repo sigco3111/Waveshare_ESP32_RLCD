@@ -1,34 +1,34 @@
-# Syna v1.0.0-rc.2 standalone BIN flashing
+# Syna v1.0.0-rc.2 독립 BIN 플래싱
 
-Applies only to Waveshare ESP32-S3-RLCD-4.2: ESP32-S3, 16 MB Flash, 8 MB PSRAM.
+Waveshare ESP32-S3-RLCD-4.2에만 적용됩니다: ESP32-S3, 16 MB 플래시, 8 MB PSRAM.
 
-## First-time install / replacing other firmware
-File: Syna-1.0.0-rc.2-full-16MB.bin (16 MB)
-Write address: 0x0
-Contains the bootloader, partition table, OTA initialization data, application, and screen resources.
-The full image overwrites all Flash and clears Wi-Fi, computer binding, and other device configuration. Back up first; do not unplug during flashing.
+## 최초 설치 / 다른 펌웨어 교체
+파일: Syna-1.0.0-rc.2-full-16MB.bin (16 MB)
+쓰기 주소: 0x0
+부트로더, 파티션 테이블, OTA 초기화 데이터, 애플리케이션, 화면 리소스를 포함합니다.
+전체 이미지는 플래시 전체를 덮어쓰며 Wi-Fi, 컴퓨터 바인딩, 기타 기기 설정을 지웁니다. 먼저 백업하고, 플래싱 중에는 분리하지 마세요.
 
-Example using esptool 5.4.0 (replace COM9 with your own board's serial port):
+esptool 5.4.0 사용 예시 (COM9를 본인 보드의 시리얼 포트로 교체):
 python -m esptool --chip esp32s3 --port COM9 --baud 921600 --after hard-reset write-flash --flash-mode dio --flash-freq 80m --flash-size 16MB 0x0 Syna-1.0.0-rc.2-full-16MB.bin
 
-Other flashing tools: select ESP32-S3, DIO, 80 MHz, 16 MB, and place the full BIN at address 0x0.
+다른 플래싱 도구: ESP32-S3, DIO, 80 MHz, 16 MB를 선택하고 전체 BIN을 주소 0x0에 배치하세요.
 
-## Application image (advanced use)
-File: Syna-1.0.0-rc.2-app.bin
-This is a standalone application; it does not include the bootloader, partitions, or resources, cannot be written to 0x0, and cannot be used for first-time installation on a blank device.
-The default build application address is 0x20000; an existing device may boot from another OTA partition, so that address cannot simply be assumed.
-Use this only after confirming device partitions, the current boot slot, and resource compatibility, and after handling OTA boot selection yourself. Configuration-preserving upgrades should prefer the graphical installer.
+## 애플리케이션 이미지 (고급 사용)
+파일: Syna-1.0.0-rc.2-app.bin
+독립 애플리케이션이며, 부트로더, 파티션, 리소스를 포함하지 않고, 0x0에 쓸 수 없으며, 빈 기기의 최초 설치에 사용할 수 없습니다.
+기본 빌드 애플리케이션 주소는 0x20000이지만, 기존 기기는 다른 OTA 파티션에서 부팅할 수 있으므로 그 주소를 그대로 가정할 수 없습니다.
+기기 파티션, 현재 부팅 슬롯, 리소스 호환성을 확인하고, OTA 부팅 선택을 직접 처리한 뒤에만 사용하세요. 설정 유지 업그레이드는 그래픽 설치 프로그램을 권장합니다.
 
-## Verification and boot
-The BIN comes from the same firmware batch as the rc.2 installer. The application hash, the full image's five sections, and the padding regions have been verified. Both application BIN configuration-preserving upgrade and full BIN first-time install succeeded in real testing on the author's device, and the full image's 16 MB read-back matches the release file.
-Wait for boot after the flashing tool reports completion; if the screen does not light up, unplug and replug and press the power button. Wi-Fi and computer binding must be reconfigured.
-BIN-SHA256SUMS.txt contains the checksums for these standalone BINs and this note. It does not install the computer-side Reporter; install that separately when computer data is needed.
-## Xiaozhi voice configuration
+## 검증과 부팅
+BIN은 rc.2 설치 프로그램과 같은 펌웨어 배치에서 나온 것입니다. 애플리케이션 해시, 전체 이미지의 다섯 섹션, 패딩 영역을 검증했습니다. 작성자 기기에서 실제로 애플리케이션 BIN 설정 유지 업그레이드와 전체 BIN 최초 설치 모두 성공했으며, 전체 이미지의 16 MB 읽기 되돌림이 릴리스 파일과 일치합니다.
+플래싱 도구가 완료를 보고한 뒤 부팅을 기다리세요. 화면이 켜지지 않으면 분리 후 다시 연결하고 전원 버튼을 누르세요. Wi-Fi와 컴퓨터 바인딩은 다시 설정해야 합니다.
+BIN-SHA256SUMS.txt에는 이 독립 BIN들의 체크섬과 이 안내가 들어 있습니다. 컴퓨터 측 Reporter는 설치하지 않으므로, 컴퓨터 데이터가 필요하면 별도로 설치하세요.
+## Xiaozhi 음성 설정
 
-1. After the board's first boot, follow the on-screen prompts to connect to the device hotspot, open the prompted configuration page, and set an available Wi-Fi. Computer binding and Wi-Fi setup are completed on the device page.
-2. Open https://xiaozhi.me/ in a browser, sign in, and enter the "Console".
-3. If the device shows or announces an activation code, add the device in the console as prompted, enter the current activation code, and bind it to your own account or agent. For an already bound device, look it up under the original account first; clearing Flash does not necessarily remove the cloud binding.
-4. In the agent associated with the device, open "Configure role", set the role persona, voice, and the model options provided on the page, save, then test by waking again; restart the device if it does not take effect.
-5. The Xiaozhi console is used for voice conversation configuration; computer performance, Agent, and music data require the computer-side Reporter, and the computer must also be selected on the board.
+1. 보드 최초 부팅 후 화면 안내에 따라 기기 핫스팟에 연결하고, 안내된 설정 페이지를 열어 사용 가능한 Wi-Fi를 설정하세요. 컴퓨터 바인딩과 Wi-Fi 설정은 기기 페이지에서 완료됩니다.
+2. 브라우저에서 https://xiaozhi.me/ 를 열고 로그인한 뒤 "콘솔"로 들어갑니다.
+3. 기기에 활성화 코드가 표시되거나 안내되면 콘솔 안내에 따라 기기를 추가하고 현재 활성화 코드를 입력해 본인 계정 또는 에이전트에 바인딩하세요. 이미 바인딩된 기기는 먼저 원래 계정에서 조회하세요. 플래시를 지운다고 클라우드 바인딩이 반드시 해제되는 것은 아닙니다.
+4. 기기와 연결된 에이전트에서 "역할 설정"을 열어 역할 페르소나, 음성, 페이지에서 제공하는 모델 옵션을 설정하고 저장한 뒤 다시 웨이크업해 테스트하세요. 반영되지 않으면 기기를 재시작하세요.
+5. Xiaozhi 콘솔은 음성 대화 설정용입니다. 컴퓨터 성능, 에이전트, 음악 데이터에는 컴퓨터 측 Reporter가 필요하며, 보드에서도 컴퓨터를 선택해야 합니다.
 
-If there is no activation code, first confirm the device is already online. Devices that can already converse normally usually do not need reactivation; console entry names are as actually shown on the web page.
+활성화 코드가 없으면 먼저 기기가 이미 온라인인지 확인하세요. 이미 정상적으로 대화할 수 있는 기기는 대개 다시 활성화할 필요가 없습니다. 콘솔 항목 이름은 웹 페이지에 실제 표시되는 대로 따릅니다.

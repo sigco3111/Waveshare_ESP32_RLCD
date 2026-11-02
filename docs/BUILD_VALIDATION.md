@@ -1,36 +1,36 @@
-# 2026-09-16 independent source rebuild
+# 2026-09-16 독립 소스 재빌드
 
-Verification directory: `D:/syna-release-validation-20260916`, separate from the development directory and the open-source preparation directory. Only documentation and test script parameters were revised in the open-source preparation directory; the original development source was not modified, and neither Reporter was installed nor the board flashed.
+검증 디렉토리: `D:/syna-release-validation-20260916`로, 개발 디렉토리 및 오픈소스 준비 디렉토리와 분리되어 있습니다. 오픈소스 준비 디렉토리에서는 문서와 테스트 스크립트 매개변수만 수정했으며, 원래 개발 소스는 수정하지 않았고, Reporter 설치나 보드 플래싱도 하지 않았습니다.
 
-## Isolation scope
+## 격리 범위
 
-- Source copied from the open-source directory, with a fresh Python 3.11 virtual environment and declared dependencies installed.
-- The locked Xiaozhi commit was independently cloned from the local Git object database; development worktree changes, old build directories, and old firmware were not copied.
-- Patches were reapplied through the open-source directory's overlay script, components re-resolved, and rebuilt.
-- The existing local ESP-IDF 6.0.2 compiler, its Python environment, and download/build caches were used. This is therefore source and application-dependency isolation verification, not a fresh operating system test, nor proof of byte-level reproducible builds.
+- 오픈소스 디렉토리에서 소스를 복사하고, 새로운 Python 3.11 가상 환경과 명시된 의존성을 설치했습니다.
+- 고정된 Xiaozhi 커밋은 로컬 Git 객체 데이터베이스에서 독립적으로 클론했으며, 개발 워크트리 변경, 기존 빌드 디렉토리, 기존 펌웨어는 복사하지 않았습니다.
+- 오픈소스 디렉토리의 오버레이 스크립트로 패치를 다시 적용하고, 컴포넌트를 다시 해결한 뒤 재빌드했습니다.
+- 기존 로컬 ESP-IDF 6.0.2 컴파일러, 해당 Python 환경, 다운로드/빌드 캐시를 사용했습니다. 따라서 소스와 애플리케이션 의존성 격리 검증이며, 새로운 운영체제 테스트나 바이트 수준 재현 빌드 증명은 아닙니다.
 
-## Completed
+## 완료 항목
 
-- Fresh Python environment `pip check` passed.
-- Reporter: 66 tests, 53 passed, 13 skipped; exit code 0.
-- Reporter EXE repackaged successfully; self-test exits 0 with a temporary config directory and no Python on PATH.
-- Firmware built successfully from the locked commit, 3,762,016-byte application, fitting partition capacity.
-- Single-turn conversation and quota display host tests passed; tests use the new firmware source path.
-- Installer source: 11 tests passed.
-- Standalone installer repackaged successfully; after removing Python/IDF paths and forcing a non-UTF-8 environment, the file manifest, backend, esptool, Reporter mode, and localized-path completion protocol self-tests all passed; exit code 0.
+- 새로운 Python 환경 `pip check` 통과.
+- Reporter: 66개 테스트, 53개 통과, 13개 건너뜀, 종료 코드 0.
+- Reporter EXE 재패키징 성공. 임시 설정 디렉토리와 PATH에 Python이 없는 상태에서 셀프 테스트 종료 코드 0.
+- 고정된 커밋에서 펌웨어 빌드 성공, 3,762,016바이트 애플리케이션, 파티션 용량에 적합.
+- 단문 대화와 쿼터 표시 호스트 테스트 통과. 테스트는 새 펌웨어 소스 경로를 사용.
+- 설치 프로그램 소스: 11개 테스트 통과.
+- 독립 설치 프로그램 재패키징 성공. Python/IDF 경로를 제거하고 비UTF-8 환경을 강제 변속한 뒤 파일 매니페스트, 백엔드, esptool, Reporter 모드, 로컬 경로 완료 프로토콜 셀프 테스트 모두 통과, 종료 코드 0.
 
-Firmware SHA256: `e649f596410ecca44c1fcf6716871c0447b7c7e9e3f5b78a848fbbc1bc5cfcc6`.
+펌웨어 SHA256: `e649f596410ecca44c1fcf6716871c0447b7c7e9e3f5b78a848fbbc1bc5cfcc6`.
 
 Reporter SHA256: `8254e77e946824342416750a66b8bba17df608f7dd620be01a784d636c89f0d2`.
 
-Final installer self-test and SHA256 are in the same-directory completion record `BUILD_VALIDATION.json`. The exact dependency manifest is in `release/build-info/windows-validation-20260916/`, recording this build; the Windows dependency snapshot should not be used directly for Mac.
+최종 설치 프로그램 셀프 테스트와 SHA256은 같은 디렉토리의 완료 기록 `BUILD_VALIDATION.json`에 있습니다. 정확한 의존성 매니페스트는 `release/build-info/windows-validation-20260916/`에 있으며 이번 빌드를 기록합니다. Windows 의존성 스냅샷은 Mac에 직접 사용하지 마세요.
 
-## Limitations
+## 제한 사항
 
-These are new build artifacts; they have not been installed, flashed, or voice-validated. Old artifacts' on-device acceptance cannot substitute for this batch's acceptance; another Windows machine, first-time install clearing flow, and the latest Mac version remain to be validated.
+새로 만든 빌드 산출물이므로 설치, 플래싱, 음성 검증을 하지 않았습니다. 기존 산출물의 실기 인수 확인은 이번 배치의 인수 확인을 대체할 수 없습니다. 다른 Windows 기기, 최초 설치 지우기 흐름, 최신 Mac 버전은 아직 검증이 필요합니다.
 
-Later third-party review found that the original packer omitted some licenses; the packaging script has been corrected. The hashes in this record still correspond to the pre-correction verification artifacts; official release must rebuild and update the verification record, see THIRD_PARTY_AUDIT.md.
+이후 서드파티 검토에서 원래 패커가 일부 라이선스를 누락한 것을 발견했으며, 패키징 스크립트는 수정되었습니다. 이 기록의 해시는 수정 전 검증 산출물에 해당하므로, 정식 릴리스에서는 다시 빌드하고 검증 기록을 업데이트해야 합니다. THIRD_PARTY_AUDIT.md를 참조하세요.
 
-Repackaging has since completed: new artifacts and embedded license file verification are in RELEASE_CANDIDATE.json / RELEASE_CANDIDATE.md. This page and BUILD_VALIDATION.json retain the initial rebuild history and are not the checksum values for the latest candidate package.
+이후 재패키징이 완료되었습니다. 새 산출물과 내장 라이선스 파일 검증은 RELEASE_CANDIDATE.json / RELEASE_CANDIDATE.md에 있습니다. 이 페이지와 BUILD_VALIDATION.json은 초기 재빌드 이력을 유지하며, 최신 후보 패키지의 체크섬 값이 아닙니다.
 
-PowerShell 5 records normal build output from some native programs' stderr as NativeCommandError, and the outer command may return 1. This firmware is judged on ESP-IDF's full successful build record, absence of FAILED build nodes, the actual generated application, and partition checks. Later automation should use subprocess or explicitly propagate native exit codes, rather than relying only on outer PowerShell logs.
+PowerShell 5는 일부 네이티브 프로그램의 정상 빌드 출력을 stderr에서 NativeCommandError로 기록하며, 바깥 명령이 1을 반환할 수 있습니다. 이 펌웨어는 ESP-IDF의 전체 빌드 성공 기록, FAILED 빌드 노드 부재, 실제 생성된 애플리케이션, 파티션 검사로 판단합니다. 이후 자동화는 바깥 PowerShell 로그에만 의존하지 말고 subprocess를 사용하거나 네이티브 종료 코드를 명시적으로 전파해야 합니다.

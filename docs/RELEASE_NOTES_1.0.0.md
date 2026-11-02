@@ -1,39 +1,39 @@
-# Syna 1.0.0-rc.2 (release candidate)
+# Syna 1.0.0-rc.2 (릴리스 후보)
 
-Windows Reporter and installer self-tests passed; standalone application BIN and full BIN completed local flashing and read-back verification, confirmed by the user.
+Windows Reporter와 설치 프로그램 셀프 테스트가 통과했으며, 독립 애플리케이션 BIN과 전체 BIN이 로컬 플래싱과 읽기 되돌림 검증을 마치고 사용자 확인을 받았습니다.
 
-Applies to Waveshare ESP32-S3-RLCD-4.2, 16 MB Flash, 8 MB PSRAM.
+Waveshare ESP32-S3-RLCD-4.2, 16 MB 플래시, 8 MB PSRAM에 적용됩니다.
 
-## This release's features
+## 이번 릴리스의 기능
 
-- Displays computer performance, Agent status and quota, and music information.
-- LAN discovery and selection of computers.
-- Windows graphical installer supporting Reporter installation, configuration-preserving upgrade, and first-time install; backs up before flashing and verifies after writing.
-- One wake-up per question/answer round; voice interruption is not accepted while answering (voice testing pending).
+- 컴퓨터 성능, 에이전트 상태와 쿼터, 음악 정보를 표시합니다.
+- LAN에서 컴퓨터를 검색하고 선택합니다.
+- Reporter 설치, 설정 유지 업그레이드, 최초 설치를 지원하는 Windows 그래픽 설치 프로그램. 플래싱 전 백업하고 쓰기 후 검증합니다.
+- 한 번의 문답마다 한 번씩 웨이크업하며, 응답 중에는 음성 인터럽트를 받지 않습니다 (음성 테스트 대기 중).
 
-## Installation
+## 설치
 
-Open `SynaInstaller-1.0.0.exe`; if compatible firmware is already present, choose "configuration-preserving upgrade"; if only the computer side is needed, choose "Reporter only".
+`SynaInstaller-1.0.0.exe`를 여세요. 호환 펌웨어가 이미 있으면 "설정 유지 업그레이드"를 선택하고, 컴퓨터 측만 필요하면 "Reporter 전용"을 선택하세요.
 
-"First-time install" clears board data. Do not unplug during flashing; after completion confirm screen light-up and network connection; if the screen does not light up, unplug and replug and press the power button after all verification is complete.
+"최초 설치"는 보드 데이터를 지웁니다. 플래싱 중에는 분리하지 말고, 완료 후 화면 점등과 네트워크 연결을 확인하세요. 화면이 켜지지 않으면 모든 검증이 끝난 뒤 분리 후 다시 연결하고 전원 버튼을 누르세요.
 
-## Files
+## 파일
 
-| File | Purpose |
+| 파일 | 용도 |
 | --- | --- |
-| `SynaInstaller-1.0.0.exe` | Windows all-in-one installer |
-| `SynaReporter.exe` | Standalone computer-side program |
-| `xiaozhi.bin` | Application firmware; cannot be written as a full image at address 0 |
-| `Syna-source-1.0.0.zip` | Project source and build documentation |
-| `third-party-sources/`, `LICENSES/` | Third-party source and license materials, distributed with the program |
-| `SHA256SUMS.json` | File checksum manifest |
+| `SynaInstaller-1.0.0.exe` | Windows 올인원 설치 프로그램 |
+| `SynaReporter.exe` | 독립 컴퓨터 측 프로그램 |
+| `xiaozhi.bin` | 애플리케이션 펌웨어. 주소 0에 전체 이미지로 쓸 수 없음 |
+| `Syna-source-1.0.0.zip` | 프로젝트 소스와 빌드 문서 |
+| `third-party-sources/`, `LICENSES/` | 프로그램과 함께 배포되는 서드파티 소스와 라이선스 자료 |
+| `SHA256SUMS.json` | 파일 체크섬 매니페스트 |
 
-## Current status
+## 현재 상태
 
-Windows local installation, configuration-preserving upgrade, screen light-up, network connection, binding preservation, and performance data display have been accepted. Voice and another Windows test remain pending; macOS was not re-validated this round.
+Windows 로컬 설치, 설정 유지 업그레이드, 화면 점등, 네트워크 연결, 바인딩 유지, 성능 데이터 표시가 인수되었습니다. 음성과 다른 Windows 테스트는 남았으며, macOS는 이번 라운드에 다시 검증하지 않았습니다.
 
-Music progress is an estimate. The Windows package is not code-signed. Full acceptance and release preparation status: [Release checklist](RELEASE_CHECKLIST.md).
+음악 진행률은 추정치입니다. Windows 패키지는 코드 서명되지 않았습니다. 전체 인수와 릴리스 준비 상태: [릴리스 체크리스트](RELEASE_CHECKLIST.md).
 
-When reporting feedback, provide system version, installation mode, and error information; do not publish full Flash backups or logs containing credentials.
+피드백을 보고할 때는 시스템 버전, 설치 모드, 오류 정보를 제공하세요. 전체 플래시 백업이나 자격 증명이 든 로그를 게시하지 마세요.
 
-Xiaozhi network setup, activation, and role settings: [Xiaozhi setup guide](XIAOZHI_SETUP.md).
+Xiaozhi 네트워크 설정, 활성화, 역할 설정: [Xiaozhi 설정 가이드](XIAOZHI_SETUP.md).

@@ -1,16 +1,16 @@
-# Source Privacy Review
+# 소스 개인정보 검토
 
-The review object is the independent open-source directory and the source ZIP generated from it; it does not include the development workspace, full device backups, or user configuration. This record is not a substitute for checking Git staged content before the formal commit, nor a complete security audit.
+검토 대상은 독립 오픈소스 디렉토리와 거기서 생성한 소스 ZIP이며, 개발 작업 공간, 전체 기기 백업, 사용자 설정을 포함하지 않습니다. 이 기록은 정식 커밋 전 Git 스테이징 내용 확인을 대체하지 않으며, 완전한 보안 감사가 아닙니다.
 
-The checks cover private key markers, common access token formats, credential filenames, logs and Flash images, plus credential assignments and personal paths in code. Check results and source file hashes are recorded in SOURCE_PRIVACY_REVIEW.json; the record contains only relative paths, classification, and hashes, and does not copy suspicious credential originals.
+검사는 개인키 표식, 일반적인 액세스 토큰 형식, 자격 증명 파일 이름, 로그와 플래시 이미지, 코드의 자격 증명 할당과 개인 경로를 다룹니다. 검사 결과와 소스 파일 해시는 SOURCE_PRIVACY_REVIEW.json에 기록합니다. 기록에는 상대 경로, 분류, 해시만 들어 있으며, 의심스러운 자격 증명 원본을 복사하지 않습니다.
 
-Manually reviewed hits:
+수동 검토 적중 항목:
 
-- GitHub addresses, author nickname, and public contact information in the README and UI are project attribution, and are retained.
-- `192.168.1.*` in the Reporter tests is test input, and is retained.
-- `pairing_token` is generated randomly at runtime or read from user configuration; the Wi-Fi password field is settings form data; no embedded actual values were found.
-- `release/keys/syna-release-public.pem` is a verification public key and may be public; the release private key must not be committed.
-- Build records and scripts still contain author environment paths or default toolchain paths; these are portability limits, not a verified generic environment.
-- Original Flash images, Reporter configuration, and raw device logs are kept locally on the computer and are not copied into the release package.
+- README와 UI의 GitHub 주소, 작성자 닉네임, 공개 연락처는 프로젝트 저작자 표시이며 유지합니다.
+- Reporter 테스트의 `192.168.1.*`은 테스트 입력이며 유지합니다.
+- `pairing_token`은 런타임에 무작위로 생성되거나 사용자 설정에서 읽습니다. Wi-Fi 암호 필드는 설정 폼 데이터이며, 내장된 실제 값은 발견되지 않았습니다.
+- `release/keys/syna-release-public.pem`은 검증용 공개키이며 공개해도 됩니다. 릴리스 개인키는 커밋하면 안 됩니다.
+- 빌드 기록과 스크립트에는 여전히 작성자 환경 경로나 기본 툴체인 경로가 들어 있습니다. 이는 이식성 제한이며, 검증된 일반 환경이 아닙니다.
+- 원본 플래시 이미지, Reporter 설정, 원시 기기 로그는 컴퓨터에 로컬로 보관하며 릴리스 패키지에 복사하지 않습니다.
 
-Generated directories and caches are excluded; when formally uploading, review the actual staged list and avoid commands that force-add ignored files. Re-check and regenerate the candidate package and hash manifest after source content changes.
+생성 디렉토리와 캐시는 제외합니다. 정식으로 업로드할 때는 실제 스테이징 목록을 검토하고 무시된 파일을 강제 추가하는 명령을 피하세요. 소스 내용이 바뀌면 후보 패키지와 해시 매니페스트를 다시 검사하고 다시 생성하세요.

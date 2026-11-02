@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2026 黑沐. MIT License.
+# Copyright (c) 2026 Heimu. MIT License.
 """Build an offline Apple Silicon installer and a signed DMG release."""
 import argparse
 import importlib.util
@@ -46,7 +46,7 @@ def main():
     shutil.copytree(work/'worker-dist/InstallerWorker.app', contents/'Helpers/InstallerWorker.app', symlinks=True)
     run('swiftc', '-O', '-target', 'arm64-apple-macos13.0', '-framework', 'Cocoa',
         ROOT/'installer/macos/Installer.swift', '-o', contents/'MacOS/SynaInstaller')
-    info = {'CFBundleName': 'SynaInstaller', 'CFBundleDisplayName': '希娜 Syna 安装器',
+    info = {'CFBundleName': 'SynaInstaller', 'CFBundleDisplayName': 'Syna Installer',
             'CFBundleIdentifier': 'local.syna.installer', 'CFBundleExecutable': 'SynaInstaller',
             'CFBundlePackageType': 'APPL', 'CFBundleVersion': version, 'CFBundleShortVersionString': version,
             'LSMinimumSystemVersion': '13.0', 'NSHighResolutionCapable': True}
@@ -95,8 +95,8 @@ print(json.dumps([str(d.locate_file(f)) for d in m.distributions() for f in (d.f
         for i, name in enumerate(files):
             f = Path(name); dest = payload/'Legal'/category/(str(i)+'-'+f.parent.name+'-'+f.name)
             dest.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(f, dest)
-    shutil.copy2(ROOT/'installer/macos/使用说明.md', stage/'使用说明.md')
-    shutil.copy2(ROOT/'installer/macos/使用说明.md', payload/'使用说明.md')
+    shutil.copy2(ROOT/'installer/macos/USER_GUIDE.md', stage/'USER_GUIDE.md')
+    shutil.copy2(ROOT/'installer/macos/USER_GUIDE.md', payload/'USER_GUIDE.md')
     shutil.copytree(payload/'Legal/reporter-runtime', reporter/'Contents/Resources/Legal/runtime', dirs_exist_ok=True)
     run('/usr/bin/codesign', '--force', '--deep', '--sign', '-', reporter)
     run('/usr/bin/codesign', '--verify', '--deep', '--strict', reporter)
@@ -114,7 +114,7 @@ print(json.dumps([str(d.locate_file(f)) for d in m.distributions() for f in (d.f
     out.mkdir(parents=True, exist_ok=True)
     dmg = out/('Syna-v'+version+'-macOS-arm64.dmg')
     run('/usr/bin/hdiutil', 'create', '-volname', 'Syna v'+version, '-srcfolder', stage, '-format', 'UDZO', '-ov', dmg)
-    shutil.copy2(ROOT/'installer/macos/使用说明.md', out/'使用说明.md')
+    shutil.copy2(ROOT/'installer/macos/USER_GUIDE.md', out/'USER_GUIDE.md')
     run(sys.executable, ROOT/'release/sign_release.py', 'sign', out)
     print('Installer:', dmg)
 

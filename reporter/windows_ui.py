@@ -1,4 +1,4 @@
-# Copyright (c) 2026 黑沐. SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Heimu. SPDX-License-Identifier: MIT
 """Windows status window, ported from native_ui.swift without changing its layout.
 
 Qt coordinates are device-independent pixels. The backend stays in a separate
@@ -110,12 +110,12 @@ class ReporterWindow(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.refresh)
         self.tray = QSystemTrayIcon(self.make_icon(), self)
-        self.tray.setToolTip('Syna Reporter · 双击显示状态窗口')
+        self.tray.setToolTip('Syna Reporter · Double-click to show the status window')
         menu = QMenu(self)
-        menu.addAction('显示状态窗口', self.reveal)
-        menu.addAction('关于作者', self.about)
+        menu.addAction('Show Status Window', self.reveal)
+        menu.addAction('About Author', self.about)
         menu.addSeparator()
-        menu.addAction('退出 Syna Reporter', self.quit)
+        menu.addAction('Quit Syna Reporter', self.quit)
         self.tray.setContextMenu(menu)
         self.tray.activated.connect(lambda reason: self.reveal() if reason in (QSystemTrayIcon.DoubleClick, QSystemTrayIcon.Trigger) else None)
         self.setWindowIcon(self.make_icon())
@@ -174,46 +174,46 @@ class ReporterWindow(QWidget):
 
     def build_window(self):
         self.text(self, 'Syna Reporter', 28, 24, 470, 38, 29, True)
-        self.text(self, '你的电脑与 Syna，现在一目了然。', 29, 64, 650, 23, 13, muted=True)
-        self.text(self, 'WINDOWS 状态中心', 570, 34, 162, 23, 11, True, True).setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.text(self, 'Your computer and Syna, at a glance.', 29, 64, 650, 23, 13, muted=True)
+        self.text(self, 'WINDOWS Status Center', 570, 34, 162, 23, 11, True, True).setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         banner = self.card(28, 100, 704, 96, '#e0f0e8')
-        self.text(banner, '正在检查服务…', 22, 17, 395, 33, 24, True, key='status')
-        self.text(banner, '连接本机 Reporter', 23, 58, 658, 24, 12, muted=True, key='detail')
+        self.text(banner, 'Checking service…', 22, 17, 395, 33, 24, True, key='status')
+        self.text(banner, 'Connecting to local Reporter', 23, 58, 658, 24, 12, muted=True, key='detail')
         self.text(banner, '', 415, 22, 266, 25, 12, muted=True, key='host').setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        for key, title, x in [('cpu','CPU 使用率',28), ('gpu','GPU 使用率',207), ('memory','内存使用率',386), ('disk','磁盘空间占用',565)]:
+        for key, title, x in [('cpu','CPU Usage',28), ('gpu','GPU Usage',207), ('memory','Memory Usage',386), ('disk','Disk Space Usage',565)]:
             card = self.card(x, 210, 166, 108)
             self.text(card, title, 20, 16, 126, 22, 12, muted=True)
             self.text(card, '—', 20, 40, 126, 42, 28, True, key=key)
             if key in ('cpu','gpu'):
-                self.text(card, '温度 —', 20, 86, 126, 18, 11, muted=True, key=key+'_temp')
+                self.text(card, 'Temp —', 20, 86, 126, 18, 11, muted=True, key=key+'_temp')
         card = self.card(28, 332, 704, 76)
-        self.text(card, '实时网络', 20, 14, 160, 22, 12, muted=True)
+        self.text(card, 'Live Network', 20, 14, 160, 22, 12, muted=True)
         self.text(card, '↑  —', 20, 38, 320, 29, 19, key='upload')
         self.text(card, '↓  —', 363, 38, 320, 29, 19, key='download')
         card = self.card(28, 422, 346, 102)
         self.text(card, 'CODEX', 20, 15, 306, 21, 11, True, True, key='quota_status')
-        self.text(card, '等待数据', 20, 39, 306, 27, 20, True, key='agent')
-        self.text(card, '短周期剩余 —    ·    周额度剩余 —', 20, 73, 306, 23, 12, muted=True, key='quota')
+        self.text(card, 'Waiting for data', 20, 39, 306, 27, 20, True, key='agent')
+        self.text(card, 'Short window —    ·    Weekly quota —', 20, 73, 306, 23, 12, muted=True, key='quota')
         card = self.card(388, 422, 344, 102)
-        self.text(card, '网易云音乐', 20, 15, 304, 21, 11, True, True)
-        self.text(card, '等待播放', 20, 39, 304, 27, 16, True, key='music')
-        self.text(card, '打开网易云并播放歌曲', 20, 73, 304, 23, 11, muted=True, key='music_detail')
+        self.text(card, 'NetEase Cloud Music', 20, 15, 304, 21, 11, True, True)
+        self.text(card, 'Waiting for playback', 20, 39, 304, 27, 16, True, key='music')
+        self.text(card, 'Open NetEase Cloud Music and play a song', 20, 73, 304, 23, 11, muted=True, key='music_detail')
         card = self.card(28, 538, 704, 72)
-        self.text(card, '开发板通信', 20, 12, 180, 22, 12, muted=True)
-        self.text(card, '等待开发板请求', 20, 37, 660, 24, 14, key='device')
-        self.labels['device'].setToolTip('表示最近 15 秒收到发现请求，不代表开发板已选中本机。')
-        self.toggle = self.button('正在检查…', 28, 129, self.toggle_service)
+        self.text(card, 'Board Communication', 20, 12, 180, 22, 12, muted=True)
+        self.text(card, 'Waiting for board requests', 20, 37, 660, 24, 14, key='device')
+        self.labels['device'].setToolTip('Shows discovery requests received in the last 15 seconds; it does not mean the board has selected this computer.')
+        self.toggle = self.button('Checking…', 28, 129, self.toggle_service)
         self.toggle.setEnabled(False)
-        self.diagnostic = self.button('查看诊断', 169, 108, lambda: QDesktopServices.openUrl(QUrl('http://127.0.0.1:8765/api/v1/status')))
-        self.button('打开日志', 288, 108, self.open_logs)
-        self.button('关于作者', 407, 108, self.about)
-        self.text(self, '等待首次更新', 526, 635, 206, 22, 11, muted=True, key='updated').setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        self.login = QCheckBox('登录时自动启动', self.content)
+        self.diagnostic = self.button('Diagnostics', 169, 108, lambda: QDesktopServices.openUrl(QUrl('http://127.0.0.1:8765/api/v1/status')))
+        self.button('Open Logs', 288, 108, self.open_logs)
+        self.button('About Author', 407, 108, self.about)
+        self.text(self, 'Waiting for first update', 526, 635, 206, 22, 11, muted=True, key='updated').setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.login = QCheckBox('Start at Login', self.content)
         self.login.setGeometry(28, 674, 210, 26)
         self.login.clicked.connect(self.toggle_login)
         self.text(self, '', 246, 678, 360, 22, 11, muted=True, key='login')
-        self.button('系统启动项', 618, 114, lambda: QDesktopServices.openUrl(QUrl('ms-settings:startupapps')), y=671)
-        self.text(self, '关闭窗口后继续运行 · 托盘菜单退出应用时停止服务', 29, 718, 700, 20, 11, muted=True)
+        self.button('Startup Items', 618, 114, lambda: QDesktopServices.openUrl(QUrl('ms-settings:startupapps')), y=671)
+        self.text(self, 'Keeps running after the window is closed · Quitting from the tray menu stops the service', 29, 718, 700, 20, 11, muted=True)
 
     def put(self, key, value):
         self.labels[key].setText(value)
@@ -221,60 +221,60 @@ class ReporterWindow(QWidget):
             self.labels[key].setToolTip(value)
 
     def render(self, body):
-        self.put('status', '●  运行中')
-        self.put('detail', '正在采集电脑状态，并向同一网络中的开发板提供数据。' if self.worker else '服务由其他进程运行；当前窗口用于查看状态。')
-        self.put('host', body.get('computer_name', '这台电脑'))
+        self.put('status', '●  Running')
+        self.put('detail', 'Collecting computer status and serving data to boards on the same network.' if self.worker else 'The service is running in another process; this window only shows its status.')
+        self.put('host', body.get('computer_name', 'This computer'))
         perf = body.get('performance', {})
         for key in ('cpu','gpu','memory','disk'):
             self.put(key, number(perf.get(key+'_percent'), '%'))
         for key in ('cpu','gpu'):
-            self.put(key+'_temp', '温度 ' + number(perf.get(key+'_temp_c'), '°C'))
+            self.put(key+'_temp', 'Temp ' + number(perf.get(key+'_temp_c'), '°C'))
         for key, arrow in [('upload','↑'),('download','↓')]:
             self.put(key, arrow+'  '+rate(perf.get(key+'_bytes_per_sec')))
         agent = body.get('agent', {})
         state = agent.get('state', 'offline')
-        names = {'working':'工作中','done':'已完成','idle':'空闲','offline':'未运行','login_required':'请登录 Codex','waiting':'等待输入'}
-        self.put('agent', names.get(state, '状态不可用') + (f"  ·  {agent.get('active_count',0)} 个任务" if state == 'working' else ''))
+        names = {'working':'Working','done':'Done','idle':'Idle','offline':'Not running','login_required':'Please log in to Codex','waiting':'Waiting for input'}
+        self.put('agent', names.get(state, 'Status unavailable') + (f"  ·  {agent.get('active_count',0)} tasks" if state == 'working' else ''))
         quota = body.get('codex_quota', {})
-        self.put('quota_status', 'CODEX · 更新失败，显示上次数据' if quota.get('stale') else
-                 'CODEX · 额度暂不可用' if quota.get('source') == 'unavailable' else 'CODEX')
-        self.put('quota', '短周期剩余 '+number(quota.get('short_remaining_percent'),'%')+'    ·    周额度剩余 '+number(quota.get('week_remaining_percent'),'%'))
+        self.put('quota_status', 'CODEX · Update failed, showing the last data' if quota.get('stale') else
+                 'CODEX · Quota temporarily unavailable' if quota.get('source') == 'unavailable' else 'CODEX')
+        self.put('quota', 'Short window '+number(quota.get('short_remaining_percent'),'%')+'    ·    Weekly quota '+number(quota.get('week_remaining_percent'),'%'))
         media = body.get('media', {})
         def clock(value):
             seconds = max(0,int(value or 0))
             return f'{seconds//60}:{seconds%60:02d}'
         if media.get('available'):
             self.put('music', media.get('title', ''))
-            self.put('music_detail', ('播放中' if media.get('playback_status') == 'playing' else '已暂停')+f" · {clock(media.get('position_seconds'))}/{clock(media.get('duration_seconds'))} · {media.get('artist','')}")
+            self.put('music_detail', ('Playing' if media.get('playback_status') == 'playing' else 'Paused')+f" · {clock(media.get('position_seconds'))}/{clock(media.get('duration_seconds'))} · {media.get('artist','')}")
         else:
-            self.put('music', '未获取到歌曲')
-            self.put('music_detail', '请在网易云播放歌曲')
+            self.put('music', 'No song detected')
+            self.put('music_detail', 'Play a song in NetEase Cloud Music')
         devices = body.get('devices', [])
-        self.put('device', f"已收到 {len(devices)} 台开发板请求  ·  "+'、'.join(p.get('ip','') for p in devices) if devices else '尚未收到请求，请确认开发板与电脑连接同一 Wi-Fi。')
-        self.put('updated', '最近更新  '+time.strftime('%H:%M:%S'))
-        self.toggle.setText('停止服务' if self.worker else '由其他进程运行')
+        self.put('device', f"Received requests from {len(devices)} board(s)  ·  "+', '.join(p.get('ip','') for p in devices) if devices else 'No requests yet; make sure the board and the computer are on the same Wi-Fi.')
+        self.put('updated', 'Updated  '+time.strftime('%H:%M:%S'))
+        self.toggle.setText('Stop Service' if self.worker else 'Another process')
         self.toggle.setEnabled(self.worker is not None)
         self.diagnostic.setEnabled(True)
         self.restart_delay = 1000
 
     def offline(self):
         self.put('host', '')
-        self.put('status', '正在启动…' if self.wanted and self.worker else '○  服务未运行')
-        self.put('detail', '暂无实时数据。点击启动服务，或打开日志查看原因。')
+        self.put('status', 'Starting…' if self.wanted and self.worker else '○  Service not running')
+        self.put('detail', 'No live data. Click Start Service, or open the logs to see why.')
         for key in ('cpu','gpu','memory','disk'):
             self.put(key, '—')
         for key in ('cpu','gpu'):
-            self.put(key+'_temp', '温度 —')
+            self.put(key+'_temp', 'Temp —')
         self.put('upload', '↑  —')
         self.put('download', '↓  —')
-        self.put('agent', '等待服务启动')
-        self.put('quota', '短周期剩余 —    ·    周额度剩余 —')
+        self.put('agent', 'Waiting for the service')
+        self.put('quota', 'Short window —    ·    Weekly quota —')
         self.put('quota_status', 'CODEX')
-        self.put('music', '等待服务启动')
+        self.put('music', 'Waiting for the service')
         self.put('music_detail', '—')
-        self.put('device', '服务停止时，不向开发板发送数据。')
-        self.put('updated', '尚未连接服务 / 已清除旧数据')
-        self.toggle.setText('停止服务' if self.worker else '启动服务')
+        self.put('device', 'No data is sent to the board while the service is stopped.')
+        self.put('updated', 'Not connected / old data cleared')
+        self.toggle.setText('Stop Service' if self.worker else 'Start Service')
         self.toggle.setEnabled(True)
         self.diagnostic.setEnabled(False)
 
@@ -346,30 +346,30 @@ class ReporterWindow(QWidget):
                     winreg.QueryValueEx(key, 'SynaReporter')
                 self.login.setChecked(True)
                 self.login.setEnabled(False)
-                self.put('login', '旧版系统启动项仍在，请先运行新版安装程序')
+                self.put('login', 'The old startup item is still present; run the new installer first')
                 return
             except FileNotFoundError:
                 pass
             self.login.setEnabled(True)
             enabled = login_enabled()
             self.login.setChecked(enabled)
-            self.put('login', '已开启，下次登录自动启动窗口与服务' if enabled else '已关闭，登录后需手动打开程序')
+            self.put('login', 'Enabled; the window and service start automatically at next login' if enabled else 'Disabled; open the program manually after logging in')
             if enabled:
                 try:
                     with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run') as key:
                         approval, _ = winreg.QueryValueEx(key, 'SynaReporter')
                     if isinstance(approval, bytes) and approval and approval[0] in (3, 7):
-                        self.put('login', '已被系统禁用，请在系统启动项中允许')
+                        self.put('login', 'Disabled by the system; allow it in Startup Items')
                 except FileNotFoundError:
                     pass
         except OSError as exc:
-            self.put('login', '无法读取启动项：'+str(exc))
+            self.put('login', 'Cannot read startup items: '+str(exc))
 
     def toggle_login(self, enabled):
         try:
             set_login(enabled)
         except OSError as exc:
-            QMessageBox.warning(self, '无法更改自启动设置', str(exc))
+            QMessageBox.warning(self, 'Cannot change the auto-start setting', str(exc))
         self.refresh_login()
 
     def open_logs(self):
@@ -379,12 +379,12 @@ class ReporterWindow(QWidget):
 
     def about(self):
         box = QMessageBox(self)
-        box.setWindowTitle('关于作者')
-        box.setText('希娜 Syna · v1.0.0\n作者：黑沐')
-        box.setInformativeText('B 站 UID：386856267\nQQ：3091479711\n\n官方仓库：github.com/heimumumu/Waveshare_ESP32_RLCD\n发布下载：仓库 Releases 页面\n\nCopyright © 2026 黑沐\n原创部分采用 MIT；第三方组件保留各自授权。')
-        repo = box.addButton('官方仓库', QMessageBox.ActionRole)
-        releases = box.addButton('发布下载', QMessageBox.ActionRole)
-        box.addButton('关闭', QMessageBox.RejectRole)
+        box.setWindowTitle('About Author')
+        box.setText('Syna · v1.0.0\nAuthor: Heimu')
+        box.setInformativeText('Bilibili UID 386856267\nQQ 3091479711\n\nOfficial Repository: github.com/heimumumu/Waveshare_ESP32_RLCD\nRelease Download: the repository Releases page\n\nCopyright © 2026 Heimu\nOriginal parts use MIT; third-party components keep their own licenses.')
+        repo = box.addButton('Official Repository', QMessageBox.ActionRole)
+        releases = box.addButton('Release Download', QMessageBox.ActionRole)
+        box.addButton('Close', QMessageBox.RejectRole)
         box.exec()
         if box.clickedButton() in (repo, releases):
             QDesktopServices.openUrl(QUrl(REPOSITORY+('/releases' if box.clickedButton() is releases else '')))
@@ -404,8 +404,8 @@ class ReporterWindow(QWidget):
             event.ignore()
         else:
             event.ignore()
-            QMessageBox.information(self, '系统托盘不可用', '请使用任务栏最小化窗口；需要停止程序时，按 Alt+F4 后选择退出。')
-            if QMessageBox.question(self, '退出程序', '是否退出 Syna Reporter 并停止服务？') == QMessageBox.Yes:
+            QMessageBox.information(self, 'System tray unavailable', 'Minimize the window to the taskbar; to stop the program, press Alt+F4 and choose Quit.')
+            if QMessageBox.question(self, 'Quit program', 'Quit Syna Reporter and stop the service?') == QMessageBox.Yes:
                 self.quit()
 
     def quit(self):
@@ -438,7 +438,7 @@ def run():
     server = QLocalServer()
     server.setSocketOptions(QLocalServer.UserAccessOption)
     if not server.listen(name):
-        raise RuntimeError('无法创建窗口通信通道：'+server.errorString())
+        raise RuntimeError('Cannot create the window communication channel: '+server.errorString())
     window = ReporterWindow()
     def connected():
         peer = server.nextPendingConnection()

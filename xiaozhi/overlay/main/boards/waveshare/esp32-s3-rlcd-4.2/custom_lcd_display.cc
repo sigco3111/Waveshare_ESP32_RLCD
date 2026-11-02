@@ -120,7 +120,7 @@ height_(height)
     lvgl_port_init(&port_cfg);
     lvgl_port_lock(0);
 
-    display_ = lv_display_create(width, height); /* 以水平和垂直分辨率（像素）进行基本初始化 */
+    display_ = lv_display_create(width, height); /* Basic initialization with horizontal and vertical resolution (pixels) */
     lv_display_set_flush_cb(display_, Lvgl_flush_cb);
     lv_display_set_user_data(display_, this);
 	size_t lvgl_buffer_size = LV_COLOR_FORMAT_GET_SIZE(LV_COLOR_FORMAT_RGB565) * transfer;
@@ -219,10 +219,10 @@ void CustomLcdDisplay::SetStatus(const char *status) {
     DisplayLockGuard lock(this);
     switch (Application::GetInstance().GetDeviceState()) {
         case kDeviceStateListening:
-            ui_show_assistant_overlay("Syna-sama", "正在聆听…");
+            ui_show_assistant_overlay("Syna-sama", "Listening…");
             break;
         case kDeviceStateSpeaking:
-            ui_show_assistant_overlay("Syna-sama", "正在回答…");
+            ui_show_assistant_overlay("Syna-sama", "Answering…");
             break;
         case kDeviceStateIdle:
             ui_hide_assistant_overlay();
@@ -240,7 +240,7 @@ void CustomLcdDisplay::SetChatMessage(const char *role, const char *content) {
     DisplayLockGuard lock(this);
     if (strcmp(role, "user") == 0) {
         ui_update_syna_conversation(content, nullptr);
-        ui_show_assistant_overlay("你", content);
+        ui_show_assistant_overlay("You", content);
     } else if (strcmp(role, "assistant") == 0) {
         ui_update_syna_conversation(nullptr, content);
         ui_show_assistant_overlay("Syna-sama", content);

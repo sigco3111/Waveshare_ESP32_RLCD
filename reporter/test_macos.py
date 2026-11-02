@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 import asyncio
 import json
@@ -152,10 +152,10 @@ class MacSupportTests(unittest.TestCase):
         self.assertEqual(result.position_seconds, 0)
 
     def test_launchd_preserves_paths_with_spaces_and_venv(self):
-        definition = service_definition(Path("/tmp/中文 project/.venv/bin/python"),
-                                        Path("/tmp/中文 project/reporter.py"))
+        definition = service_definition(Path("/tmp/Syna 🐱 project/.venv/bin/python"),
+                                        Path("/tmp/Syna 🐱 project/reporter.py"))
         definition = plistlib.loads(plistlib.dumps(definition))
-        self.assertEqual(definition["ProgramArguments"][0], "/tmp/中文 project/.venv/bin/python")
+        self.assertEqual(definition["ProgramArguments"][0], "/tmp/Syna 🐱 project/.venv/bin/python")
         self.assertIn("--no-supervisor", definition["ProgramArguments"])
 
 

@@ -1,9 +1,9 @@
-# 小智配置说明
+# Xiaozhi Setup
 
-1. 开发板首次启动后，按屏幕提示连接设备热点，打开提示的配网页，设置可用的 Wi-Fi。电脑绑定与 Wi-Fi 设置按设备页面完成。
-2. 浏览器打开 https://xiaozhi.me/，登录并进入“控制台”。
-3. 如果设备显示或播报激活码，在控制台按提示添加设备，输入当前激活码，绑定到自己的账号或智能体。已绑定的设备先在原账号下查找；清空 Flash 不一定解除云端绑定。
-4. 在设备关联的智能体中进入“配置角色”，设置角色人设、音色，以及页面提供的模型等选项，保存后重新唤醒测试；未生效时重启设备。
-5. 小智控制台用于语音对话配置；电脑性能、Agent 和音乐数据显示需要电脑端 Reporter，另在开发板上选择电脑。
+1. After the board's first boot, follow the on-screen prompts to connect to the device hotspot, open the prompted configuration page, and set an available Wi-Fi. Computer binding and Wi-Fi setup are completed on the device page.
+2. Open https://xiaozhi.me/ in a browser, sign in, and enter the "Console".
+3. If the device shows or announces an activation code, add the device in the console as prompted, enter the current activation code, and bind it to your own account or agent. For an already bound device, look it up under the original account first; clearing Flash does not necessarily remove the cloud binding.
+4. In the agent associated with the device, open "Configure role", set the role persona, voice, and the model options provided on the page, save, then test by waking again; restart the device if it does not take effect.
+5. The Xiaozhi console is used for voice conversation configuration; computer performance, Agent, and music data require the computer-side Reporter, and the computer must also be selected on the board.
 
-没有激活码时，先确认设备已经联网。已能正常对话的设备通常无需重新激活；控制台入口名称以网页实际显示为准。
+If there is no activation code, first confirm the device is already online. Devices that can already converse normally usually do not need reactivation; console entry names are as actually shown on the web page.

@@ -1,60 +1,60 @@
-# 希娜 Syna
+# Syna
 
-微雪 ESP32-S3-RLCD-4.2 桌面助手，配套 Windows / macOS Reporter。
+Waveshare ESP32-S3-RLCD-4.2 desktop assistant, with the Windows / macOS Reporter companion.
 
-当前版本：**1.0.0 候选版**。
+Current version: **1.0.0 release candidate**.
 
-## 功能与支持范围
+## Features and supported scope
 
-- 开发板显示电脑性能、Agent 状态与额度，以及音乐信息。
-- 局域网发现电脑、选择绑定电脑，保留配置升级。
-- Windows 一体安装器提供仅安装 Reporter、保留配置升级、首次安装三种模式。
-- 当前固件改为一次唤醒一轮问答，回答期间不接受语音打断。此项已编译、刷入，实际语音体验待验证。
-- 音乐时间沿用当前估算逻辑，不承诺精确实时进度。
+- The board displays computer performance, Agent status and quota, and music information.
+- LAN discovery of computers, selection of the bound computer, configuration preserved across upgrades.
+- The Windows all-in-one installer offers three modes: Reporter-only, configuration-preserving upgrade, and first-time install.
+- The current firmware uses one wake-up per question/answer round; voice interruption is not accepted while answering. This has been compiled and flashed; the actual voice experience still needs validation.
+- Music timing uses the current estimation logic; precise real-time progress is not guaranteed.
 
-硬件目标为 ESP32-S3-RLCD-4.2，16 MB Flash、8 MB PSRAM。不要将固件刷到其他型号。
+The hardware target is ESP32-S3-RLCD-4.2, with 16 MB Flash and 8 MB PSRAM. Do not flash the firmware to other models.
 
-## 使用
+## Usage
 
-正式发布后，从项目 Releases 获取对应系统安装包。此源码目录不包含安装包、运行环境或设备配置。
+After official release, get the matching system installer from the project Releases. This source directory does not include installers, runtime environments, or device configuration.
 
-Windows 用户打开安装器后：已有本项目固件选择“保留配置升级”；仅需电脑端选择“仅安装 Reporter”。“首次安装”会清除开发板原有数据，操作前需要确认。刷写过程中保持 USB 连接，保留备份直到验收结束。
+For Windows users, after opening the installer: if the board already has this project's firmware, choose "configuration-preserving upgrade"; if only the computer side is needed, choose "Reporter only". "First-time install" clears the board's existing data; confirm before proceeding. Keep the USB connection during flashing and keep backups until acceptance is complete.
 
-Windows 电脑端安装和保留配置刷机已由作者本机验收。macOS 有独立实现与历史验证，但未与本轮 Windows 改动重新做整套验收。
+Windows computer-side installation and configuration-preserving flashing have been accepted by the author on their own machine. macOS has an independent implementation with prior validation, but it has not been re-validated against this round of Windows changes.
 
-## 小智语音配置
+## Xiaozhi voice configuration
 
-1. 开发板首次启动后，按屏幕提示连接设备热点，打开提示的配网页，设置可用的 Wi-Fi。电脑绑定与 Wi-Fi 设置按设备页面完成。
-2. 浏览器打开 https://xiaozhi.me/，登录并进入“控制台”。
-3. 如果设备显示或播报激活码，在控制台按提示添加设备，输入当前激活码，绑定到自己的账号或智能体。已绑定的设备先在原账号下查找；清空 Flash 不一定解除云端绑定。
-4. 在设备关联的智能体中进入“配置角色”，设置角色人设、音色，以及页面提供的模型等选项，保存后重新唤醒测试；未生效时重启设备。
-5. 小智控制台用于语音对话配置；电脑性能、Agent 和音乐数据显示需要电脑端 Reporter，另在开发板上选择电脑。
+1. After the board's first boot, follow the on-screen prompts to connect to the device hotspot, open the prompted configuration page, and set an available Wi-Fi. Computer binding and Wi-Fi setup are completed on the device page.
+2. Open https://xiaozhi.me/ in a browser, sign in, and enter the "Console".
+3. If the device shows or announces an activation code, add the device in the console as prompted, enter the current activation code, and bind it to your own account or agent. For an already bound device, look it up under the original account first; clearing Flash does not necessarily remove the cloud binding.
+4. In the agent associated with the device, open "Configure role", set the role persona, voice, and the model options provided on the page, save, then test by waking again; restart the device if it does not take effect.
+5. The Xiaozhi console is used for voice conversation configuration; computer performance, Agent, and music data require the computer-side Reporter, and the computer must also be selected on the board.
 
-没有激活码时，先确认设备已经联网。已能正常对话的设备通常无需重新激活；控制台入口名称以网页实际显示为准。
+If there is no activation code, first confirm the device is already online. Devices that can already converse normally usually do not need reactivation; console entry names are as actually shown on the web page.
 
-更多说明见 [小智配置说明](docs/XIAOZHI_SETUP.md)。
+More details: [Xiaozhi setup guide](docs/XIAOZHI_SETUP.md).
 
-## 源码结构
+## Source layout
 
-| 目录 | 内容 |
+| Directory | Contents |
 | --- | --- |
-| `xiaozhi/` | 固定小智上游版本的补丁、板级源码和 ESP-IDF 构建入口 |
-| `reporter/` | 电脑端状态服务、媒体采集、Windows / Mac 界面 |
-| `installer/` | Windows / Mac 安装器源码 |
-| `simulator/` | LVGL 界面模拟器、素材及字体生成器 |
-| `tests/` | 固件界面与状态逻辑主机测试 |
-| `release/` | 发布签名工具、公钥和第三方许可证 |
+| `xiaozhi/` | Patches, board-level source, and ESP-IDF build entry for the pinned Xiaozhi upstream version |
+| `reporter/` | Computer-side status service, media collection, Windows / Mac UI |
+| `installer/` | Windows / Mac installer source |
+| `simulator/` | LVGL UI simulator, assets, and font generator |
+| `tests/` | Host tests for firmware UI and status logic |
+| `release/` | Release signing tools, public key, and third-party licenses |
 
-固件基于 **ESP-IDF 6.0.2**。
+Firmware is based on **ESP-IDF 6.0.2**.
 
-构建入口见 [构建说明](docs/BUILD.md)，已知限制见 [发布检查表](docs/RELEASE_CHECKLIST.md)。
+Build entry points: [Build guide](docs/BUILD.md); known limitations: [Release checklist](docs/RELEASE_CHECKLIST.md).
 
-版本内容见 [发布说明](docs/RELEASE_NOTES_1.0.0.md)。
+Version contents: [Release notes](docs/RELEASE_NOTES_1.0.0.md).
 
-## 作者与许可
+## Author and license
 
-作者：黑沐。原创部分按 [MIT](LICENSE) 分发；第三方代码、字体和模型保留原许可证，见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+Author: Heimu. Original parts are distributed under [MIT](LICENSE); third-party code, fonts, and models keep their original licenses, see [Third-party notices](THIRD_PARTY_NOTICES.md).
 
-仓库：<https://github.com/heimumumu/Waveshare_ESP32_RLCD>
+Repository: <https://github.com/heimumumu/Waveshare_ESP32_RLCD>
 
 

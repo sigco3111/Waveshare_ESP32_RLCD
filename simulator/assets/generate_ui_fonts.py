@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2026 黑沐. Generator: MIT; generated font data: SIL OFL 1.1.
+# Copyright (c) 2026 Heimu. Generator: MIT; generated font data: SIL OFL 1.1.
 """Portable, reproducible Syna UI bitmap subsets from a bundled OFL font.
 Requires Pillow and fonttools. No Windows system fonts are used.
 """
@@ -76,6 +76,6 @@ for size,height in [(11,14),(14,17),(18,21)]:generate(f'ui_font_{size}_regular',
 cjk=[cp for cp in json.loads((HERE/'fonts/cjk-codepoints.json').read_text()) if cp in coverage and cp not in latin]
 assert all(cp in pixel_glyphs for cp in cjk), 'Pixel font must preserve existing CJK coverage'
 generate('ui_font_14_cjk',16,17,cjk,'ui_font_14_regular',pixel=True)
-generate('ui_font_28_brand',28,34,map(ord,'希娜 Syna · 黑沐'))
+generate('ui_font_28_brand',28,34,map(ord,'Syna · Heimu'))
 rights=sorted({r.toUnicode() for r in font_data['name'].names if r.nameID in (0,13,14)})
 # SOURCE.md is maintained with notices for all three upstream fonts.

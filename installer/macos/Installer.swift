@@ -1,20 +1,20 @@
-// Copyright (c) 2026 黑沐. MIT License.
+// Copyright (c) 2026 Heimu. MIT License.
 import Cocoa
 
 final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var window: NSWindow!
     let mode = NSPopUpButton()
     let ports = NSPopUpButton()
-    let refresh = NSButton(title: "刷新设备", target: nil, action: nil)
-    let start = NSButton(title: "一键安装", target: nil, action: nil)
-    let login = NSButton(checkboxWithTitle: "安装后开启 Reporter 登录自启动", target: nil, action: nil)
-    let reset = NSButton(checkboxWithTitle: "我已知悉首次安装会清除开发板原有数据", target: nil, action: nil)
+    let refresh = NSButton(title: "Refresh devices", target: nil, action: nil)
+    let start = NSButton(title: "One-click install", target: nil, action: nil)
+    let login = NSButton(checkboxWithTitle: "Enable Reporter login auto-start after install", target: nil, action: nil)
+    let reset = NSButton(checkboxWithTitle: "I understand that fresh install erases existing board data", target: nil, action: nil)
     let hint = NSTextField(wrappingLabelWithString: "")
-    let status = NSTextField(wrappingLabelWithString: "连接开发板，选择设备后开始。")
+    let status = NSTextField(wrappingLabelWithString: "Connect the board, select a device, then start.")
     let progress = NSProgressIndicator()
     let log = NSTextView()
-    let backups = NSButton(title: "查看备份与日志", target: nil, action: nil)
-    let launch = NSButton(title: "打开 Reporter", target: nil, action: nil)
+    let backups = NSButton(title: "View backups and logs", target: nil, action: nil)
+    let launch = NSButton(title: "Open Reporter", target: nil, action: nil)
     var portPaths: [String] = []
     var backupURL: URL?
     var installedURL: URL?
@@ -35,26 +35,26 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func applicationDidFinishLaunching(_ note: Notification) {
         NSApp.setActivationPolicy(.regular)
         let menu = NSMenu(); let item = NSMenuItem(); menu.addItem(item)
-        let submenu = NSMenu(); submenu.addItem(withTitle: "退出安装器", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let submenu = NSMenu(); submenu.addItem(withTitle: "Quit installer", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         item.submenu = submenu; NSApp.mainMenu = menu
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 720, height: 740),
                           styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-        window.title = "希娜 Syna 安装器"; window.delegate = self
+        window.title = "Syna Installer"; window.delegate = self
         let stack = NSStackView(); stack.orientation = .vertical; stack.alignment = .leading; stack.spacing = 14
         stack.translatesAutoresizingMaskIntoConstraints = false
         window.contentView!.addSubview(stack)
         NSLayoutConstraint.activate([stack.leadingAnchor.constraint(equalTo: window.contentView!.leadingAnchor, constant: 28),
                                      stack.trailingAnchor.constraint(equalTo: window.contentView!.trailingAnchor, constant: -28),
                                      stack.topAnchor.constraint(equalTo: window.contentView!.topAnchor, constant: 26)])
-        stack.addArrangedSubview(label("希娜 Syna", 30, .semibold))
-        stack.addArrangedSubview(label("固件与 Reporter 一次安装 · v1.0.0 · Apple 芯片 Mac", 14))
-        mode.addItems(withTitles: ["保留配置升级（推荐）", "首次安装 / 替换其他固件", "仅安装 Reporter"])
+        stack.addArrangedSubview(label("Syna", 30, .semibold))
+        stack.addArrangedSubview(label("Firmware and Reporter in one install · v1.0.0 · Apple Silicon Mac", 14))
+        mode.addItems(withTitles: ["Preserve-config upgrade (recommended)", "Fresh install / replace other firmware", "Reporter only"])
         mode.target = self; mode.action = #selector(modeChanged)
         mode.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        stack.addArrangedSubview(row([label("安装方式", 13, .medium), mode]))
+        stack.addArrangedSubview(row([label("Install mode", 13, .medium), mode]))
         ports.widthAnchor.constraint(equalToConstant: 380).isActive = true
         refresh.target = self; refresh.action = #selector(refreshPorts)
-        stack.addArrangedSubview(row([label("开发板", 13, .medium), ports, refresh]))
+        stack.addArrangedSubview(row([label("Board", 13, .medium), ports, refresh]))
         hint.textColor = .secondaryLabelColor; stack.addArrangedSubview(hint)
         hint.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         reset.target = self; reset.action = #selector(updateStart)
@@ -75,7 +75,7 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
         backups.target = self; backups.action = #selector(openBackups)
         launch.target = self; launch.action = #selector(openReporter); launch.isEnabled = false
         stack.addArrangedSubview(row([backups, launch]))
-        let author = label("黑沐 · B站 UID 386856267 · QQ 3091479711", 11)
+        let author = label("Heimu · Bilibili UID 386856267 · QQ 3091479711", 11)
         author.textColor = .secondaryLabelColor; stack.addArrangedSubview(author)
         modeChanged(); refreshPorts(); window.center(); window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
     }
@@ -83,10 +83,10 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
         reset.isHidden = mode.indexOfSelectedItem != 1
         ports.isEnabled = !busy && mode.indexOfSelectedItem != 2
         hint.stringValue = mode.indexOfSelectedItem == 2
-            ? "Reporter 安装到 ~/Applications，保留已有设置。无需连接开发板。"
+            ? "Reporter installs to ~/Applications and keeps existing settings. No board connection needed."
             : (mode.indexOfSelectedItem == 1
-               ? "仅适用于微雪 ESP32-S3-RLCD-4.2（16 MB）。先校验完整备份，再清除并安装。"
-               : "仅适用于微雪 ESP32-S3-RLCD-4.2（16 MB）。自动备份；保留 Wi-Fi、激活与待办。")
+               ? "Only for Waveshare ESP32-S3-RLCD-4.2 (16 MB). Verify the full backup first, then erase and install."
+               : "Only for Waveshare ESP32-S3-RLCD-4.2 (16 MB). Automatic backup; preserves Wi-Fi, activation, and to-do data.")
         updateStart()
     }
     @objc func updateStart() {
@@ -108,7 +108,7 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
             if event == "ports" {
                 let list = obj["ports"] as? [[String: String]] ?? []
                 ports.removeAllItems(); portPaths = list.compactMap { $0["path"] }
-                ports.addItems(withTitles: portPaths.isEmpty ? ["未检测到 USB 开发板"] : portPaths)
+                ports.addItems(withTitles: portPaths.isEmpty ? ["No USB board detected"] : portPaths)
                 updateStart()
             }
             if let path = obj["path"] as? String, event == "backup" { backupURL = URL(fileURLWithPath: path) }
@@ -145,10 +145,10 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
         busy = false; mode.isEnabled = true; refresh.isEnabled = true; login.isEnabled = true; modeChanged()
         if code == 0, installedURL != nil {
             progress.doubleValue = 100; launch.isEnabled = true
-            status.stringValue = "安装完成。Reporter 已打开。开发板若未启动，请短按 PWR；首次安装请按屏幕提示配网。"
+            status.stringValue = "Installation complete. Reporter opened. If the board has not started, press PWR briefly; for fresh installs follow the on-screen pairing prompts."
             openReporter()
         } else {
-            status.stringValue = "安装未完成，请查看日志后重试。无法连接时按住 BOOT 重新插入 USB，再松开 BOOT。"
+            status.stringValue = "Installation did not complete; review the log and retry. If it cannot connect, hold BOOT, reconnect USB, then release BOOT."
         }
     }
     @objc func install() {
@@ -157,7 +157,7 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
         let port = portPaths.indices.contains(ports.indexOfSelectedItem) ? portPaths[ports.indexOfSelectedItem] : ""
         busy = true; installedURL = nil; launch.isEnabled = false; mode.isEnabled = false
         refresh.isEnabled = false; ports.isEnabled = false; start.isEnabled = false; login.isEnabled = false
-        progress.doubleValue = 0; status.stringValue = "校验官方安装文件…"
+        progress.doubleValue = 0; status.stringValue = "Verifying official installation files…"
         worker(["verify", "--resources", resources.path]) { code in
             guard code == 0 else { self.finished(code); return }
             let apps = NSRunningApplication.runningApplications(withBundleIdentifier: "local.syna.reporter")
@@ -167,7 +167,7 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 while apps.contains(where: { !$0.isTerminated }) && Date() < deadline { Thread.sleep(forTimeInterval: 0.2) }
                 let stopped = !apps.contains(where: { !$0.isTerminated })
                 DispatchQueue.main.async {
-                    guard stopped else { self.append("请退出正在运行的 Reporter 后重试。"); self.finished(1); return }
+                    guard stopped else { self.append("Please quit the running Reporter, then retry."); self.finished(1); return }
                     var args = ["install", "--resources", self.resources.path, "--mode", ["upgrade", "fresh", "reporter"][selection]]
                     if selection != 2 { args += ["--port", port] }
                     if selection == 1 { args += ["--confirm-reset"] }
@@ -186,12 +186,12 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
         let config = NSWorkspace.OpenConfiguration()
         if login.state == .on { config.arguments = ["--installer-enable-login"] }
         NSWorkspace.shared.openApplication(at: url, configuration: config) { _, error in
-            if let error = error { DispatchQueue.main.async { self.append("Reporter 启动失败：" + error.localizedDescription) } }
+            if let error = error { DispatchQueue.main.async { self.append("Reporter failed to start: " + error.localizedDescription) } }
         }
     }
     func windowShouldClose(_ sender: NSWindow) -> Bool { !busy }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        if busy { append("安装正在进行，请勿退出或拔线。"); return .terminateCancel }
+        if busy { append("Installation is in progress; do not quit or unplug."); return .terminateCancel }
         return .terminateNow
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }

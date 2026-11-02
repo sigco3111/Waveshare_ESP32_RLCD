@@ -1,7 +1,7 @@
-﻿# Windows 工具链说明
+﻿# Windows Toolchain Notes
 
-需要 ESP-IDF 6.0.2、ESP32-S3 编译器和 Git。优先采用 [通用构建步骤](../docs/BUILD.md)，在官方 ESP-IDF 已激活的 PowerShell 环境中执行。
+ESP-IDF 6.0.2, the ESP32-S3 compiler, and Git are required. Prefer the [general build steps](../docs/BUILD.md), executed in a PowerShell environment with official ESP-IDF activated.
 
-作者便捷脚本默认使用 D:/syna-toolchains，且尝试从作者 Visual Studio 目录寻找 Git；这些是示例布局，不代表你的电脑已安装。把 Git 加入 PATH，并通过 SourceRoot / ToolchainRoot 参数指向自己的 ASCII 路径。不要复制他人的 Python 虚拟环境。
+The author's convenience scripts default to D:/syna-toolchains and try to locate Git from the author's Visual Studio directory; these are example layouts and do not mean Git is installed on your computer. Add Git to PATH and point SourceRoot / ToolchainRoot at your own ASCII paths. Do not copy someone else's Python virtual environment.
 
-本开源快照未包含工具链、上游源码、私有配置及历史日志。正式发布前仍需在干净 Windows 环境完成整个构建链验收。
+This open-source snapshot does not include the toolchain, upstream source, private configuration, or historical logs. The full build chain still needs acceptance testing in a clean Windows environment before the official release.

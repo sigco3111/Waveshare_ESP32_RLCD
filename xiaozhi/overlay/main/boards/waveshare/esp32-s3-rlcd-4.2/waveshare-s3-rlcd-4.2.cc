@@ -154,56 +154,56 @@ private:
 
     void InitializeTools() {
         auto& mcp_server = McpServer::GetInstance();
-        mcp_server.AddTool("self.disp.network", "重新配网", PropertyList(),
+        mcp_server.AddTool("self.disp.network", "Reconfigure network", PropertyList(),
         [this](const PropertyList&) -> ReturnValue {
             EnterWifiConfigMode();
             return true;
         });
         mcp_server.AddTool(
             "self.panel.show_page",
-            "切换状态屏页面。page 使用 dashboard（主页）、performance（电脑性能）、syna（Syna-sama 对话和待办）或 computers（电脑选择）。",
+            "Switch the status screen page. page uses dashboard (home), performance (computer performance), syna (Syna-sama conversation and todos), or computers (computer selection).",
             PropertyList({Property("page", kPropertyTypeString)}),
             [this](const PropertyList& properties) -> ReturnValue {
                 const std::string requested =
                     LowerAscii(properties["page"].value<std::string>());
                 std::string page;
                 if (requested == "dashboard" || requested == "home" ||
-                    requested == "主页" || requested == "主页面") page = "dashboard";
-                else if (requested == "performance" || requested == "性能" ||
-                         requested == "性能页") page = "performance";
+                    requested == "home" || requested == "main") page = "dashboard";
+                else if (requested == "performance" || requested == "perf" ||
+                         requested == "performance_page") page = "performance";
                 else if (requested == "syna" || requested == "syna-sama" ||
-                         requested == "对话" || requested == "待办") page = "syna";
+                         requested == "chat" || requested == "todo") page = "syna";
                 else if (requested == "computers" || requested == "computer" ||
-                         requested == "电脑" || requested == "电脑列表") page = "computers";
+                         requested == "computer_list" || requested == "pc_list") page = "computers";
                 else throw std::runtime_error(
                     "Unknown page; use dashboard, performance, syna or computers");
 
                 Application::GetInstance().Schedule([this, page]() {
                     display_->ShowPanelPage(page);
                 });
-                return std::string("已切换到 ") + page;
+                return std::string("Switched to ") + page;
             });
         mcp_server.AddTool(
-            "self.computer.list", "列出状态屏发现的电脑、在线状态和当前选择。",
+            "self.computer.list", "List computers discovered by the status screen, their online status, and the current selection.",
             PropertyList(), [](const PropertyList&) -> ReturnValue {
                 PanelReporterSnapshot snapshot = {};
                 if (!ReporterService::GetInstance().GetSnapshot(snapshot) ||
                     snapshot.device_count == 0) {
-                    return std::string("当前没有发现电脑");
+                    return std::string("No computers found");
                 }
-                std::string result = "已发现电脑：";
+                std::string result = "Computers found: ";
                 for (int index = 0; index < snapshot.device_count; ++index) {
-                    if (index != 0) result += "；";
+                    if (index != 0) result += "; ";
                     result += snapshot.devices[index].computer_name;
-                    result += snapshot.devices[index].online ? "（在线" : "（离线";
-                    if (index == snapshot.current_index) result += "，当前";
-                    result += "）";
+                    result += snapshot.devices[index].online ? "(online" : "(offline";
+                    if (index == snapshot.current_index) result += ", current";
+                    result += ")";
                 }
                 return result;
             });
         mcp_server.AddTool(
             "self.computer.select",
-            "按电脑名称切换状态屏的数据来源。先调用 self.computer.list，并把其中的完整名称传入 name。",
+            "Switch the status screen data source by computer name. First call self.computer.list and pass one of its full names as name.",
             PropertyList({Property("name", kPropertyTypeString)}),
             [this](const PropertyList& properties) -> ReturnValue {
                 PanelReporterSnapshot snapshot = {};
@@ -227,7 +227,7 @@ private:
                 Application::GetInstance().Schedule([this]() {
                     display_->ShowPanelPage("dashboard");
                 });
-                return std::string("已选择电脑 ") +
+                return std::string("Selected computer ") +
                        snapshot.devices[selected].computer_name;
             });
         auto& todos = TodoService::GetInstance();

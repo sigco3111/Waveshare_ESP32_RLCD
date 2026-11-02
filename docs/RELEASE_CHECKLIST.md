@@ -1,33 +1,33 @@
-# 1.0.0 发布检查表
+# 1.0.0 release checklist
 
-本文件记录验收范围，不将“编译通过”视为“所有功能实测通过”。
+This file records the acceptance scope; a successful build is not treated as all functions being tested on real hardware.
 
-## 已有开发环境验证
+## Validation already done in the development environment
 
-- Windows 独立安装器的 Reporter 安装：用户确认成功。
-- Windows 独立安装器保留配置刷机：用户确认成功。
-- 固件完整备份、读回校验、应用擦写范围外配置保留检查通过。
-- 安装器中文 JSON 协议修复，11 项源码检查及独立 EXE 自检通过。
-- 单轮固件编译和播放完成逻辑主机测试通过，已刷入设备。
+- Reporter installation via the Windows standalone installer: user confirmed success.
+- Configuration-preserving flashing via the Windows standalone installer: user confirmed success.
+- Firmware full backup, read-back verification, and configuration-preservation check outside the application write range passed.
+- Installer Chinese JSON protocol fix, 11 source checks, and standalone EXE self-test passed.
+- Single-turn firmware build and playback-completion logic host tests passed; flashed to the device.
 
-## 正式发布前尚需完成
+## Still to complete before official release
 
-- [x] 独立源码副本与全新 Python 环境重构建 Reporter、固件及安装器，不复用旧二进制；编译器仍用本机 ESP-IDF 6.0.2，详情见 BUILD_VALIDATION.md。
-- [ ] 语音实测：一轮结束回待机、再次唤醒、播放期间不被打断。
-- [x] 2026-10-28 独立完整 BIN 首次清空安装实测成功，16 MB 读回一致，用户确认成功（不等同于安装器首次安装模式已复验）。
-- [ ] 另一台 Windows 电脑验证独立安装器运行和安装。
-- [ ] 逐项核对最终分发包的第三方许可证、模型来源、Qt 对应源码取得与重构建说明。
-  已完成实际依赖盘点、模型哈希、Qt attribution、42 个源码包收集及补齐许可后的重新打包；两份 EXE 的 444 份内嵌授权文件均核对通过。修改 Qt 后的重构建实测与作者适用运行时许可仍待核对，见 RELEASE_CANDIDATE.md。
-- [ ] 对正式上传的 Git 内容做密钥、配置、私有日志与设备镜像检查。
-- [ ] 确定 Mac 本次发布范围；不能把旧 Mac 包描述为本轮最新固件。
-- [ ] 将最终二进制与源码提交绑定，重新生成哈希及发布签名。
+- [x] Independent source copy and fresh Python environment rebuild of Reporter, firmware, and installer, without reusing old binaries; compiler still uses local ESP-IDF 6.0.2; details in BUILD_VALIDATION.md.
+- [ ] Voice real test: one round ends back to standby, wake again, not interrupted during playback.
+- [x] 2026-10-28 independent full BIN first-time clearing install succeeded, 16 MB read-back consistent, user confirmed success (not equivalent to installer first-time install mode re-verification).
+- [ ] Verify standalone installer run and installation on another Windows computer.
+- [ ] Item-by-item verification of final distribution package third-party licenses, model sources, Qt corresponding source acquisition, and rebuild instructions.
+  Actual dependency inventory, model hashes, Qt attribution, collection of 42 source packages, and repackaging after license completion are done; all 444 embedded license materials in both EXEs verified. Recombination testing after modifying Qt and author-applicable runtime licensing remain to be verified; see RELEASE_CANDIDATE.md.
+- [ ] Secret, configuration, private log, and device image checks on Git content to be officially uploaded.
+- [ ] Determine Mac release scope for this release; do not describe an old Mac package as this round's latest firmware.
+- [ ] Bind final binaries and source commit, regenerate hashes and release signatures.
 
-## 已知限制
+## Known limitations
 
-- 音乐进度为当前逻辑估算，不保证与播放器严格同步。
-- 一问一回仍依赖服务端断句，嘈杂环境表现待实测。
-- 没有进行 Windows 代码签名或 Mac 公证；发布时应明确说明。
-- 模拟器脚本和部分主机测试仍有作者环境路径默认值，需要配置或后续移植。
-- 2026-09-16 最终候选包已完成本机 Reporter 安装及保留配置升级：独立复核 16 MB 备份、固件完整读回、应用擦写范围外数据不变、已安装 Reporter 哈希均通过。用户确认正常亮屏、自动联网、电脑绑定保留及性能数据持续刷新。证据见 HARDWARE_ACCEPTANCE.json；语音、首次清除安装及另一台 Windows 验收仍待完成。
+- Music progress is current logic estimation; strict synchronization with the player is not guaranteed.
+- One question per wake still depends on server-side utterance segmentation; noisy-environment performance remains to be tested.
+- No Windows code signing or Mac notarization performed; state this clearly at release.
+- Simulator scripts and some host tests still contain author environment path defaults; configuration or later porting is needed.
+- The 2026-09-16 final candidate package completed local Reporter installation and configuration-preserving upgrade: independent re-verification of 16 MB backup, full firmware read-back, unchanged data outside the application write range, and installed Reporter hash all passed. The user confirmed normal screen light-up, automatic network connection, preserved computer binding, and continuous performance data refresh. Evidence in HARDWARE_ACCEPTANCE.json; voice, first-time clearing install, and another Windows acceptance remain.
 
-测试报告应注明系统、硬件、源码提交和构建产物哈希；不公开完整 Flash、账户信息或原始设备日志。
+Test reports should state system, hardware, source commit, and build artifact hashes; do not publish full Flash, account information, or raw device logs.

@@ -399,10 +399,10 @@ void TodoService::RegisterMcpTools() {
     auto& mcp = McpServer::GetInstance();
 
     mcp.AddTool("self.todo.list",
-        "列出设备本地待办及其 ID。必须以这个工具的实际返回为准；没有收到变更工具的成功结果时，不得声称待办已经创建、完成或删除。",
+        "List the device-local todos and their IDs. Base every claim on this tool's actual return; do not claim a todo was created, completed, or deleted without a successful change tool result.",
         PropertyList(), [this](const PropertyList&) -> ReturnValue { return ListJson(); });
     mcp.AddTool("self.todo.create",
-        "在设备本地创建待办。最多四项，不要把多个事项合并成一项。",
+        "Create a todo on the device. At most four items; do not merge multiple items into one.",
         PropertyList({Property("text", kPropertyTypeString)}),
         [this](const PropertyList& properties) -> ReturnValue {
             uint32_t id = 0;
@@ -413,7 +413,7 @@ void TodoService::RegisterMcpTools() {
             if (!GetSnapshot(snapshot)) throw std::runtime_error("Todo storage unavailable");
             return MutationResultJson("create", 1, snapshot.count, id);
         });
-    mcp.AddTool("self.todo.complete", "按 ID 完成一项本地待办。",
+    mcp.AddTool("self.todo.complete", "Complete a local todo by ID.",
         PropertyList({Property("id", kPropertyTypeInteger, 1, INT32_MAX)}),
         [this](const PropertyList& properties) -> ReturnValue {
             bool changed = false;
@@ -426,7 +426,7 @@ void TodoService::RegisterMcpTools() {
                                       properties["id"].value<int>());
         });
     mcp.AddTool("self.todo.complete_by_text",
-        "按待办标题完成一项本地待办。用户说出待办内容但没有 ID 时直接调用，text 只填用户提到的标题；成功结果中的 changed 必须大于零才能声称完成。",
+        "Complete a local todo by its title. Call directly when the user states the todo content but no ID; fill text with only the title the user mentioned. The changed field in the success result must be greater than zero before claiming completion.",
         PropertyList({Property("text", kPropertyTypeString)}),
         [this](const PropertyList& properties) -> ReturnValue {
             uint32_t id = 0;
@@ -439,7 +439,7 @@ void TodoService::RegisterMcpTools() {
             if (!GetSnapshot(snapshot)) throw std::runtime_error("Todo storage unavailable");
             return MutationResultJson("complete_by_text", changed ? 1 : 0, snapshot.count, id);
         });
-    mcp.AddTool("self.todo.reopen", "按 ID 将已完成的本地待办恢复为未完成。",
+    mcp.AddTool("self.todo.reopen", "Reopen a completed local todo by ID, marking it incomplete.",
         PropertyList({Property("id", kPropertyTypeInteger, 1, INT32_MAX)}),
         [this](const PropertyList& properties) -> ReturnValue {
             bool changed = false;
@@ -452,7 +452,7 @@ void TodoService::RegisterMcpTools() {
                                       properties["id"].value<int>());
         });
     mcp.AddTool("self.todo.reopen_by_text",
-        "按待办标题把已完成项恢复为未完成。用户说出待办内容但没有 ID 时直接调用。",
+        "Reopen a completed item as incomplete by its title. Call directly when the user states the todo content but no ID.",
         PropertyList({Property("text", kPropertyTypeString)}),
         [this](const PropertyList& properties) -> ReturnValue {
             uint32_t id = 0;
@@ -465,7 +465,7 @@ void TodoService::RegisterMcpTools() {
             if (!GetSnapshot(snapshot)) throw std::runtime_error("Todo storage unavailable");
             return MutationResultJson("reopen_by_text", changed ? 1 : 0, snapshot.count, id);
         });
-    mcp.AddTool("self.todo.delete", "按 ID 删除一项本地待办。",
+    mcp.AddTool("self.todo.delete", "Delete a local todo by ID.",
         PropertyList({Property("id", kPropertyTypeInteger, 1, INT32_MAX)}),
         [this](const PropertyList& properties) -> ReturnValue {
             if (!Remove(properties["id"].value<int>())) {
@@ -477,7 +477,7 @@ void TodoService::RegisterMcpTools() {
                                       properties["id"].value<int>());
         });
     mcp.AddTool("self.todo.delete_by_text",
-        "按待办标题删除一项本地待办。用户说出待办内容但没有 ID 时直接调用；成功结果中的 changed 必须大于零才能声称删除。",
+        "Delete a local todo by its title. Call directly when the user states the todo content but no ID; the changed field in the success result must be greater than zero before claiming deletion.",
         PropertyList({Property("text", kPropertyTypeString)}),
         [this](const PropertyList& properties) -> ReturnValue {
             uint32_t id = 0;
@@ -489,7 +489,7 @@ void TodoService::RegisterMcpTools() {
             return MutationResultJson("delete_by_text", 1, snapshot.count, id);
         });
     mcp.AddTool("self.todo.clear_completed",
-        "删除设备本地所有已完成待办。只有用户明确确认清理后才可把 confirm 设为 true。",
+        "Delete all completed todos on the device. Set confirm to true only after the user explicitly confirms cleanup.",
         PropertyList({Property("confirm", kPropertyTypeBoolean)}),
         [this](const PropertyList& properties) -> ReturnValue {
             if (!properties["confirm"].value<bool>()) {
@@ -502,7 +502,7 @@ void TodoService::RegisterMcpTools() {
             return MutationResultJson("clear_completed", removed, snapshot.count);
         });
     mcp.AddTool("self.todo.clear_all",
-        "删除设备本地全部待办，包括未完成和已完成项。仅当用户明确要求删除全部待办时才把 confirm 设为 true；必须依据返回的 changed 数量回答，禁止未调用工具便声称成功。",
+        "Delete all todos on the device, including incomplete and completed items. Set confirm to true only when the user explicitly asks to delete all todos; answer based on the returned changed count and never claim success without calling the tool.",
         PropertyList({Property("confirm", kPropertyTypeBoolean)}),
         [this](const PropertyList& properties) -> ReturnValue {
             if (!properties["confirm"].value<bool>()) {

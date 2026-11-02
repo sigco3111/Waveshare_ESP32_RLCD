@@ -1,4 +1,4 @@
-// Copyright (c) 2026 黑沐. Licensed under the MIT License.
+// Copyright (c) 2026 Heimu. Licensed under the MIT License.
 import Cocoa
 import Foundation
 import ServiceManagement
@@ -84,9 +84,9 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         let appItem = NSMenuItem()
         let submenu = NSMenu()
-        submenu.addItem(withTitle: "显示状态窗口", action: #selector(showWindow), keyEquivalent: "0").target = self
+        submenu.addItem(withTitle: "Show Status Window", action: #selector(showWindow), keyEquivalent: "0").target = self
         submenu.addItem(NSMenuItem.separator())
-        submenu.addItem(withTitle: "退出 Syna Reporter", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        submenu.addItem(withTitle: "Quit Syna Reporter", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         appItem.submenu = submenu
         menu.addItem(appItem)
         NSApp.mainMenu = menu
@@ -132,77 +132,77 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
         let page = Canvas(frame: NSRect(x: 0, y: 0, width: 760, height: 750))
         window.contentView = page
         text(page, "Syna Reporter", 28, 24, 470, 38, 29, .semibold)
-        text(page, "你的电脑与 Syna，现在一目了然。", 29, 64, 650, 23, 13, .regular, muted)
-        text(page, "MAC 状态中心", 576, 34, 156, 23, 11, .semibold, muted).alignment = .right
+        text(page, "Your computer and Syna, at a glance.", 29, 64, 650, 23, 13, .regular, muted)
+        text(page, "MAC Status Center", 576, 34, 156, 23, 11, .semibold, muted).alignment = .right
 
         let banner = card(page, NSRect(x: 28, y: 100, width: 704, height: 96),
                           NSColor(calibratedRed: 0.88, green: 0.94, blue: 0.91, alpha: 1))
-        statusLabel = text(banner, "正在检查服务…", 22, 17, 440, 33, 24, .semibold, green)
-        detailLabel = text(banner, "连接本机 Reporter", 23, 58, 658, 24, 12, .regular, muted)
+        statusLabel = text(banner, "Checking service…", 22, 17, 440, 33, 24, .semibold, green)
+        detailLabel = text(banner, "Connecting to local Reporter", 23, 58, 658, 24, 12, .regular, muted)
         hostLabel = text(banner, "", 415, 22, 266, 25, 12, .medium, muted)
         hostLabel.alignment = .right
 
-        cpu = metric(page, "CPU 使用率", 28)
-        gpu = metric(page, "GPU 使用率", 207)
-        memory = metric(page, "内存使用率", 386)
-        disk = metric(page, "磁盘空间占用", 565)
-        cpuTemperature = text(cpu.superview!, "温度 —", 20, 86, 126, 18, 11, .regular, muted)
-        gpuTemperature = text(gpu.superview!, "温度 —", 20, 86, 126, 18, 11, .regular, muted)
-        cpuTemperature.toolTip = "CPU 温度传感器平均值，每 5 秒更新"
-        gpuTemperature.toolTip = "GPU 温度传感器平均值，每 5 秒更新"
+        cpu = metric(page, "CPU Usage", 28)
+        gpu = metric(page, "GPU Usage", 207)
+        memory = metric(page, "Memory Usage", 386)
+        disk = metric(page, "Disk Space Usage", 565)
+        cpuTemperature = text(cpu.superview!, "Temp —", 20, 86, 126, 18, 11, .regular, muted)
+        gpuTemperature = text(gpu.superview!, "Temp —", 20, 86, 126, 18, 11, .regular, muted)
+        cpuTemperature.toolTip = "Average CPU temperature sensor value, updated every 5 seconds"
+        gpuTemperature.toolTip = "Average GPU temperature sensor value, updated every 5 seconds"
 
         let network = card(page, NSRect(x: 28, y: 332, width: 704, height: 76))
-        text(network, "实时网络", 20, 14, 160, 22, 12, .medium, muted)
+        text(network, "Live Network", 20, 14, 160, 22, 12, .medium, muted)
         upload = text(network, "↑  —", 20, 38, 320, 29, 19, .medium)
         download = text(network, "↓  —", 363, 38, 320, 29, 19, .medium)
 
         let codex = card(page, NSRect(x: 28, y: 422, width: 346, height: 102))
         text(codex, "CODEX", 20, 15, 160, 21, 11, .semibold, muted)
-        agent = text(codex, "等待数据", 20, 39, 306, 27, 20, .semibold)
-        quota = text(codex, "短周期剩余 —    ·    周额度剩余 —", 20, 73, 306, 23, 12, .regular, muted)
+        agent = text(codex, "Waiting for data", 20, 39, 306, 27, 20, .semibold)
+        quota = text(codex, "Short window —    ·    Weekly quota —", 20, 73, 306, 23, 12, .regular, muted)
 
         let music = card(page, NSRect(x: 388, y: 422, width: 344, height: 102))
-        text(music, "网易云音乐", 20, 15, 304, 21, 11, .semibold, muted)
-        musicTitle = text(music, "等待播放", 20, 39, 304, 27, 16, .semibold)
-        musicDetail = text(music, "打开网易云并播放歌曲", 20, 73, 304, 23, 11, .regular, muted)
+        text(music, "NetEase Cloud Music", 20, 15, 304, 21, 11, .semibold, muted)
+        musicTitle = text(music, "Waiting for playback", 20, 39, 304, 27, 16, .semibold)
+        musicDetail = text(music, "Open NetEase Cloud Music and play a song", 20, 73, 304, 23, 11, .regular, muted)
 
         let board = card(page, NSRect(x: 28, y: 538, width: 704, height: 72))
-        text(board, "开发板通信", 20, 12, 180, 22, 12, .medium, muted)
-        device = text(board, "等待开发板请求", 20, 37, 660, 24, 14, .medium)
+        text(board, "Board Communication", 20, 12, 180, 22, 12, .medium, muted)
+        device = text(board, "Waiting for board requests", 20, 37, 660, 24, 14, .medium)
 
-        toggle = NSButton(title: "正在检查…", target: self, action: #selector(toggleService))
+        toggle = NSButton(title: "Checking…", target: self, action: #selector(toggleService))
         toggle.bezelStyle = .rounded
         toggle.controlSize = .large
         toggle.frame = NSRect(x: 24, y: 626, width: 133, height: 34)
         toggle.isEnabled = false
         page.addSubview(toggle)
-        diagnostic = NSButton(title: "查看诊断", target: self, action: #selector(openDiagnostic))
+        diagnostic = NSButton(title: "Diagnostics", target: self, action: #selector(openDiagnostic))
         diagnostic.bezelStyle = .rounded
         diagnostic.frame = NSRect(x: 169, y: 626, width: 108, height: 34)
         page.addSubview(diagnostic)
-        let logs = NSButton(title: "打开日志", target: self, action: #selector(openLogs))
+        let logs = NSButton(title: "Open Logs", target: self, action: #selector(openLogs))
         logs.bezelStyle = .rounded
         logs.frame = NSRect(x: 288, y: 626, width: 108, height: 34)
         page.addSubview(logs)
-        let author = NSButton(title: "关于作者", target: self, action: #selector(aboutAuthor))
+        let author = NSButton(title: "About Author", target: self, action: #selector(aboutAuthor))
         author.bezelStyle = .rounded
         author.frame = NSRect(x: 407, y: 626, width: 108, height: 34)
         page.addSubview(author)
-        updated = text(page, "等待首次更新", 526, 635, 206, 22, 11, .regular, muted)
+        updated = text(page, "Waiting for first update", 526, 635, 206, 22, 11, .regular, muted)
         updated.alignment = .right
         loginSwitch = NSSwitch(frame: NSRect(x: 28, y: 674, width: 40, height: 24))
         loginSwitch.target = self
         loginSwitch.action = #selector(toggleLogin)
-        loginSwitch.setAccessibilityLabel("登录时自动启动")
+        loginSwitch.setAccessibilityLabel("Start at Login")
         page.addSubview(loginSwitch)
-        text(page, "登录时自动启动", 78, 676, 160, 22, 13, .medium)
+        text(page, "Start at Login", 78, 676, 160, 22, 13, .medium)
         loginStatus = text(page, "", 246, 678, 350, 22, 11, .regular, muted)
-        loginSettings = NSButton(title: "系统登录项", target: self, action: #selector(openLoginSettings))
+        loginSettings = NSButton(title: "Login Items", target: self, action: #selector(openLoginSettings))
         loginSettings.bezelStyle = .rounded
         loginSettings.frame = NSRect(x: 618, y: 671, width: 118, height: 32)
         page.addSubview(loginSettings)
         refreshLoginStatus()
-        text(page, "关闭窗口后继续运行 · 退出应用时停止服务", 29, 718, 700, 20, 11, .regular, muted)
+        text(page, "Keeps running after the window is closed · Quitting the app stops the service", 29, 718, 700, 20, 11, .regular, muted)
         window.center()
     }
 
@@ -258,16 +258,16 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
     }
 
     func render(_ body: [String: Any]) {
-        statusLabel.stringValue = stopping ? "正在停止…" : "●  运行中"
+        statusLabel.stringValue = stopping ? "Stopping…" : "●  Running"
         statusLabel.textColor = green
-        hostLabel.stringValue = body["computer_name"] as? String ?? "这台 Mac"
-        detailLabel.stringValue = backend == nil ? "服务由其他进程运行；当前窗口用于查看状态。" : "正在采集电脑状态，并向同一网络中的开发板提供数据。"
+        hostLabel.stringValue = body["computer_name"] as? String ?? "This Mac"
+        detailLabel.stringValue = backend == nil ? "The service is running in another process; this window only shows its status." : "Collecting computer status and serving data to boards on the same network."
         let performance = body["performance"] as? [String: Any] ?? [:]
         cpu.stringValue = percent(performance["cpu_percent"])
         gpu.stringValue = percent(performance["gpu_percent"])
         func temperature(_ value: Any?) -> String {
-            guard let number = value as? NSNumber else { return "温度 —" }
-            return String(format: "温度 %.1f°C", number.doubleValue)
+            guard let number = value as? NSNumber else { return "Temp —" }
+            return String(format: "Temp %.1f°C", number.doubleValue)
         }
         cpuTemperature.stringValue = temperature(performance["cpu_temp_c"])
         gpuTemperature.stringValue = temperature(performance["gpu_temp_c"])
@@ -277,17 +277,17 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
         download.stringValue = "↓  " + rate(performance["download_bytes_per_sec"])
         let state = body["agent"] as? [String: Any] ?? [:]
         let code = state["state"] as? String ?? "offline"
-        let names = ["working": "工作中", "done": "已完成", "idle": "空闲", "offline": "未运行", "login_required": "请登录 Codex", "waiting": "等待输入"]
+        let names = ["working": "Working", "done": "Done", "idle": "Idle", "offline": "Not running", "login_required": "Please log in to Codex", "waiting": "Waiting for input"]
         let count = (state["active_count"] as? NSNumber)?.intValue ?? 0
-        agent.stringValue = (names[code] ?? "状态不可用") + (code == "working" ? "  ·  \(count) 个任务" : "")
+        agent.stringValue = (names[code] ?? "Status unavailable") + (code == "working" ? "  ·  \(count) tasks" : "")
         let limits = body["codex_quota"] as? [String: Any] ?? [:]
-        quota.stringValue = "短周期剩余 \(percent(limits["short_remaining_percent"]))    ·    周额度剩余 \(percent(limits["week_remaining_percent"]))"
+        quota.stringValue = "Short window \(percent(limits["short_remaining_percent"]))    ·    Weekly quota \(percent(limits["week_remaining_percent"]))"
         let media = body["media"] as? [String: Any] ?? [:]
         if media["available"] as? Bool == true {
             musicTitle.stringValue = media["title"] as? String ?? ""
             musicTitle.toolTip = musicTitle.stringValue
             let singer = media["artist"] as? String ?? ""
-            let status = media["playback_status"] as? String == "playing" ? "播放中" : "已暂停"
+            let status = media["playback_status"] as? String == "playing" ? "Playing" : "Paused"
             func clock(_ value: Any?) -> String {
                 let seconds = max(0, (value as? NSNumber)?.intValue ?? 0)
                 return String(format: "%d:%02d", seconds / 60, seconds % 60)
@@ -295,43 +295,43 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
             musicDetail.stringValue = "\(status) · \(clock(media["position_seconds"]))/\(clock(media["duration_seconds"])) · \(singer)"
             musicDetail.toolTip = musicDetail.stringValue
         } else {
-            musicTitle.stringValue = "未获取到歌曲"
+            musicTitle.stringValue = "No song detected"
             musicTitle.toolTip = nil
-            musicDetail.stringValue = "请在网易云播放歌曲"
+            musicDetail.stringValue = "Play a song in NetEase Cloud Music"
             musicDetail.toolTip = nil
         }
         let peers = body["devices"] as? [[String: Any]] ?? []
-        let ips = peers.compactMap { $0["ip"] as? String }.joined(separator: "、")
-        device.stringValue = peers.isEmpty ? "尚未收到请求，请确认开发板与 Mac 连接同一 Wi-Fi。"
-            : "已收到 \(peers.count) 台开发板请求  ·  \(ips)"
-        device.toolTip = "表示最近 15 秒收到发现请求，不代表开发板已选中本机。"
+        let ips = peers.compactMap { $0["ip"] as? String }.joined(separator: ", ")
+        device.stringValue = peers.isEmpty ? "No requests yet; make sure the board and the Mac are on the same Wi-Fi."
+            : "Received requests from \(peers.count) board(s)  ·  \(ips)"
+        device.toolTip = "Shows discovery requests received in the last 15 seconds; it does not mean the board has selected this computer."
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
-        updated.stringValue = "最近更新  " + formatter.string(from: Date())
-        toggle.title = backend == nil ? "由其他进程运行" : "停止服务"
+        updated.stringValue = "Updated  " + formatter.string(from: Date())
+        toggle.title = backend == nil ? "Another process" : "Stop Service"
         toggle.isEnabled = backend != nil && !stopping
         diagnostic.isEnabled = true
     }
 
     func offline() {
         let starting = backend?.isRunning == true && launchedAt.map { Date().timeIntervalSince($0) < 8 } == true
-        statusLabel.stringValue = stopping ? "正在停止…" : (starting ? "正在启动…" : "○  服务未运行")
+        statusLabel.stringValue = stopping ? "Stopping…" : (starting ? "Starting…" : "○  Service not running")
         statusLabel.textColor = starting ? green : .systemOrange
-        detailLabel.stringValue = starting ? "正在初始化采集与网络服务。" : "暂无实时数据。点击启动服务，或打开日志查看原因。"
+        detailLabel.stringValue = starting ? "Initializing the collector and network service." : "No live data. Click Start Service, or open the logs to see why."
         for label in [cpu, gpu, memory, disk] { label?.stringValue = "—" }
-        cpuTemperature.stringValue = "温度 —"
-        gpuTemperature.stringValue = "温度 —"
+        cpuTemperature.stringValue = "Temp —"
+        gpuTemperature.stringValue = "Temp —"
         upload.stringValue = "↑  —"
         download.stringValue = "↓  —"
-        agent.stringValue = "等待服务启动"
-        musicTitle.stringValue = "等待服务启动"
+        agent.stringValue = "Waiting for the service"
+        musicTitle.stringValue = "Waiting for the service"
         musicDetail.stringValue = "—"
         musicTitle.toolTip = nil
         musicDetail.toolTip = nil
-        quota.stringValue = "短周期剩余 —    ·    周额度剩余 —"
-        device.stringValue = "服务停止时，不向开发板发送数据。"
-        updated.stringValue = lastSuccess == nil ? "尚未连接服务" : "连接中断，已清除旧数据"
-        toggle.title = backend?.isRunning == true ? "停止服务" : "启动服务"
+        quota.stringValue = "Short window —    ·    Weekly quota —"
+        device.stringValue = "No data is sent to the board while the service is stopped."
+        updated.stringValue = lastSuccess == nil ? "Not connected" : "Connection lost, old data cleared"
+        toggle.title = backend?.isRunning == true ? "Stop Service" : "Start Service"
         toggle.isEnabled = !stopping && !initialCheck
         diagnostic.isEnabled = false
     }
@@ -360,7 +360,7 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
         } catch {
             backend = nil
             offline()
-            detailLabel.stringValue = "启动失败：\(error.localizedDescription)"
+            detailLabel.stringValue = "Failed to start: \(error.localizedDescription)"
         }
     }
 
@@ -383,25 +383,25 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
         guard #available(macOS 13.0, *) else {
             loginSwitch.isEnabled = false
             loginSettings.isEnabled = false
-            loginStatus.stringValue = "此功能需要 macOS 13 或更新版本"
+            loginStatus.stringValue = "This feature requires macOS 13 or later"
             return
         }
         switch SMAppService.mainApp.status {
         case .enabled:
             loginSwitch.state = .on
-            loginStatus.stringValue = "已开启，下次登录自动启动窗口与服务"
+            loginStatus.stringValue = "Enabled; the window and service start automatically at next login"
         case .requiresApproval:
             loginSwitch.state = .on
-            loginStatus.stringValue = "等待系统允许，请前往系统登录项开启"
+            loginStatus.stringValue = "Waiting for system permission; enable it in Login Items"
         case .notRegistered:
             loginSwitch.state = .off
-            loginStatus.stringValue = "已关闭，登录后需手动打开程序"
+            loginStatus.stringValue = "Disabled; open the program manually after logging in"
         case .notFound:
             loginSwitch.state = .off
-            loginStatus.stringValue = "系统未找到应用，请重新打开完整应用"
+            loginStatus.stringValue = "The system could not find the app; reopen the full application"
         @unknown default:
             loginSwitch.state = .off
-            loginStatus.stringValue = "状态未知，请检查系统登录项"
+            loginStatus.stringValue = "Unknown status; check the system Login Items"
         }
     }
 
@@ -415,9 +415,9 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
             }
         } catch {
             let alert = NSAlert()
-            alert.messageText = "无法更改自启动设置"
+            alert.messageText = "Cannot change the auto-start setting"
             alert.informativeText = error.localizedDescription
-            alert.addButton(withTitle: "好")
+            alert.addButton(withTitle: "OK")
             alert.beginSheetModal(for: window)
         }
         refreshLoginStatus()
@@ -438,11 +438,11 @@ final class ReporterApp: NSObject, NSApplicationDelegate {
 
     @objc func aboutAuthor() {
         let alert = NSAlert()
-        alert.messageText = "关于作者"
-        alert.informativeText = "希娜 Syna · v1.0.0\n作者：黑沐\n\nB 站 UID：386856267\nQQ：3091479711\n\n官方仓库：github.com/heimumumu/Waveshare_ESP32_RLCD\n发布下载：仓库 Releases 页面\n\nCopyright © 2026 黑沐\n原创部分采用 MIT；第三方组件保留各自授权。"
-        alert.addButton(withTitle: "关闭")
-        alert.addButton(withTitle: "官方仓库")
-        alert.addButton(withTitle: "发布下载")
+        alert.messageText = "About Author"
+        alert.informativeText = "Syna · v1.0.0\nAuthor: Heimu\n\nBilibili UID 386856267\nQQ 3091479711\n\nOfficial Repository: github.com/heimumumu/Waveshare_ESP32_RLCD\nRelease Download: the repository Releases page\n\nCopyright © 2026 Heimu\nOriginal parts use MIT; third-party components keep their own licenses."
+        alert.addButton(withTitle: "Close")
+        alert.addButton(withTitle: "Official Repository")
+        alert.addButton(withTitle: "Release Download")
         alert.beginSheetModal(for: window) { response in
             if response == .alertSecondButtonReturn {
                 NSWorkspace.shared.open(URL(string: "https://github.com/heimumumu/Waveshare_ESP32_RLCD")!)

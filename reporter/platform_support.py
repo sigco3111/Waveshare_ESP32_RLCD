@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 """Host-specific paths and process helpers shared by Reporter launchers."""
 from __future__ import annotations

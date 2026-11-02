@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")"
-[[ "$(uname -s)" == Darwin ]] || { echo "请在 macOS 上构建。"; exit 1; }
+[[ "$(uname -s)" == Darwin ]] || { echo "Please build on macOS."; exit 1; }
 [[ -x .venv-macos/bin/python ]] || "${SYNA_PYTHON:-python3}" -m venv .venv-macos
 .venv-macos/bin/python -m pip install --disable-pip-version-check -r requirements.txt 'pyinstaller==6.16.0'
 dist_dir="${SYNA_DIST_DIR:-dist-macos}"
@@ -20,4 +20,4 @@ clang -O2 -Wall -Wextra -framework IOKit macos_thermal.c -o "$app_dir/Contents/M
 mkdir -p "$app_dir/Contents/Resources/Legal"
 cp ../LICENSE ../THIRD_PARTY_NOTICES.md "$app_dir/Contents/Resources/Legal/"
 codesign --force --deep --sign - "$app_dir"
-echo "已生成 $(pwd)/${app_dir}（本机架构、含状态窗口，未做 Developer ID 公证）。"
+echo "Built $(pwd)/${app_dir} (local architecture, includes the status window, no Developer ID notarization)."

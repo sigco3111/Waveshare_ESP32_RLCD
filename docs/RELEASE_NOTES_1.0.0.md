@@ -1,39 +1,39 @@
-# 希娜 Syna 1.0.0-rc.2（候选版）
+# Syna 1.0.0-rc.2 (release candidate)
 
-Windows Reporter 与安装器自检通过；独立应用 BIN 和完整 BIN 已完成本机刷写与读回校验，用户确认成功。
+Windows Reporter and installer self-tests passed; standalone application BIN and full BIN completed local flashing and read-back verification, confirmed by the user.
 
-适用于微雪 ESP32-S3-RLCD-4.2，16 MB Flash、8 MB PSRAM。
+Applies to Waveshare ESP32-S3-RLCD-4.2, 16 MB Flash, 8 MB PSRAM.
 
-## 本版功能
+## This release's features
 
-- 显示电脑性能、Agent 状态与额度、音乐信息。
-- 局域网发现和选择电脑。
-- Windows 图形安装器，支持安装 Reporter、保留配置升级和首次安装；刷写前备份，写入后校验。
-- 一次唤醒一轮问答，回答期间不接受语音打断（语音实测待完成）。
+- Displays computer performance, Agent status and quota, and music information.
+- LAN discovery and selection of computers.
+- Windows graphical installer supporting Reporter installation, configuration-preserving upgrade, and first-time install; backs up before flashing and verifies after writing.
+- One wake-up per question/answer round; voice interruption is not accepted while answering (voice testing pending).
 
-## 安装
+## Installation
 
-打开 `SynaInstaller-1.0.0.exe`，已有兼容固件选择“保留配置升级”；只需电脑端选择“仅安装 Reporter”。
+Open `SynaInstaller-1.0.0.exe`; if compatible firmware is already present, choose "configuration-preserving upgrade"; if only the computer side is needed, choose "Reporter only".
 
-“首次安装”会清除开发板数据。刷写期间不要拔线，完成后确认亮屏与联网；若屏幕未亮，可在全部校验结束后重新插拔并按开机键。
+"First-time install" clears board data. Do not unplug during flashing; after completion confirm screen light-up and network connection; if the screen does not light up, unplug and replug and press the power button after all verification is complete.
 
-## 文件
+## Files
 
-| 文件 | 用途 |
+| File | Purpose |
 | --- | --- |
-| `SynaInstaller-1.0.0.exe` | Windows 一体安装器 |
-| `SynaReporter.exe` | 单独的电脑端程序 |
-| `xiaozhi.bin` | 应用固件，不能作为完整镜像写入地址 0 |
-| `Syna-source-1.0.0.zip` | 项目源码与构建文档 |
-| `third-party-sources/`、`LICENSES/` | 第三方源码与授权材料，随程序分发 |
-| `SHA256SUMS.json` | 文件校验清单 |
+| `SynaInstaller-1.0.0.exe` | Windows all-in-one installer |
+| `SynaReporter.exe` | Standalone computer-side program |
+| `xiaozhi.bin` | Application firmware; cannot be written as a full image at address 0 |
+| `Syna-source-1.0.0.zip` | Project source and build documentation |
+| `third-party-sources/`, `LICENSES/` | Third-party source and license materials, distributed with the program |
+| `SHA256SUMS.json` | File checksum manifest |
 
-## 当前状态
+## Current status
 
-Windows 本机安装、保留配置升级、亮屏、联网、绑定保留及性能数据显示已验收。语音及另一台 Windows 测试待完成；macOS 本轮未重新验收。
+Windows local installation, configuration-preserving upgrade, screen light-up, network connection, binding preservation, and performance data display have been accepted. Voice and another Windows test remain pending; macOS was not re-validated this round.
 
-音乐进度为估算值。Windows 包未代码签名。完整验收与发布准备情况见 [发布检查表](RELEASE_CHECKLIST.md)。
+Music progress is an estimate. The Windows package is not code-signed. Full acceptance and release preparation status: [Release checklist](RELEASE_CHECKLIST.md).
 
-反馈时提供系统版本、安装模式和错误信息；不要公开完整 Flash 备份或含凭据的日志。
+When reporting feedback, provide system version, installation mode, and error information; do not publish full Flash backups or logs containing credentials.
 
-小智语音的配网、激活与角色设置见 [小智配置说明](XIAOZHI_SETUP.md)。
+Xiaozhi network setup, activation, and role settings: [Xiaozhi setup guide](XIAOZHI_SETUP.md).

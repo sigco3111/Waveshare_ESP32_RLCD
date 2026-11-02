@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 import unittest
 import os
@@ -7,6 +7,7 @@ import asyncio
 import threading
 
 from media_monitor import lyric_at, parse_lrc, NeteaseLocalState
+from media_monitor import DESKTOP_LYRICS_TITLE, NETEASE_APP_TITLE
 from media_monitor import NeteaseMediaMonitor
 from unittest.mock import patch, Mock
 
@@ -35,7 +36,7 @@ class AsyncMetadataTests(unittest.IsolatedAsyncioTestCase):
             monitor._local.read.return_value.update(title="New", song_id=2, playback_status="paused", position=42)
             new = await asyncio.wait_for(monitor._read(None), 0.5)
             self.assertEqual((new.title, new.playback_status, new.position_seconds, new.song_id), ("New", "paused", 42, 2))
-            self.assertEqual(new.lyric, "暂无歌词")
+            self.assertEqual(new.lyric, "No lyrics")
             release.set()
             await monitor._lyrics_task
             new = await monitor._read(None)
@@ -117,21 +118,21 @@ class AudioSessionTests(unittest.TestCase):
 class WindowTitleTests(unittest.TestCase):
     def test_desktop_lyrics_does_not_replace_song_in_either_order(self):
         song = "Episode 33 - She Her Her Hers"
-        for titles in (["桌面歌词", song], [song, "桌面歌词"]):
+        for titles in ([DESKTOP_LYRICS_TITLE, song], [song, DESKTOP_LYRICS_TITLE]):
             self.assertEqual(NeteaseLocalState._select_window_title(titles), song)
 
     def test_auxiliary_windows_alone_are_not_tracks(self):
         self.assertEqual(NeteaseLocalState._select_window_title(
-            ["网易云音乐", "桌面歌词", "设置", "Desktop Lyrics"]), "")
+            [NETEASE_APP_TITLE, DESKTOP_LYRICS_TITLE, "Settings", "Desktop Lyrics"]), "")
 
     def test_known_track_takes_priority_over_other_window(self):
         self.assertEqual(NeteaseLocalState._select_window_title(
-            ["帮助 - 网易云音乐", "Episode 33 - She Her Her Hers"],
+            ["Help - " + NETEASE_APP_TITLE, "Episode 33 - She Her Her Hers"],
             [{"name": "Episode 33"}]), "Episode 33 - She Her Her Hers")
 
     def test_known_title_without_artist_is_supported(self):
         self.assertEqual(NeteaseLocalState._select_window_title(
-            ["桌面歌词", "Episode 33"], [{"name": "Episode 33"}]), "Episode 33")
+            [DESKTOP_LYRICS_TITLE, "Episode 33"], [{"name": "Episode 33"}]), "Episode 33")
 
     def test_read_refreshes_playlist_before_selecting_window(self):
         local = NeteaseLocalState()
@@ -149,14 +150,14 @@ class WindowTitleTests(unittest.TestCase):
 
 class LyricsTests(unittest.TestCase):
     def test_parse_and_select_current_line(self):
-        lines = parse_lrc("[00:01.00]第一句\n[00:03.500][00:05.00]第二句")
-        self.assertEqual([(1.0, "第一句"), (3.5, "第二句"), (5.0, "第二句")], lines)
+        lines = parse_lrc("[00:01.00]First line\n[00:03.500][00:05.00]Second line")
+        self.assertEqual([(1.0, "First line"), (3.5, "Second line"), (5.0, "Second line")], lines)
         self.assertEqual("♪", lyric_at(lines, 0.5))
-        self.assertEqual("第一句", lyric_at(lines, 2.0))
-        self.assertEqual("第二句", lyric_at(lines, 4.0))
+        self.assertEqual("First line", lyric_at(lines, 2.0))
+        self.assertEqual("Second line", lyric_at(lines, 4.0))
 
     def test_empty_lyrics(self):
-        self.assertEqual("暂无歌词", lyric_at([], 10))
+        self.assertEqual("No lyrics", lyric_at([], 10))
 
 
 if __name__ == "__main__":

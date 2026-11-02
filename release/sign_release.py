@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2026 黑沐. MIT License.
+# Copyright (c) 2026 Heimu. MIT License.
 """Sign/verify a SHA-256 release manifest with a local P-256 release key."""
 import argparse
 import hashlib

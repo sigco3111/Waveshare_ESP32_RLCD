@@ -26,5 +26,5 @@ full-flash.bin
 after-flash.bin
 private.pem
 *.key
-备份*/
+backup*/
 .codex-tmp/

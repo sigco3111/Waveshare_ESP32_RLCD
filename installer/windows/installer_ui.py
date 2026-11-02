@@ -86,7 +86,7 @@ class PortScan(QThread):
         try:
             self.found.emit(enumerate_ports())
         except Exception as error:
-            self.failed.emit('读取设备列表失败：' + type(error).__name__)
+            self.failed.emit('Failed to read device list: ' + type(error).__name__)
 
 
 class InstallerWindow(QMainWindow):
@@ -98,7 +98,7 @@ class InstallerWindow(QMainWindow):
         self.payload_ready = False
         self.output_buffer = b''
         self.completed = False
-        self.setWindowTitle('希娜 Syna 安装器')
+        self.setWindowTitle('Syna Installer')
         self.resize(720, 740)
         self.setMinimumSize(520, 440)
         self.setFont(QFont('Microsoft YaHei UI', 10))
@@ -111,40 +111,40 @@ class InstallerWindow(QMainWindow):
         layout = QVBoxLayout(content)
         layout.setContentsMargins(28, 26, 28, 24)
         layout.setSpacing(14)
-        title = QLabel('希娜 Syna')
+        title = QLabel('Syna')
         title.setObjectName('title')
         layout.addWidget(title)
-        layout.addWidget(QLabel('固件与 Reporter 一次安装 · v1.0.0 · Windows'))
-        self.preview = QLabel('选择方式后点击安装开始；刷写前自动备份并校验。')
+        layout.addWidget(QLabel('Firmware and Reporter in one install · v1.0.0 · Windows'))
+        self.preview = QLabel('Choose a mode, then click Install to begin; full backup and verification run before flashing.')
         self.preview.setObjectName('preview')
         self.preview.setWordWrap(True)
         layout.addWidget(self.preview)
         self.mode = QComboBox()
-        self.mode.addItems(['保留配置升级（推荐）', '首次安装 / 替换其他固件', '仅安装 Reporter'])
-        layout.addLayout(self.row(QLabel('安装方式'), self.mode))
+        self.mode.addItems(['Preserve-config upgrade (recommended)', 'Fresh install / replace other firmware', 'Reporter only'])
+        layout.addLayout(self.row(QLabel('Install mode'), self.mode))
         self.ports = QComboBox()
         self.ports.setMinimumContentsLength(24)
         self.ports.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
-        self.ports.addItem('尚未检测设备', None)
-        self.refresh = QPushButton('刷新设备')
+        self.ports.addItem('No device detected yet', None)
+        self.refresh = QPushButton('Refresh devices')
         self.refresh.clicked.connect(self.refresh_ports)
-        layout.addLayout(self.row(QLabel('开发板'), self.ports, self.refresh))
+        layout.addLayout(self.row(QLabel('Board'), self.ports, self.refresh))
         self.hint = QLabel()
         self.hint.setWordWrap(True)
         layout.addWidget(self.hint)
-        self.reset = QCheckBox('我已知悉首次安装会清除开发板原有数据')
+        self.reset = QCheckBox('I understand that fresh install erases existing board data')
         layout.addWidget(self.reset)
-        self.login = QCheckBox('安装后开启 Reporter 登录自启动')
+        self.login = QCheckBox('Enable Reporter login auto-start after install')
         self.login.setChecked(existing_login_enabled())
         layout.addWidget(self.login)
-        self.start = QPushButton('开始安装')
+        self.start = QPushButton('Start install')
         self.start.setEnabled(False)
         self.start.clicked.connect(self.begin_install)
         layout.addWidget(self.start, alignment=Qt.AlignLeft)
         self.progress = QProgressBar()
         self.progress.setValue(0)
         layout.addWidget(self.progress)
-        self.status = QLabel('选择安装方式，连接开发板后刷新设备。')
+        self.status = QLabel('Choose an install mode, connect the board, then refresh devices.')
         self.status.setWordWrap(True)
         layout.addWidget(self.status)
         self.log = QPlainTextEdit()
@@ -153,15 +153,15 @@ class InstallerWindow(QMainWindow):
         self.log.setMinimumHeight(125)
         self.log.setMaximumBlockCount(300)
         layout.addWidget(self.log, stretch=1)
-        self.backups = QPushButton('查看备份与日志')
+        self.backups = QPushButton('View backups and logs')
         self.backups.setEnabled(False)
         self.backups.clicked.connect(self.open_backups)
-        self.launch = QPushButton('打开 Reporter')
+        self.launch = QPushButton('Open Reporter')
         self.reporter_path = installed_reporter()
         self.launch.setEnabled(self.reporter_path is not None)
         self.launch.clicked.connect(self.open_reporter)
         layout.addLayout(self.row(self.backups, self.launch))
-        author = QLabel('黑沐 · B站 UID 386856267 · QQ 3091479711')
+        author = QLabel('Heimu · Bilibili UID 386856267 · QQ 3091479711')
         author.setObjectName('author')
         layout.addWidget(author)
         self.setStyleSheet('''
@@ -185,7 +185,7 @@ class InstallerWindow(QMainWindow):
             verify_payload()
             self.payload_ready = True
         except Exception as error:
-            self.preview.setText('安装文件尚未就绪：' + str(error))
+            self.preview.setText('Installation files not ready: ' + str(error))
         self.mode_changed()
         area = self.screen().availableGeometry()
         self.resize(min(720, area.width()-40), min(740, area.height()-60))
@@ -206,9 +206,9 @@ class InstallerWindow(QMainWindow):
         self.reset.setChecked(False)
         self.ports.setEnabled(mode != 2)
         self.hint.setText([
-            '仅适用于微雪 ESP32-S3-RLCD-4.2（16 MB）。升级前自动备份，保留 Wi-Fi 和电脑绑定。',
-            '首次安装会清除开发板原有数据；正式安装时须先完成完整备份与校验。',
-            '仅安装电脑端 Reporter，保留已有设置，无需连接开发板。',
+            'Only for Waveshare ESP32-S3-RLCD-4.2 (16 MB). Backup runs automatically before upgrade; Wi-Fi and computer binding are preserved.',
+            'Fresh install erases existing board data; a full backup and verification must complete before the real install.',
+            'Installs only the computer-side Reporter, preserving existing settings; no board connection needed.',
         ][mode])
         self.update_controls()
 
@@ -232,7 +232,7 @@ class InstallerWindow(QMainWindow):
         self.output_buffer = b''
         self.progress.setValue(0)
         self.log.clear()
-        self.status.setText('正在校验安装文件…')
+        self.status.setText('Verifying installation files...')
         process = QProcess(self)
         self.process = process
         env = QProcessEnvironment.systemEnvironment()
@@ -284,7 +284,7 @@ class InstallerWindow(QMainWindow):
 
     def process_error(self, error):
         if error == QProcess.FailedToStart:
-            self.status.setText('无法启动安装程序：' + self.process.errorString())
+            self.status.setText('Could not start installer: ' + self.process.errorString())
             self.install_finished(-1, QProcess.CrashExit)
 
     def install_finished(self, code, status):
@@ -296,10 +296,10 @@ class InstallerWindow(QMainWindow):
         self.process = None
         if success:
             self.progress.setValue(100)
-            self.status.setText('安装完成，校验通过。可点击“打开 Reporter”。')
+            self.status.setText('Installation complete and verified. Click "Open Reporter".')
         else:
-            self.status.setText('安装未全部完成。请查看下方错误与备份日志。')
-            self.log.appendPlainText(f'安装程序退出码：{code}；请勿删除备份。')
+            self.status.setText('Installation did not complete. See the errors and backup log below.')
+            self.log.appendPlainText(f'Installer exit code: {code}; do not delete backups.')
         self.update_controls()
 
     def open_backups(self):
@@ -310,7 +310,7 @@ class InstallerWindow(QMainWindow):
         if self.scanner is not None or self.process is not None:
             return
         self.refresh.setEnabled(False)
-        self.status.setText('正在检测串口设备…')
+        self.status.setText('Detecting serial port devices...')
         self.scanner = PortScan(self)
         self.update_controls()
         self.scanner.found.connect(self.show_ports)
@@ -324,11 +324,11 @@ class InstallerWindow(QMainWindow):
         for item in ports:
             self.ports.addItem(item['name'], item['port'])
         if not ports:
-            self.ports.addItem('未检测到串口设备', None)
+            self.ports.addItem('No serial port devices detected', None)
         index = self.ports.findData(selected) if selected else -1
         if index >= 0:
             self.ports.setCurrentIndex(index)
-        self.status.setText(f'检测到 {len(ports)} 个串口；设备型号与容量将在安装前核验。' if ports else '未检测到设备，请检查 USB 数据线后刷新。')
+        self.status.setText(f'Detected {len(ports)} serial ports; board model and capacity are verified before install.' if ports else 'No device detected; check the USB cable and refresh.')
         self.log.appendPlainText(self.status.text())
         for item in ports:
             self.log.appendPlainText(item['name'])
@@ -349,7 +349,7 @@ class InstallerWindow(QMainWindow):
 
     def closeEvent(self, event):
         if self.scanner is not None or self.process is not None:
-            self.status.setText('设备检测或安装尚未结束，请稍候关闭。')
+            self.status.setText('Device detection or installation is still running; please wait before closing.')
             event.ignore()
         else:
             event.accept()
@@ -379,7 +379,7 @@ def main():
         if finished:
             window.install_finished(process.exitCode(), process.exitStatus())
         results['chinese_protocol'] = (finished and window.completed and
-            window.progress.value() == 100 and '正在校验中文路径：希娜' in window.log.toPlainText())
+            window.progress.value() == 100 and 'Verifying localized path: Syna 🐱' in window.log.toPlainText())
         Path(sys.argv[2]).write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding='utf-8')
         return 0 if all(results[key] for key in ('payload', 'backend', 'esptool', 'reporter_mode', 'chinese_protocol')) else 1
     window = InstallerWindow()

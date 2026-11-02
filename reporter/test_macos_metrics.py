@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 import json
 import plistlib

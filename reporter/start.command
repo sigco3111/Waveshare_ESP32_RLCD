@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 if [[ "$(uname -s)" != Darwin ]]; then
-    echo "此启动脚本用于 macOS。"
+    echo "This launcher script is for macOS."
     exit 1
 fi
 if [[ $# -eq 0 && -d dist-macos/SynaReporter.app ]]; then

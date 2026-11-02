@@ -1,16 +1,16 @@
-# 发布源码隐私检查
+# Source Privacy Review
 
-检查对象为独立开源目录与由该目录生成的源码 ZIP，不包含开发工作区、完整设备备份或用户配置。本记录不替代正式提交前对 Git 暂存内容的检查，也不是完整的安全审计。
+The review object is the independent open-source directory and the source ZIP generated from it; it does not include the development workspace, full device backups, or user configuration. This record is not a substitute for checking Git staged content before the formal commit, nor a complete security audit.
 
-检查私钥标记、常见访问令牌格式、凭据文件名、日志和 Flash 镜像，以及代码中的凭据赋值与个人路径。检查结果及源码文件哈希记录在 SOURCE_PRIVACY_REVIEW.json；记录只包含相对路径、分类与哈希，不复制可疑凭据原文。
+The checks cover private key markers, common access token formats, credential filenames, logs and Flash images, plus credential assignments and personal paths in code. Check results and source file hashes are recorded in SOURCE_PRIVACY_REVIEW.json; the record contains only relative paths, classification, and hashes, and does not copy suspicious credential originals.
 
-人工复核的命中项：
+Manually reviewed hits:
 
-- README 和界面里的 GitHub 地址、作者昵称及公开联系方式属于项目署名，保留。
-- Reporter 测试中的 `192.168.1.*` 是测试输入，保留。
-- `pairing_token` 由运行时随机生成或从用户配置读取；Wi-Fi 密码字段是设置表单数据，未发现嵌入实际值。
-- `release/keys/syna-release-public.pem` 是验证用公钥，可以公开；发布私钥不得入库。
-- 构建记录和脚本中仍有作者环境路径或默认工具链路径，它们属于可移植性限制，不能当作已验证的通用环境。
-- 原始 Flash、Reporter 配置和原始设备日志保留在电脑本地，不复制到发布包。
+- GitHub addresses, author nickname, and public contact information in the README and UI are project attribution, and are retained.
+- `192.168.1.*` in the Reporter tests is test input, and is retained.
+- `pairing_token` is generated randomly at runtime or read from user configuration; the Wi-Fi password field is settings form data; no embedded actual values were found.
+- `release/keys/syna-release-public.pem` is a verification public key and may be public; the release private key must not be committed.
+- Build records and scripts still contain author environment paths or default toolchain paths; these are portability limits, not a verified generic environment.
+- Original Flash images, Reporter configuration, and raw device logs are kept locally on the computer and are not copied into the release package.
 
-生成目录与缓存被排除，正式上传时应查看实际暂存列表，避免使用会强制加入忽略文件的命令。源码内容发生变化后应重新检查并生成候选包与哈希清单。
+Generated directories and caches are excluded; when formally uploading, review the actual staged list and avoid commands that force-add ignored files. Re-check and regenerate the candidate package and hash manifest after source content changes.

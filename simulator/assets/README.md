@@ -1,33 +1,33 @@
-# UI 素材说明
+# UI asset notes
 
-当前首页按用户提供的 400×300 单色音乐状态屏参考图重做。所有图标都通过内置图片生成模式单独生成，保存在 `source/music_ui_icons/`；`generate_assets.ps1` 只负责裁切、缩放、重着色、定位和二值化，不使用图形代码重画图标。
+The current home screen was rebuilt from the user-provided 400×300 monochrome music status screen reference. Every icon is generated separately with the built-in image generation mode and stored in `source/music_ui_icons/`; `generate_assets.ps1` only crops, scales, recolors, positions, and binarizes them, and does not redraw icons with drawing code.
 
-## 当前图标与生成提示词
+## Current icons and generation prompts
 
-| 文件 | 最终尺寸 | 图片生成提示词摘要 |
+| File | Final size | Image generation prompt summary |
 | --- | ---: | --- |
-| `clock.png` | 22×22 | 提取参考图顶部圆形像素时钟，保留八边形轮廓、时针、分针与阶梯像素。 |
-| `thermometer.png` | 18×32 | 生成与参考图一致的竖直温度计：窄管、中央指示线和圆形底端。 |
-| `humidity.png` | 18×29 | 生成尖顶、圆底、空心且带左下内侧小反光的像素水滴。 |
-| `agent_status.png` | 23×23 | 生成粗圆环、内圈和带短楔形的中心点，作为运行状态符号。 |
-| `waveform.png` | 24×16 | 生成五根短、中、长、中、短的方头播放波形。 |
-| `music_note.png` | 28×35 | 生成两个实心音符头、双竖杆和阶梯状连接梁的粗体音乐符号。 |
-| `artist.png` | 12×12 | 生成方形头像、肩部和扁平底座组成的小型歌手图标。 |
-| `wifi.png` | 20×14 | 生成三层弧线和一个实心圆点组成的 Wi-Fi 图标。 |
-| `desktop.png` | 19×14 | 生成矩形显示器、短支架和扁平底座组成的设备图标。 |
-| `laptop.png` | 18×14 | 生成屏幕轮廓、转轴和带中央缺口底座的电脑连接图标。 |
-| `battery.png` | 35×14 | 生成电池外框、右侧端子和恰好四格实心电量。 |
+| `clock.png` | 22×22 | Extract the round pixel clock at the top of the reference, keeping the octagonal outline, hour hand, minute hand, and stepped pixels. |
+| `thermometer.png` | 18×32 | Generate a vertical thermometer consistent with the reference: narrow tube, center indicator line, and round base. |
+| `humidity.png` | 18×29 | Generate a pixel droplet with a pointed top, round bottom, hollow center, and a small inner highlight at the lower left. |
+| `agent_status.png` | 23×23 | Generate a thick outer ring, inner ring, and center point with a short wedge, used as the running-status symbol. |
+| `waveform.png` | 24×16 | Generate five square-ended playback waveform bars: short, medium, long, medium, short. |
+| `music_note.png` | 28×35 | Generate a bold music symbol with two filled note heads, two vertical stems, and a stepped connecting beam. |
+| `artist.png` | 12×12 | Generate a small artist icon made of a square head, shoulders, and a flat base. |
+| `wifi.png` | 20×14 | Generate a Wi-Fi icon made of three arcs and one solid dot. |
+| `desktop.png` | 19×14 | Generate a device icon made of a rectangular monitor, short stand, and flat base. |
+| `laptop.png` | 18×14 | Generate a computer-connection icon made of a screen outline, hinge, and a base with a notch in the center. |
+| `battery.png` | 35×14 | Generate a battery outline, a terminal on the right, and exactly four solid charge segments. |
 
-所有提示词共同约束：纯黑 1-bit 像素图形、真正透明背景、保留阶梯像素边缘、无文字、无灰度、无阴影、无面板、无水印和无额外元素。Agent 图标在合成阶段重着色为白色，以匹配参考图中的黑色状态胶囊。
+All prompts share these constraints: pure black 1-bit pixel graphics, a truly transparent background, stepped pixel edges preserved, no text, no grayscale, no shadows, no panels, no watermark, and no extra elements. The agent icon is recolored to white during compositing, to match the black status capsule in the reference.
 
-## 旧版素材
+## Legacy assets
 
-`source/icons/` 和 `source/ciallo_maid_pixel_transparent.png` 是上一版状态首页素材，当前音乐状态首页不再引用，但暂时保留以便回退或制作其他页面。
+`source/icons/` and `source/ciallo_maid_pixel_transparent.png` are assets from the previous version of the status home screen. The current music status home screen no longer references them, but they are kept for now so they can be used for rollback or for building other screens.
 
-## 重新生成 LVGL 资源
+## Regenerating the LVGL assets
 
 ```powershell
 & .\simulator\assets\generate_assets.ps1
 ```
 
-输出包括 `generated/screen_base.png` 以及 `src/assets/` 中可直接链接的 LVGL 1-bit C 数组。
+The output includes `generated/screen_base.png` and the LVGL 1-bit C arrays in `src/assets/` that can be linked directly.

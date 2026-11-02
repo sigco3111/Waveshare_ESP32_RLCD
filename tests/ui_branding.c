@@ -1,4 +1,4 @@
-// Copyright (c) 2026 黑沐. MIT License.
+// Copyright (c) 2026 Heimu. MIT License.
 #include "lvgl.h"
 #include "ui/ui.h"
 #include <assert.h>
@@ -29,7 +29,7 @@ int main(int argc, char **argv){
  lv_obj_t*screen=lv_screen_active();int found=0;
  for(uint32_t i=0;i<lv_obj_get_child_count(screen);i++){
   lv_obj_t*c=lv_obj_get_child(screen,i);
-  if(lv_obj_check_type(c,&lv_label_class)&&strstr(lv_label_get_text(c),"黑沐"))found=1;
+  if(lv_obj_check_type(c,&lv_label_class)&&strstr(lv_label_get_text(c),"Heimu"))found=1;
  }
  assert(found);lv_refr_now(d);
  FILE*f=fopen(argv[1],"wb");fprintf(f,"P6\n400 300\n255\n");

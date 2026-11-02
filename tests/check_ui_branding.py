@@ -1,4 +1,4 @@
-# Copyright (c) 2026 黑沐. MIT License.
+# Copyright (c) 2026 Heimu. MIT License.
 import subprocess
 import sys
 import tempfile

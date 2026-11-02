@@ -130,19 +130,19 @@ int main(void)
     ui_update_codex_quota(100, 91, true);
     ui_update_api_balance("DeepSeek", "CNY 86.42");
     ui_update_pc_connected(true);
-    ui_update_syna_conversation("今天还有什么安排？",
-                                "你有 2 项待办，最近一项是整理开发文档。");
+    ui_update_syna_conversation("Anything else planned today?",
+                                "You have 2 to-do items; the latest one is to tidy up the development docs.");
     const ui_todo_item_t todo_demo[] = {
-        {.id = 1, .text = "整理开发文档", .completed = true},
-        {.id = 2, .text = "校验屏幕布局", .completed = true},
-        {.id = 3, .text = "接入小智工具", .completed = false},
-        {.id = 4, .text = "测试语音待办", .completed = false},
+        {.id = 1, .text = "Tidy up the development docs", .completed = true},
+        {.id = 2, .text = "Verify the screen layout", .completed = true},
+        {.id = 3, .text = "Hook up the Xiaozhi tool", .completed = false},
+        {.id = 4, .text = "Test voice to-do items", .completed = false},
     };
     ui_update_todos(todo_demo, 4);
     const char *media_demo = getenv("AI_PANEL_MEDIA_DEMO");
     if(media_demo != NULL && strcmp(media_demo, "1") == 0) {
         ui_update_media(true, "playing", "Ring of Coins", "Lindsey Stirling",
-                        114, 271, "纯音乐，请欣赏");
+                        114, 271, "Instrumental music, please enjoy");
     }
     const char *start_page = getenv("AI_PANEL_START_PAGE");
     if(start_page != NULL && strcmp(start_page, "computers") == 0) ui_show_computers();

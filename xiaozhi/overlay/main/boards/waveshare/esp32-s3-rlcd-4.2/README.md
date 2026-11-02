@@ -1,46 +1,46 @@
-# 产品链接
+# Product Link
 
-[微雪电子 ESP32-S3-RLCD-4.2](https://www.waveshare.net/shop/ESP32-S3-RLCD-4.2.htm)
+[Waveshare ESP32-S3-RLCD-4.2](https://www.waveshare.net/shop/ESP32-S3-RLCD-4.2.htm)
 
-# 编译配置命令
+# Build Configuration Commands
 
-**克隆工程**
+**Clone the project**
 
 ```bash
 git clone https://github.com/78/xiaozhi-esp32.git
 ```
 
-**进入工程**
+**Enter the project**
 
 ```bash
 cd xiaozhi-esp32
 ```
 
-**配置编译目标为 ESP32S3**
+**Set the build target to ESP32S3**
 
 ```bash
 idf.py set-target esp32s3
 ```
 
-**打开 menuconfig**
+**Open menuconfig**
 
 ```bash
 idf.py menuconfig
 ```
 
-**选择板子**
+**Select the board**
 
 ```bash
 Xiaozhi Assistant -> Board Type -> Waveshare ESP32-S3-RLCD-4.2
 ```
 
-**编译**
+**Build**
 
 ```ba
 idf.py build
 ```
 
-**下载并打开串口终端**
+**Flash and open the serial monitor**
 
 ```bash
 idf.py build flash monitor

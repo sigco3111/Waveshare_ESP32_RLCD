@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 import os
 import tempfile
@@ -33,7 +33,7 @@ class CodexLoginTests(unittest.TestCase):
             self.assertEqual(quota.source, "login_required")
             self.assertIsNone(quota.short_remaining_percent)
             self.assertEqual(agent.state, "login_required")
-            self.assertEqual(agent.task, "请登录 Codex")
+            self.assertEqual(agent.task, "Please log in to Codex")
 
 
 class QuotaRecoveryTests(unittest.TestCase):

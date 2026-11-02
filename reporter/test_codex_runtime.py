@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 from pathlib import Path
 import sqlite3
@@ -14,7 +14,7 @@ import reporter
 
 class LifecycleTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix="syna #测试 ")
+        self.temp = tempfile.TemporaryDirectory(prefix="syna #test ")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.db = sqlite3.connect(self.root / "logs_2.sqlite")

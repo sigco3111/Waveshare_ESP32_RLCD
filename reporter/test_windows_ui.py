@@ -1,4 +1,4 @@
-# Copyright (c) 2026 黑沐. SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Heimu. SPDX-License-Identifier: MIT
 """Run with QT_QPA_PLATFORM=offscreen; never touches the user's real worker."""
 import os
 os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
@@ -34,7 +34,7 @@ class WindowTests(unittest.TestCase):
 
     def test_stale_quota_is_marked_and_cleared_on_recovery(self):
         self.window.render({'codex_quota': {'week_remaining_percent': 65, 'stale': True}})
-        self.assertIn('显示上次数据', self.window.labels['quota_status'].text())
+        self.assertIn('showing the last data', self.window.labels['quota_status'].text())
         self.assertIn('65', self.window.labels['quota'].text())
         self.window.render({'codex_quota': {'week_remaining_percent': 60, 'stale': False}})
         self.assertEqual(self.window.labels['quota_status'].text(), 'CODEX')

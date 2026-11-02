@@ -1,30 +1,30 @@
-# 1.0.0 本地候选发布包
+# 1.0.0 local candidate release package
 
-本轮产物为发布前审核材料，未上传、未签名。2026-09-16 已完成本机 Reporter 安装与保留配置刷机及独立读回复核，用户确认正常亮屏、自动联网、电脑绑定保留及性能数据持续刷新，详见 HARDWARE_ACCEPTANCE.json。它不是已经正式发布的版本。
+These artifacts are pre-release review materials: not uploaded, not signed. On 2026-09-16, local Reporter installation, configuration-preserving flashing, and independent read-back verification were completed; the user confirmed normal screen light-up, automatic network connection, preserved computer binding, and continuous performance data refresh (see HARDWARE_ACCEPTANCE.json). This is not an officially released version.
 
-## 内容
+## Contents
 
-- Windows 一体安装器及单独 Reporter，已重新构建并通过只读自检。
-- 固件应用镜像（不是完整 Flash 镜像）。
-- 项目源码 ZIP，含构建脚本、版本记录和文档。
-- 42 个版本化上游源码发行包，约 165 MB，包含 Qt/PySide、esptool 及 Python 依赖。
-- Qt 的 67 条 attribution 及其引用的许可证；所有引用均已定位。
-- `LICENSES/`、第三方说明、逐文件 `SHA256SUMS.json`。
+- Windows all-in-one installer and standalone Reporter, rebuilt and passed read-only self-test.
+- Firmware application image (not a full Flash image).
+- Project source ZIP, including build scripts, version records, and documentation.
+- 42 versioned upstream source distribution packages, about 165 MB, including Qt/PySide, esptool, and Python dependencies.
+- Qt's 67 attributions and the licenses they reference; all references have been located.
+- `LICENSES/`, third-party notices, and per-file `SHA256SUMS.json`.
 
-机器可读产物哈希与自检证据见 RELEASE_CANDIDATE.json。Reporter 与安装器均逐文件验证了嵌入的 444 份授权材料，内容与当前源码目录一致。
+Machine-readable artifact hashes and self-test evidence: RELEASE_CANDIDATE.json. Both Reporter and installer verified the embedded 444 license materials file by file; their content matches the current source directory.
 
-## 复现流程
+## Reproduction flow
 
-1. 按 BUILD.md 构建程序；用验证环境执行 `release/collect_source_archives.py --python-sources --output <源码包目录>` 收集对应发行包。
-2. 用验证环境执行 `release/verify_candidate.py --validation-root <验证目录>`，该过程不安装或刷机。
-3. 执行 `release/assemble_candidate.py --validation-root <验证目录> --output <新的空目录>`。
+1. Build according to BUILD.md; in the validation environment run `release/collect_source_archives.py --python-sources --output <source package directory>` to collect the corresponding distribution packages.
+2. In the validation environment run `release/verify_candidate.py --validation-root <validation directory>`; this process does not install or flash.
+3. Run `release/assemble_candidate.py --validation-root <validation directory> --output <new empty directory>`.
 
-源码收集脚本从 Qt 官方发布目录、项目上游和 PyPI 读取固定版本。PyPI 源码包还与其发布元数据 SHA256 比较。Qt/GitHub 等下载内容记录 SHA256 以便后续核对；未将下载记录冒称发布者数字签名。
+The source collection script reads fixed versions from Qt's official release directory, project upstream, and PyPI. PyPI source packages are also compared against their release metadata SHA256. Qt/GitHub downloads record SHA256 for later verification; download records are not claimed as publisher digital signatures.
 
-## 发布前保留事项
+## Items retained before release
 
-新产物本机安装、保留配置升级及上述运行检查已通过，不能据此视为所有功能验收通过。单轮语音、首次清除安装和另一台 Windows 测试仍待进行。RELEASE_CANDIDATE.json 保留构建时只读自检记录，后续实机结果另见 HARDWARE_ACCEPTANCE.json。已有候选包内文档是打包时快照，正式发布前需重新汇总更新后的文档与哈希清单。
+Local installation, configuration-preserving upgrade, and the above runtime checks have passed; this does not mean all functions are accepted. Single-turn voice, first-time clearing install, and another Windows test remain. RELEASE_CANDIDATE.json keeps the build-time read-only self-test record; later on-device results are in HARDWARE_ACCEPTANCE.json. Documentation inside existing candidate packages is a packaging-time snapshot; updated documentation and hash manifests must be re-aggregated before official release.
 
-修改 Qt 后的重新组合实测尚未完成；Microsoft VC Runtime 的适用再分发许可由作者核对。Mesa/LLVM 仅核对版本和来源，未独立重建厂商 DLL。图片来源沿用作者既有确认。
+Recombination testing after modifying Qt is not yet complete; applicability of Microsoft VC Runtime redistribution is to be verified by the author. Mesa/LLVM have only had version and source verified, not independent rebuild of vendor DLLs. Image sources follow the author's prior confirmation.
 
-正式发布时应一起提供程序、项目源码及第三方源码材料，不应只上传单个 EXE。SHA256 清单用于完整性验证，不代表来源签名或所有发布条件已满足。
+At official release, programs, project source, and third-party source materials should be provided together, not just a single EXE. The SHA256 manifest is for integrity verification and does not represent source signatures or satisfaction of all release conditions.

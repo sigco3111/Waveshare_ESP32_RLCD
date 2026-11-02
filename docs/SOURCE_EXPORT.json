@@ -15,7 +15,7 @@
     },
     {
       "path": "reporter/build_macos.command",
-      "source_sha256": "e6c7b62060c3a3ac60d14f940ad9e7812796e7f3ef2c4747199a5b3da690b55e"
+      "source_sha256": "7a0cdcddf6ac903bcf511efebdf8fee71cf30d05ce4f25686913a818c8f251e5"
     },
     {
       "path": "reporter/build_release.ps1",
@@ -23,23 +23,23 @@
     },
     {
       "path": "reporter/codex_runtime.py",
-      "source_sha256": "368ee7f50350c63a0ddacacf9db050bcb4b6f147407438cf3660ca1d5abe5e10"
+      "source_sha256": "595717ab27bc86eb39b36225d4b430d979373c1396b08b598145bba5f2467ab8"
     },
     {
       "path": "reporter/MACOS.md",
-      "source_sha256": "28686f358e98ac9c1178a24a8dfa1be4739154f28628dc2a0d345827aa5d4a92"
+      "source_sha256": "d0c4ce8c451fca68599ae98448ded561ea8d2edbaef0ea79e663b4b25237b14c"
     },
     {
       "path": "reporter/macos_media.py",
-      "source_sha256": "13606c00708e73f982b653295ad2195c7158d8cfe617dbc0cce8dfe840c9cc61"
+      "source_sha256": "f4077d339859fe49ca1eaf96816bafa2c00db2920102b881f9422672cc382e0e"
     },
     {
       "path": "reporter/macos_metrics.py",
-      "source_sha256": "7ef2825930f96a91d9b448e2d0e3a4df034c08f3b785fb5d11e28af8175e921f"
+      "source_sha256": "8350dde4b98df29bc7a3872f35bb249d489d30b93fcf68c031fd812afe062a74"
     },
     {
       "path": "reporter/macos_service.py",
-      "source_sha256": "90b409b0270c6d33740ee8ef0a9882bc2779312eabeb515b2217cbc416f9a607"
+      "source_sha256": "5865e369b005f26b5c284c3a137d267d7d05a786f08d8479202cd2eb896effb1"
     },
     {
       "path": "reporter/macos_thermal.c",
@@ -47,23 +47,23 @@
     },
     {
       "path": "reporter/media_monitor.py",
-      "source_sha256": "e70aa56ae5539b0a58955b1245fc97f94b318df6dbf29d0b3c77174b1a98c34d"
+      "source_sha256": "940f041a917aa33b561ae7cf78a5a12863c05cd854d15462dd846c8f8c8d6ea6"
     },
     {
       "path": "reporter/native_ui.swift",
-      "source_sha256": "219a205c38616177b08bc5de5d8e4a70e7e351da0d398a92401be4219c295163"
+      "source_sha256": "0624c8da90c9b2d2ed0e0a8c0fa31e2aebef6e05f77ae9b7dbd80c8b9eb3852a"
     },
     {
       "path": "reporter/platform_support.py",
-      "source_sha256": "d40a7f78c94b78684e24e5339d2855adf20549210ea9085fc50188f6013103cf"
+      "source_sha256": "390f6b3a286f65a01bb6f2279141d501fb39ac5d13aaacc49986733abcd78af1"
     },
     {
       "path": "reporter/README.md",
-      "source_sha256": "9afa615cfe2c94f8944758cf149be737746737167e520c95b48c157a82631513"
+      "source_sha256": "5f6211122c71cc9b6a2f69c24d865466dc4f63c3d576b90bc5179477f5e40162"
     },
     {
       "path": "reporter/reporter.py",
-      "source_sha256": "a00ba259f5feec20edf8062b478a86a0d58de8955eb39a9d734a422e2bf35358"
+      "source_sha256": "68807d6903947d04418101a5d0dbbcd0d3b5e72ab5a6eb91e82b75a1c4f7e5ab"
     },
     {
       "path": "reporter/requirements-build.txt",
@@ -75,7 +75,7 @@
     },
     {
       "path": "reporter/start.command",
-      "source_sha256": "1a4489b7bbe7c5fca3ee1043d1cee16bcc05f335c8f2b1d9b5a1649295cfc235"
+      "source_sha256": "440635c32916a47d334390412560946b09eca2caab9f0b22fa276ec68c0d22f7"
     },
     {
       "path": "reporter/start.ps1",
@@ -83,15 +83,15 @@
     },
     {
       "path": "reporter/SynaReporter.spec",
-      "source_sha256": "0dfef0b4c5c757bf6b3e5a6e83eace40663be5bc8dc1b193be78021a81d91b0f"
+      "source_sha256": "40ef709960ee5ceb0a96e276991b0e32aab0ae94428d161953c1c7639653e676"
     },
     {
       "path": "reporter/test_codex_runtime.py",
-      "source_sha256": "298ef330a15f0b17377d990ed2c2c9749f91a906c750f122a0a275c16fb85536"
+      "source_sha256": "e395fe6a16c92343a6efa7fe474bd8fb1b7f183e8e1f4ad9e5399f5048ba8fbd"
     },
     {
       "path": "reporter/test_device_status.py",
-      "source_sha256": "13d6fd777c7ec9502847f7d261c3f0f9eb0d3ef681effaedfa22804a9b4f3301"
+      "source_sha256": "bf17c4afdf793a869bc6c689056f4d4b24862c5aee8abdfe83e2aa0687aa1c63"
     },
     {
       "path": "reporter/test_installer_startup.py",
@@ -99,39 +99,39 @@
     },
     {
       "path": "reporter/test_macos.py",
-      "source_sha256": "b13008c46de81f7617bcb05741cb33e13948bf8f8f2a703043c71e00ed3e02f4"
+      "source_sha256": "be2b72e14018416f212d3b229c95b4690cb51e7894cd914c72dec2d8a0ddc6cf"
     },
     {
       "path": "reporter/test_macos_media.py",
-      "source_sha256": "003568c6f606cf6511aff75e7a70dc8d356bd0160e12ccc79a3d53a83f970d0d"
+      "source_sha256": "ab2f58fa5cc23313b3b4cee403e7bff434b97584c261f8882f355ccb49c3fb68"
     },
     {
       "path": "reporter/test_macos_metrics.py",
-      "source_sha256": "6c7cade89b91eca966231ba28a88c0a5bfcbb5103dd7c36e85f123a545334c82"
+      "source_sha256": "e30f6a5e0acb20fa2c15295b2f40add3410a5a27c7fa53b8616ae2a302c3a9fb"
     },
     {
       "path": "reporter/test_media_monitor.py",
-      "source_sha256": "1afc96682bf124c3bf04940fda87863bb88a905ec12a38d75d07e8da91e72536"
+      "source_sha256": "1e23feb795d68a2b99935163c90298d31f77a31f807fe4f7b666513b69ef3620"
     },
     {
       "path": "reporter/test_reporter.py",
-      "source_sha256": "99be137d24352b3446f3ecf9f3f7a479de4f32e2365b4bb23a0ba4442e31dbc5"
+      "source_sha256": "fbc3717fb9cceca229186240565acd2aaad4c1426fba392cdfaf28d7d075b6f3"
     },
     {
       "path": "reporter/test_windows_ui.py",
-      "source_sha256": "60299004745372efb1b61952a661c62a472fa5f05284eaed792acc684f271f30"
+      "source_sha256": "4c7292aca29b2d638b68ba07b118f0e8168e58a18231346b77a0371e39293220"
     },
     {
       "path": "reporter/WINDOWS-UI.md",
-      "source_sha256": "110272505b34d685f8c58d14558a0b97a7e00904c637834a6c12cfe11534f42d"
+      "source_sha256": "7275bc25eb0e3b1aaa9558d00b177bd828cd333d0d6e1337ba53be27e0584486"
     },
     {
       "path": "reporter/windows_ui.py",
-      "source_sha256": "88c55d363ec3969eb3fb98ba50f75e32cf23ce9a579cefd35365d901ef63c086"
+      "source_sha256": "7591be1b52b6ee33b6e5041a1a970ad1639560701d93d74dd76cea64287e1431"
     },
     {
       "path": "reporter/installer/install.cmd",
-      "source_sha256": "23bcb8220f3a21f18b575bb4d0c77761645cd7beb5b465964e987d4ddafa7944"
+      "source_sha256": "4c9aeec7448762b51a0bfc8d1ff0eb6e5edf2b21fe6b426a7acd1b031b989c5c"
     },
     {
       "path": "reporter/installer/uninstall.cmd",
@@ -386,7 +386,7 @@
       "source_sha256": "5fa5b2b4ddad9963ace35f7de1a0d13e52698034cd2f75db775bdf90fa3f4114"
     },
     {
-      "path": "installer/macos/\u4f7f\u7528\u8bf4\u660e.md",
+      "path": "installer/macos/USER_GUIDE.md",
       "source_sha256": "434d3688772d410ec4c400d572b2fa51e107ad01ebea8f873797a8888b8adec9"
     },
     {

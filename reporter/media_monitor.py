@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 from __future__ import annotations
 
@@ -32,6 +32,10 @@ _NETEASE_HEADERS = {
     "User-Agent": "Mozilla/5.0 AI-Agent-Panel-Reporter/0.1",
     "Referer": "https://music.163.com/",
 }
+# NetEase Cloud Music localizes its window titles; both locales must be matched.
+NETEASE_APP_TITLE = "\u7f51\u6613\u4e91\u97f3\u4e50"
+DESKTOP_LYRICS_TITLE = "\u684c\u9762\u6b4c\u8bcd"
+NETEASE_DESKTOP_LYRICS_TITLE = "\u7f51\u6613\u4e91\u97f3\u4e50\u684c\u9762\u6b4c\u8bcd"
 _TIMESTAMP_RE = re.compile(r"\[(\d{1,3}):(\d{1,2})(?:[.:](\d{1,3}))?\]")
 _CACHE_ID_RE = re.compile(r"^(\d+)-")
 
@@ -124,7 +128,7 @@ class NeteaseLocalState:
     def read(self) -> dict[str, Any] | None:
         self._refresh_tracks()
         window_title = self._window_title(self._tracks)
-        if not window_title or window_title in ("网易云音乐", "NetEase CloudMusic"):
+        if not window_title or window_title in (NETEASE_APP_TITLE, "NetEase CloudMusic"):
             return None
         playback_status = self._read_playback_status()
         matches = []
@@ -260,8 +264,8 @@ class NeteaseLocalState:
 
     @staticmethod
     def _select_window_title(titles: list[str], tracks=()) -> str:
-        auxiliary = {"网易云音乐", "netease cloudmusic", "桌面歌词",
-                     "网易云音乐桌面歌词", "desktop lyrics"}
+        auxiliary = {NETEASE_APP_TITLE, "netease cloudmusic", DESKTOP_LYRICS_TITLE,
+                     NETEASE_DESKTOP_LYRICS_TITLE, "desktop lyrics"}
         candidates = [title.strip() for title in titles
                       if title.strip() and title.strip().casefold() not in auxiliary]
         # Prefer a known track over auxiliary windows regardless of Z-order.
@@ -341,7 +345,7 @@ def parse_lrc(text: str) -> list[tuple[float, str]]:
 
 def lyric_at(lines: list[tuple[float, str]], position_seconds: float) -> str:
     if not lines:
-        return "暂无歌词"
+        return "No lyrics"
     index = bisect.bisect_right([item[0] for item in lines], position_seconds) - 1
     return lines[index][1] if index >= 0 else "♪"
 
@@ -515,7 +519,7 @@ class NeteaseMediaMonitor:
             (
                 item for item in (manager.get_sessions() if manager is not None else [])
                 if any(token in item.source_app_user_model_id.casefold()
-                       for token in ("cloudmusic", "netease", "网易云音乐"))
+                       for token in ("cloudmusic", "netease", NETEASE_APP_TITLE))
             ),
             None,
         )

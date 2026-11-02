@@ -1,59 +1,59 @@
-# LVGL 桌面可视化模拟器
+# LVGL desktop visual simulator
 
-该目录用于在 Windows 和 VS Code 中预览 ESP32-S3-RLCD-4.2 的 400×300 黑白界面，不需要连接或烧录开发板。
+This directory previews the 400×300 monochrome interface of the ESP32-S3-RLCD-4.2 on Windows and in VS Code, without connecting or flashing the board.
 
-## 当前页面
+## Current screens
 
-- 桌面状态首页：按用户提供的 400×300 音乐状态屏参考稿像素级重做，包含时间、温湿度、AI Agent 状态、Codex 额度、当前歌曲、歌手、播放进度和单句歌词；原播放按钮区域只显示当前歌词。
-- 电脑列表：采用与首页一致的圆角卡片、像素字体和紧凑间距，模拟发现三台电脑、选择当前电脑以及在线/离线状态；选中项使用加粗圆角边框。
+- Desktop status home screen: rebuilt pixel-for-pixel from the user-provided 400×300 music status screen reference, containing the clock, temperature and humidity, AI Agent status, Codex quota, current song, artist, playback progress, and a single lyric line; the original play-button area now shows only the current lyric.
+- Computer list: rounded cards, pixel font, and compact spacing consistent with the home screen, simulating discovery of three computers, selection of the current computer, and online/offline status; the selected row uses a bold rounded border.
 
-## 运行
+## Running
 
-在 VS Code 中执行任务 `UI Simulator: Run`，或者在终端运行：
+Run the `UI Simulator: Run` task in VS Code, or run this in a terminal:
 
 ```powershell
 & .\simulator\scripts\run.ps1
 ```
 
-模拟器以 2 倍比例显示，逻辑分辨率始终保持 400×300。
+The simulator is displayed at 2× scale; the logical resolution always stays 400×300.
 
-首次构建会编译 LVGL，后续只会增量编译发生变化的文件。需要清空 CMake 配置缓存时可执行：
+The first build compiles LVGL; later builds only recompile the files that changed. To clear the CMake configuration cache, run:
 
 ```powershell
 & .\simulator\scripts\configure.ps1 -Fresh
 ```
 
-## 键盘操作
+## Keyboard controls
 
-| 按键 | 功能 |
+| Key | Function |
 | --- | --- |
-| `Space` | 在状态首页和电脑性能页之间切换 |
-| `C` | 打开电脑列表 |
-| `↑` / `↓` | 选择电脑 |
-| `Enter` | 确认当前电脑并返回首页 |
-| `Esc` | 返回首页 |
-| `R` | 循环模拟 Working/Waiting/Done 状态 |
+| `Space` | Switch between the status home screen and the computer performance screen |
+| `C` | Open the computer list |
+| `↑` / `↓` | Select a computer |
+| `Enter` | Confirm the current computer and return to the home screen |
+| `Esc` | Return to the home screen |
+| `R` | Cycle through the simulated Working/Waiting/Done states |
 
-电脑列表也支持鼠标单击进行高亮选择。硬件移植时，这些操作将映射到开发板的 KEY 按键。
+The computer list also supports click-to-highlight selection with the mouse. When porting to hardware, these actions map to the board's KEY button.
 
-## 工程边界
+## Project boundaries
 
-- `src/ui/`：可移植的 LVGL UI 代码，后续由模拟器和 ESP32 固件共享。
-- `src/main.c`：仅用于 Windows 的 SDL2 启动和键盘模拟。
-- `vendor/lvgl-9.5.0/`：锁定的 LVGL 依赖，不直接修改。
-- 构建产物输出到 `C:\ai-panel-build\simulator`，避免 Windows 工具链受到中文构建路径影响。
+- `src/ui/`: portable LVGL UI code, later shared by the simulator and the ESP32 firmware.
+- `src/main.c`: Windows-only SDL2 startup and keyboard simulation.
+- `vendor/lvgl-9.5.0/`: locked LVGL dependency; not modified directly.
+- Build output goes to `C:\ai-panel-build\simulator`, so the Windows toolchain is not affected by non-ASCII build paths.
 
-动态数字使用 LVGL 内置英文字体；当前首页中文已经转换为 1-bit 嵌入式位图，不依赖运行电脑的系统字体。后续需要大量动态中文时，再生成精简中文字库以控制 Flash 占用。
+Dynamic numbers use the LVGL built-in Latin font; the Chinese home-screen text has already been converted to 1-bit embedded bitmaps and does not depend on the host system fonts. When large amounts of dynamic Chinese text are needed later, generate a trimmed Chinese font subset to keep Flash usage under control.
 
-## 单色素材
+## Monochrome assets
 
-- `assets/source/music_ui_icons/`：当前页面的时钟、温湿度、Agent、播放、歌曲、歌手、网络、电脑和电池图片生成素材。
-- `assets/source/icons/` 与角色图片：上一版页面的备用素材，当前首页不引用。
-- `assets/generate_assets.ps1`：摆放图片生成素材，与中文和布局线条合成为严格 400×300 的 1-bit 底图，再生成 LVGL C 数组；脚本不使用图形代码重画图标。
-- `src/assets/`：可直接链接到模拟器、后续也可移植到 ESP32 固件的单色资源。
+- `assets/source/music_ui_icons/`: image-generation sources for the clock, temperature/humidity, agent, playback, song, artist, network, computer, and battery icons on the current screen.
+- `assets/source/icons/` and the character images: spare assets from the previous version of the screen; the current home screen does not reference them.
+- `assets/generate_assets.ps1`: places the generated images, composites them with the Chinese text and layout lines into a strict 400×300 1-bit base image, and then generates the LVGL C arrays; the script does not redraw icons with drawing code.
+- `src/assets/`: monochrome resources that can be linked directly into the simulator and later ported to the ESP32 firmware.
 
-修改图标或静态布局后，在 VS Code 执行 `UI Assets: Regenerate`，再运行模拟器。
+After changing an icon or the static layout, run `UI Assets: Regenerate` in VS Code, then run the simulator.
 
-## 音乐数据范围
+## Music data scope
 
-当前 UI 使用《夜的第七章》作为网易云音乐适配预览数据，并只显示一行歌词。电脑端 Reporter 后续通过 Windows 系统媒体会话取得标题、歌手、播放状态和进度；第一版歌词适配仅面向网易云音乐，其他播放器暂不提供歌词。
+The current UI uses "Chapter 7 of the Night" as NetEase Cloud Music preview data and shows only a single lyric line. The desktop Reporter later obtains the title, artist, playback state, and progress through the Windows system media session; the first version of lyrics support targets NetEase Cloud Music only, and other players do not provide lyrics yet.

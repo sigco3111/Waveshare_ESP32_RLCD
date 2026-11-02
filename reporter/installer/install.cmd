@@ -62,7 +62,7 @@ reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\SynaReporter" 
 if errorlevel 1 exit /b 1
 reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\SynaReporter" /v DisplayVersion /t REG_SZ /d "1.0.0" /f >nul
 if errorlevel 1 exit /b 1
-reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\SynaReporter" /v Publisher /t REG_SZ /d "黑沐" /f >nul
+reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\SynaReporter" /v Publisher /t REG_SZ /d "Heimu" /f >nul
 if errorlevel 1 exit /b 1
 reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\SynaReporter" /v UninstallString /t REG_SZ /d "\"%INSTALL_DIR%\uninstall.cmd\"" /f >nul
 if errorlevel 1 exit /b 1

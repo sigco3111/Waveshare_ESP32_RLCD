@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 """Explicit per-user launchd installation, status, stop and uninstall commands."""
 from __future__ import annotations
@@ -36,11 +36,11 @@ def service_definition(python: Path, entry: Path) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="管理 Syna Reporter 的 macOS 登录后后台服务")
+    parser = argparse.ArgumentParser(description="Manage the macOS login-start background service for Syna Reporter")
     parser.add_argument("action", choices=["install", "start", "stop", "status", "uninstall"])
     args = parser.parse_args()
     if sys.platform != "darwin":
-        parser.error("此工具仅用于 macOS")
+        parser.error("This tool only works on macOS")
     domain = f"gui/{os.getuid()}"
     target = f"{domain}/{LABEL}"
     plist = Path.home() / "Library/LaunchAgents" / f"{LABEL}.plist"
@@ -50,7 +50,7 @@ def main() -> int:
         subprocess.run(["launchctl", "bootout", target], check=False)
         if args.action == "uninstall":
             plist.unlink(missing_ok=True)
-        print("服务已停止；" + ("登录启动已移除，配置与日志保留。" if args.action == "uninstall" else "下次登录仍会启动。"))
+        print("Service stopped; " + ("Login startup removed; configuration and logs are kept." if args.action == "uninstall" else "It will still start at the next login."))
         return 0
     if args.action == "install":
         entry = Path(__file__).resolve().with_name("reporter.py")
@@ -64,9 +64,9 @@ def main() -> int:
         temporary.replace(plist)
         subprocess.run(["launchctl", "bootout", target], check=False, capture_output=True)
     if not plist.exists():
-        parser.error("尚未安装服务，请先执行 install")
+        parser.error("The service is not installed yet; run install first")
     subprocess.run(["launchctl", "bootstrap", domain, str(plist)], check=True)
-    print("Reporter 已启动，并将在登录后自动运行。请勿移动项目或删除 .venv-macos。")
+    print("Reporter started and will run automatically after login. Do not move the project or delete .venv-macos.")
     return 0
 
 

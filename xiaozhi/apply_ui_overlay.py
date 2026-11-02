@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2026 黑沐. MIT License; upstream notices retained.
+# Copyright (c) 2026 Heimu. MIT License; upstream notices retained.
 """Portable equivalent of apply-ui-overlay.ps1 for the pinned Xiaozhi tree."""
 import argparse
 import json

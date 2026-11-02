@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 import asyncio
 import json
@@ -60,7 +60,7 @@ class MacMediaTests(unittest.TestCase):
                 self.assertTrue(result.available)
                 self.assertEqual(result.title, 'Song')
                 self.assertEqual(result.position_seconds, 30)
-                self.assertEqual(result.lyric, '暂无歌词')
+                self.assertEqual(result.lyric, 'No lyrics')
             pending.cancel()
         asyncio.run(check())
 

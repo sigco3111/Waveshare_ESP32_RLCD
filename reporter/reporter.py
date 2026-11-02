@@ -1,4 +1,4 @@
-# Syna project-specific code and modifications: Copyright (c) 2026 黑沐.
+# Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
 from __future__ import annotations
 
@@ -310,7 +310,7 @@ class CodexAgentMonitor:
         now = time.time()
         if codex_auth_available() is False:
             return AgentSnapshot(
-                state="login_required", task="请登录 Codex", source="auth"
+                state="login_required", task="Please log in to Codex", source="auth"
             )
         running = self._codex_running()
         if not running:
@@ -669,7 +669,7 @@ class ReporterState:
 
     def _agent_snapshot(self) -> AgentSnapshot:
         if self.quota_collector.snapshot().source == "login_required":
-            return AgentSnapshot(state="login_required", task="请登录 Codex", source="auth")
+            return AgentSnapshot(state="login_required", task="Please log in to Codex", source="auth")
         return self.agent_monitor.snapshot()
 
     def status(self) -> dict[str, Any]:
@@ -922,7 +922,7 @@ def main() -> int:
         def terminate(signum, frame):
             raise KeyboardInterrupt
         signal.signal(signal.SIGTERM, terminate)
-    parser = argparse.ArgumentParser(description="Syna 状态屏 Reporter（Windows / macOS）")
+    parser = argparse.ArgumentParser(description="Syna status screen Reporter (Windows / macOS)")
     parser.add_argument("--port", type=int, default=HTTP_PORT)
     parser.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--no-supervisor", action="store_true")

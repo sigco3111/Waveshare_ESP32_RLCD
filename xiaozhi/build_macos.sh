@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2026 黑沐. MIT License; upstream notices retained.
+# Copyright (c) 2026 Heimu. MIT License; upstream notices retained.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"

@@ -18,11 +18,11 @@ class WorkerTests(unittest.TestCase):
         raw = io.BytesIO()
         stream = io.TextIOWrapper(raw, encoding='cp936')
         with patch.object(worker.sys, 'stdout', stream):
-            worker.emit('done', '安装完成：希娜 🐱', progress=100)
+            worker.emit('done', 'Installation complete: Syna 🐱', progress=100)
         data = raw.getvalue()
         self.assertTrue(data.isascii())
         result = json.loads(data)
-        self.assertEqual(result['message'], '安装完成：希娜 🐱')
+        self.assertEqual(result['message'], 'Installation complete: Syna 🐱')
         self.assertEqual(result['progress'], 100)
 
     def test_final_run_resets_device(self):

@@ -1,4 +1,4 @@
-/* Project-specific additions Copyright (c) 2026 黑沐. MIT; upstream notices retained. */
+/* Project-specific additions Copyright (c) 2026 Heimu. MIT; upstream notices retained. */
 #include "ui/ui.h"
 
 #include <stdint.h>
@@ -152,7 +152,7 @@ static lv_obj_t *assistant_overlay;
 static lv_obj_t *assistant_overlay_label;
 static bool assistant_active = false;
 static char assistant_state[32] = "Syna-sama";
-static char assistant_text[192] = "正在聆听…";
+static char assistant_text[192] = "Listening…";
 static char current_syna_user[160] = "";
 static char current_syna_assistant[192] = "";
 static char current_api_provider[32] = "API";
@@ -230,7 +230,7 @@ static void ensure_assistant_overlay(void)
     lv_obj_set_style_border_width(assistant_overlay, 2, 0);
     lv_obj_set_style_radius(assistant_overlay, 10, 0);
     assistant_overlay_label = make_label(
-        assistant_overlay, "小智  正在聆听…", &ui_font_14_cjk, 12, 16);
+        assistant_overlay, "Xiaozhi  Listening…", &ui_font_14_cjk, 12, 16);
     lv_obj_set_size(assistant_overlay_label, 354, 22);
     lv_label_set_long_mode(assistant_overlay_label, LV_LABEL_LONG_CLIP);
     lv_obj_add_flag(assistant_overlay, LV_OBJ_FLAG_HIDDEN);
@@ -242,7 +242,7 @@ void ui_show_assistant_overlay(const char *state, const char *text)
     assistant_active = true;
     char line[256];
     const char *prefix = (state != NULL && state[0] != '\0') ? state : "Syna-sama";
-    const char *message = (text != NULL && text[0] != '\0') ? text : "正在聆听…";
+    const char *message = (text != NULL && text[0] != '\0') ? text : "Listening…";
     snprintf(assistant_state, sizeof(assistant_state), "%s", prefix);
     snprintf(assistant_text, sizeof(assistant_text), "%s", message);
     snprintf(line, sizeof(line), "%s  %s", prefix, message);
@@ -481,10 +481,10 @@ void ui_show_dashboard(void)
     make_white_mask(screen, 190, 212, 192, 34);
 
     dashboard_media_status_label = make_label(
-        screen, "未播放", &ui_font_14_cjk, 222, 82);
+        screen, "Not playing", &ui_font_14_cjk, 222, 82);
     lv_obj_set_size(dashboard_media_status_label, 77, 18);
     dashboard_media_title_label = make_label(
-        screen, "网易云音乐", &ui_font_14_cjk, 257, 116);
+        screen, "NetEase Cloud Music", &ui_font_14_cjk, 257, 116);
     lv_label_set_long_mode(dashboard_media_title_label, LV_LABEL_LONG_CLIP);
     lv_obj_set_size(dashboard_media_title_label, 124, 18);
     dashboard_media_artist_label = make_label(
@@ -498,7 +498,7 @@ void ui_show_dashboard(void)
     lv_obj_set_width(dashboard_media_duration_label, 34);
     lv_obj_set_style_text_align(dashboard_media_duration_label, LV_TEXT_ALIGN_RIGHT, 0);
     dashboard_media_lyric_label = make_label(
-        screen, "暂无歌词", &ui_font_14_cjk, 191, 216);
+        screen, "No lyrics", &ui_font_14_cjk, 191, 216);
     lv_label_set_long_mode(dashboard_media_lyric_label, LV_LABEL_LONG_CLIP);
     lv_obj_set_size(dashboard_media_lyric_label, 190, 20);
     lv_obj_set_style_text_align(dashboard_media_lyric_label, LV_TEXT_ALIGN_CENTER, 0);
@@ -677,7 +677,7 @@ static void refresh_syna_conversation(void)
 {
     if(syna_user_label != NULL && lv_obj_is_valid(syna_user_label)) {
         char text[192];
-        snprintf(text, sizeof(text), "你\n%s", current_syna_user[0] ? current_syna_user : "…");
+        snprintf(text, sizeof(text), "You\n%s", current_syna_user[0] ? current_syna_user : "…");
         lv_label_set_text(syna_user_label, text);
     }
     if(syna_assistant_label != NULL && lv_obj_is_valid(syna_assistant_label)) {
@@ -869,15 +869,15 @@ static void ui_show_about(void)
     if(about_screen == NULL) {
         about_screen = lv_obj_create(NULL);
         style_screen(about_screen);
-        make_label(about_screen, "希娜 Syna  v1.0.0", &ui_font_14_cjk, 18, 18);
-        make_label(about_screen, "关于作者：黑沐", &ui_font_14_cjk, 18, 54);
-        make_label(about_screen, "B站 UID: 386856267", &ui_font_14_cjk, 18, 85);
+        make_label(about_screen, "Syna  v1.0.0", &ui_font_14_cjk, 18, 18);
+        make_label(about_screen, "About author: Heimu", &ui_font_14_cjk, 18, 54);
+        make_label(about_screen, "Bilibili UID: 386856267", &ui_font_14_cjk, 18, 85);
         make_label(about_screen, "QQ: 3091479711", &ui_font_14_cjk, 18, 112);
         make_label(about_screen, "github.com/heimumumu/", &ui_font_14_cjk, 18, 147);
         make_label(about_screen, "Waveshare_ESP32_RLCD", &ui_font_14_cjk, 18, 171);
-        make_label(about_screen, "发布版本：仓库 Releases 页面", &ui_font_14_cjk, 18, 201);
-        make_label(about_screen, "原创部分 MIT - 保留版权声明", &ui_font_14_cjk, 18, 233);
-        make_label(about_screen, "感谢小智、LVGL及第三方贡献者", &ui_font_14_cjk, 18, 264);
+        make_label(about_screen, "Release: repository Releases page", &ui_font_14_cjk, 18, 201);
+        make_label(about_screen, "Original parts MIT - keep copyright notice", &ui_font_14_cjk, 18, 233);
+        make_label(about_screen, "Thanks to Xiaozhi, LVGL, and third-party contributors", &ui_font_14_cjk, 18, 264);
     }
     lv_screen_load(about_screen);
 }
@@ -895,7 +895,7 @@ static void show_startup_signature(void)
     lv_obj_set_size(panel, 400, 300);
     lv_obj_set_pos(panel, 0, 0);
     style_screen(panel);
-    lv_obj_t *title = make_label(panel, "希娜 Syna · 黑沐", &ui_font_28_brand, 0, 106);
+    lv_obj_t *title = make_label(panel, "Syna · Heimu", &ui_font_28_brand, 0, 106);
     lv_obj_set_width(title, 400);
     lv_obj_set_style_text_align(title, LV_TEXT_ALIGN_CENTER, 0);
     lv_obj_t *version = make_label(panel, "v1.0.0", &ui_font_18_regular, 0, 157);
@@ -1182,11 +1182,11 @@ void ui_update_media(bool available, const char *status, const char *title,
     const bool paused = available && status != NULL && strcmp(status, "paused") == 0;
     if(dashboard_media_status_label != NULL) {
         lv_label_set_text(dashboard_media_status_label,
-                          playing ? "正在播放" : (paused ? "已暂停" : "未播放"));
+                          playing ? "Playing" : (paused ? "Paused" : "Not playing"));
     }
     if(dashboard_media_title_label != NULL) {
         lv_label_set_text(dashboard_media_title_label,
-                          available && title != NULL && title[0] ? title : "网易云音乐");
+                          available && title != NULL && title[0] ? title : "NetEase Cloud Music");
     }
     if(dashboard_media_artist_label != NULL) {
         lv_label_set_text(dashboard_media_artist_label,
@@ -1194,7 +1194,7 @@ void ui_update_media(bool available, const char *status, const char *title,
     }
     if(dashboard_media_lyric_label != NULL) {
         lv_label_set_text(dashboard_media_lyric_label,
-                          available && lyric != NULL && lyric[0] ? lyric : "暂无歌词");
+                          available && lyric != NULL && lyric[0] ? lyric : "No lyrics");
     }
     char position_text[12];
     char duration_text[12];

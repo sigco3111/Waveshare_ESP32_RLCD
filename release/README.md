@@ -1,7 +1,7 @@
-﻿# 发布材料
+﻿# Release Materials
 
-本目录包含第三方许可证、公开签名验证工具和公钥，不包含签名私钥、设备备份或构建产物。
+This directory contains third-party licenses, public signature verification tools, and the public key. It does not contain the signing private key, device backups, or build artifacts.
 
-正式发布前完成 [发布检查表](../docs/RELEASE_CHECKLIST.md)，根据发布源码重新构建并验证产物，再生成哈希清单。sign_release.py 支持 sign / verify；运行 --help 查看参数。仅持有对应私钥的发布者可以签署官方文件，私钥不应上传。
+Before an official release, complete the [Release Checklist](../docs/RELEASE_CHECKLIST.md), rebuild and verify the artifacts from the release source, then generate the hash manifest. sign_release.py supports sign / verify; run --help to see the parameters. Only the publisher holding the corresponding private key can sign official files, and the private key must not be uploaded.
 
-版本号文件与程序内显示为 1.0.0，但这个整理目录尚不是正式发布。不要将开发机测试记录、未验收的 Mac 包或新的本地清单描述为官方已发布产物。
+The version number file and the in-program display are 1.0.0, but this organized directory is not yet an official release. Do not describe development-machine test records, unaccepted Mac packages, or new local manifests as officially released artifacts.

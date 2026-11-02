@@ -1,11 +1,11 @@
-﻿# ESP-IDF Firmware
+﻿# ESP-IDF 펌웨어
 
-The current implementation applies board-level source and single-turn conversation patches to the Xiaozhi upstream pinned by `upstream.lock` via `apply_ui_overlay.py`.
+현재 구현은 `upstream.lock`으로 고정한 Xiaozhi 업스트림에 보드 수준 소스와 단문 대화 패치를 `apply_ui_overlay.py`로 적용합니다.
 
-Unified build steps are in [Build Guide](../docs/BUILD.md). Both Windows and Mac use the Python overlay script; the old PowerShell overlay script is not included in this organized directory to avoid two patch sets drifting out of sync.
+통합 빌드 단계는 [빌드 가이드](../docs/BUILD.md)에 있습니다. Windows와 Mac 모두 Python 오버레이 스크립트를 사용하며, 두 패치 집합이 서로 어긋나지 않도록 구 PowerShell 오버레이 스크립트는 이 정리된 디렉토리에 포함하지 않습니다.
 
-`build_windows.ps1` and `enter-idf.ps1` keep default values for the author tool directory layout and can be adjusted via parameters; if an official ESP-IDF 6.0.2 environment already exists, use the manual commands in the build guide instead of reusing the author directories.
+`build_windows.ps1`과 `enter-idf.ps1`은 작성자 도구 디렉토리 구성의 기본값을 유지하며, 매개변수로 조정할 수 있습니다. 공식 ESP-IDF 6.0.2 환경이 이미 있으면 작성자 디렉토리를 재사용하지 말고 빌드 가이드의 수동 명령을 사용하세요.
 
-Board: waveshare/esp32-s3-rlcd-4.2, 16 MB Flash, 8 MB PSRAM. Back up and verify partitions before upgrading.
+보드: waveshare/esp32-s3-rlcd-4.2, 16 MB 플래시, 8 MB PSRAM. 업그레이드 전에 파티션을 백업하고 검증하세요.
 
-Single-turn conversation: automatic sentence segmentation by default; voice processing and wake-word detection are disabled during the reply; returns to idle after TTS ends and local playback completes. Manual stop via button is retained; microphone gain is unchanged by this round of changes. Compiled and flashed; voice real-world testing is still pending.
+단문 대화: 기본적으로 자동 문장 분할, 답변 중에는 음성 처리와 웨이크워드 감지를 비활성화합니다. TTS 종료와 로컬 재생 완료 후 idle로 복귀합니다. 버튼을 통한 수동 중지는 유지되며, 이번 변경에서 마이크 게인은 바뀌지 않았습니다. 컴파일과 플래싱은 완료되었으며, 음성 실사용 테스트는 아직 진행 중입니다.

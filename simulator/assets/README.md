@@ -1,36 +1,35 @@
-# UI asset notes
+# UI 에셋 안내
 
-The current home screen was rebuilt from the user-provided 400×300 monochrome music status screen reference. Every icon is generated separately with the built-in image generation mode and stored in `source/music_ui_icons/`; `generate_assets.py` only crops, scales, recolors, positions, and binarizes them, and does not redraw icons with drawing code.
+현재 홈 화면은 사용자 제공 400×300 흑백 음악 상태 화면 레퍼런스에서 재구성했습니다. 모든 아이콘은 내장 이미지 생성 모드로 각각 생성해 `source/music_ui_icons/`에 저장합니다. `generate_assets.py`는 이들을 자르고, 크기를 조정하고, 색상을 바꾸고, 배치하고, 이진화만 하며, 드로잉 코드로 아이콘을 다시 그리지 않습니다.
 
-## Current icons and generation prompts
+## 현재 아이콘과 생성 프롬프트
 
-| File | Final size | Image generation prompt summary |
+| 파일 | 최종 크기 | 이미지 생성 프롬프트 요약 |
 | --- | ---: | --- |
-| `clock.png` | 22×22 | Extract the round pixel clock at the top of the reference, keeping the octagonal outline, hour hand, minute hand, and stepped pixels. |
-| `thermometer.png` | 18×32 | Generate a vertical thermometer consistent with the reference: narrow tube, center indicator line, and round base. |
-| `humidity.png` | 18×29 | Generate a pixel droplet with a pointed top, round bottom, hollow center, and a small inner highlight at the lower left. |
-| `agent_status.png` | 23×23 | Generate a thick outer ring, inner ring, and center point with a short wedge, used as the running-status symbol. |
-| `waveform.png` | 24×16 | Generate five square-ended playback waveform bars: short, medium, long, medium, short. |
-| `music_note.png` | 28×35 | Generate a bold music symbol with two filled note heads, two vertical stems, and a stepped connecting beam. |
-| `artist.png` | 12×12 | Generate a small artist icon made of a square head, shoulders, and a flat base. |
-| `wifi.png` | 20×14 | Generate a Wi-Fi icon made of three arcs and one solid dot. |
-| `desktop.png` | 19×14 | Generate a device icon made of a rectangular monitor, short stand, and flat base. |
-| `laptop.png` | 18×14 | Generate a computer-connection icon made of a screen outline, hinge, and a base with a notch in the center. |
-| `battery.png` | 35×14 | Generate a battery outline, a terminal on the right, and exactly four solid charge segments. |
+| `clock.png` | 22×22 | 레퍼런스 상단의 둥근 픽셀 시계를 추출하며, 팔각형 외곽선, 시침, 분침, 계단식 픽셀을 유지합니다. |
+| `thermometer.png` | 18×32 | 레퍼런스와 일관된 세로 온도계를 생성합니다. 좁은 관, 중앙 지시선, 둥근 베이스를 포함합니다. |
+| `humidity.png` | 18×29 | 뾰족한 위쪽, 둥근 아래쪽, 빈 중앙, 왼쪽 아래의 작은 내부 하이라이트가 있는 픽셀 물방울을 생성합니다. |
+| `agent_status.png` | 23×23 | 굵은 바깥 링, 안쪽 링, 짧은 쐐기가 있는 중심점을 생성하며, 실행 상태 기호로 사용합니다. |
+| `waveform.png` | 24×16 | 짧음, 중간, 김, 중간, 짧음 순서의 네모 끝 재생 파형 막대 다섯 개를 생성합니다. |
+| `music_note.png` | 28×35 | 채워진 음표 머리 둘, 세로 기둥 둘, 계단식 연결 빔이 있는 굵은 음악 기호를 생성합니다. |
+| `artist.png` | 12×12 | 네모 머리, 어깨, 평평한 베이스로 이루어진 작은 아티스트 아이콘을 생성합니다. |
+| `wifi.png` | 20×14 | 세 개의 호와 하나의 실점(dot)으로 이루어진 Wi-Fi 아이콘을 생성합니다. |
+| `desktop.png` | 19×14 | 직사각형 모니터, 짧은 스탠드, 평평한 베이스로 이루어진 기기 아이콘을 생성합니다. |
+| `laptop.png` | 18×14 | 화면 외곽선, 경첩, 중앙에 홈이 있는 베이스로 이루어진 컴퓨터 연결 아이콘을 생성합니다. |
+| `battery.png` | 35×14 | 배터리 외곽선, 오른쪽 단자, 정확히 네 개의 실 충전 세그먼트를 생성합니다. |
 
-All prompts share these constraints: pure black 1-bit pixel graphics, a truly transparent background, stepped pixel edges preserved, no text, no grayscale, no shadows, no panels, no watermark, and no extra elements. The agent icon is recolored to white during compositing, to match the black status capsule in the reference.
+모든 프롬프트는 다음 제약을 공유합니다: 순수 블랙 1비트 픽셀 그래픽, 완전히 투명한 배경, 계단식 픽셀 가장자리 유지, 텍스트 없음, 그레이스케일 없음, 그림자 없음, 패널 없음, 워터마크 없음, 여분 요소 없음. 에이전트 아이콘은 합성 시 흰색으로 다시 칠해져 레퍼런스의 검은 상태 캡슐과 일치합니다.
 
-## Legacy assets
+## 레거시 에셋
 
-`source/icons/` and `source/ciallo_maid_pixel_transparent.png` are assets from the previous version of the status home screen. The current music status home screen no longer references them, but they are kept for now so they can be used for rollback or for building other screens.
+`source/icons/`와 `source/ciallo_maid_pixel_transparent.png`는 이전 버전 상태 홈 화면의 에셋입니다. 현재 음악 상태 홈 화면은 이들을 참조하지 않지만, 롤백이나 다른 화면 제작에 쓸 수 있도록 일단 유지합니다.
 
-## Regenerating the LVGL assets
+## LVGL 에셋 재생성
 
 ```bash
 python3 simulator/assets/generate_assets.py
 ```
 
-The generator is portable and needs Pillow plus the vendored LVGL image
-converter (`pypng` and `lz4` for the converter, `pngquant` on `PATH`).
+생성기는 이식 가능하며 Pillow와 내장 LVGL 이미지 변환기가 필요합니다(변환기용으로 `pypng`와 `lz4`, `PATH`상의 `pngquant`).
 
-The output includes `generated/screen_base.png` and the LVGL 1-bit C arrays in `src/assets/` that can be linked directly.
+출력물에는 `generated/screen_base.png`와 직접 링크할 수 있는 `src/assets/`의 LVGL 1비트 C 배열이 포함됩니다.

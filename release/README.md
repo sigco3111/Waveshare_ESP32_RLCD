@@ -1,7 +1,7 @@
-﻿# Release Materials
+﻿# 릴리스 자료
 
-This directory contains third-party licenses, public signature verification tools, and the public key. It does not contain the signing private key, device backups, or build artifacts.
+이 디렉토리에는 서드파티 라이선스, 공개 서명 검증 도구, 공개키가 들어 있습니다. 서명 개인키, 기기 백업, 빌드 산출물은 포함되어 있지 않습니다.
 
-Before an official release, complete the [Release Checklist](../docs/RELEASE_CHECKLIST.md), rebuild and verify the artifacts from the release source, then generate the hash manifest. sign_release.py supports sign / verify; run --help to see the parameters. Only the publisher holding the corresponding private key can sign official files, and the private key must not be uploaded.
+정식 릴리스 전에는 [릴리스 체크리스트](../docs/RELEASE_CHECKLIST.md)를 완료하고, 릴리스 소스에서 산출물을 다시 빌드해 검증한 뒤 해시 매니페스트를 생성하세요. sign_release.py는 서명(sign)/검증(verify)을 지원하며, --help로 매개변수를 확인할 수 있습니다. 대응하는 개인키를 가진 배포자만 공식 파일에 서명할 수 있으며, 개인키는 업로드하면 안 됩니다.
 
-The version number file and the in-program display are 1.0.0, but this organized directory is not yet an official release. Do not describe development-machine test records, unaccepted Mac packages, or new local manifests as officially released artifacts.
+버전 번호 파일과 프로그램 내 표시는 1.0.0이지만, 이 정리된 디렉토리는 아직 정식 릴리스가 아닙니다. 개발기 테스트 기록, 인수 미완료 Mac 패키지, 새로운 로컬 매니페스트를 정식 릴리스 산출물로 설명하지 마세요.

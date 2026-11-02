@@ -1,60 +1,60 @@
-# LVGL desktop visual simulator
+# LVGL 데스크톱 시각 시뮬레이터
 
-This directory previews the 400×300 monochrome interface of the ESP32-S3-RLCD-4.2 on Windows and in VS Code, without connecting or flashing the board.
+이 디렉토리는 보드를 연결하거나 플래싱하지 않고도 ESP32-S3-RLCD-4.2의 400×300 흑백 인터페이스를 Windows와 VS Code에서 미리 봅니다.
 
-## Current screens
+## 현재 화면
 
-- Desktop status home screen: rebuilt pixel-for-pixel from the user-provided 400×300 music status screen reference, containing the clock, temperature and humidity, AI Agent status, Codex quota, current song, artist, playback progress, and a single lyric line; the original play-button area now shows only the current lyric.
-- Computer list: rounded cards, pixel font, and compact spacing consistent with the home screen, simulating discovery of three computers, selection of the current computer, and online/offline status; the selected row uses a bold rounded border.
+- 데스크톱 상태 홈 화면: 사용자 제공 400×300 음악 상태 화면 레퍼런스를 픽셀 단위로 재구성한 것으로, 시계, 온습도, AI 에이전트 상태, Codex 쿼터, 현재 노래, 아티스트, 재생 진행률, 한 줄 가사를 포함합니다. 기존 재생 버튼 영역에는 이제 현재 가사만 표시됩니다.
+- 컴퓨터 목록: 홈 화면과 일관된 둥근 카드, 픽셀 폰트, 촘촘한 간격으로 세 대의 컴퓨터 검색, 현재 컴퓨터 선택, 온라인/오프라인 상태를 시뮬레이션합니다. 선택된 행은 굵은 둥근 테두리를 사용합니다.
 
-## Running
+## 실행
 
-Run the `UI Simulator: Run` task in VS Code, or run this in a terminal:
+VS Code에서 `UI Simulator: Run` 작업을 실행하거나, 터미널에서 다음을 실행하세요:
 
 ```powershell
 & .\simulator\scripts\run.ps1
 ```
 
-The simulator is displayed at 2× scale; the logical resolution always stays 400×300.
+시뮬레이터는 2배 스케일로 표시되며, 논리 해상도는 항상 400×300을 유지합니다.
 
-The first build compiles LVGL; later builds only recompile the files that changed. To clear the CMake configuration cache, run:
+첫 빌드는 LVGL을 컴파일하며, 이후 빌드는 변경된 파일만 다시 컴파일합니다. CMake 설정 캐시를 지우려면 다음을 실행하세요:
 
 ```powershell
 & .\simulator\scripts\configure.ps1 -Fresh
 ```
 
-## Keyboard controls
+## 키보드 조작
 
-| Key | Function |
+| 키 | 기능 |
 | --- | --- |
-| `Space` | Switch between the status home screen and the computer performance screen |
-| `C` | Open the computer list |
-| `↑` / `↓` | Select a computer |
-| `Enter` | Confirm the current computer and return to the home screen |
-| `Esc` | Return to the home screen |
-| `R` | Cycle through the simulated Working/Waiting/Done states |
+| `Space` | 상태 홈 화면과 컴퓨터 성능 화면 전환 |
+| `C` | 컴퓨터 목록 열기 |
+| `↑` / `↓` | 컴퓨터 선택 |
+| `Enter` | 현재 컴퓨터 확정 후 홈 화면으로 복귀 |
+| `Esc` | 홈 화면으로 복귀 |
+| `R` | 시뮬레이션된 Working/Waiting/Done 상태 순환 |
 
-The computer list also supports click-to-highlight selection with the mouse. When porting to hardware, these actions map to the board's KEY button.
+컴퓨터 목록은 마우스 클릭으로 선택을 강조하는 것도 지원합니다. 하드웨어로 이식할 때는 이 동작들이 보드의 KEY 버튼에 매핑됩니다.
 
-## Project boundaries
+## 프로젝트 경계
 
-- `src/ui/`: portable LVGL UI code, later shared by the simulator and the ESP32 firmware.
-- `src/main.c`: Windows-only SDL2 startup and keyboard simulation.
-- `vendor/lvgl-9.5.0/`: locked LVGL dependency; not modified directly.
-- Build output goes to `C:\ai-panel-build\simulator`, so the Windows toolchain is not affected by non-ASCII build paths.
+- `src/ui/`: 이식 가능한 LVGL UI 코드로, 나중에 시뮬레이터와 ESP32 펌웨어가 공유합니다.
+- `src/main.c`: Windows 전용 SDL2 시작 및 키보드 시뮬레이션.
+- `vendor/lvgl-9.5.0/`: 고정된 LVGL 의존성으로, 직접 수정하지 않습니다.
+- 빌드 출력은 `C:\ai-panel-build\simulator`로 나가므로, Windows 툴체인이 비ASCII 빌드 경로의 영향을 받지 않습니다.
 
-Dynamic numbers use the LVGL built-in Latin font; the English home-screen text has already been converted to 1-bit embedded bitmaps and does not depend on the host system fonts. The CJK subset (ui_font_14_cjk) is still generated, so Chinese and Japanese song titles, artists and single lyric lines can be shown dynamically.
+동적 숫자는 LVGL 내장 라틴 폰트를 사용하며, 영어 홈 화면 텍스트는 이미 1비트 내장 비트맵으로 변환되어 호스트 시스템 폰트에 의존하지 않습니다. CJK 서브셋(ui_font_14_cjk)은 계속 생성되므로, 중국어와 일본어 노래 제목, 아티스트, 한 줄 가사를 동적으로 표시할 수 있습니다.
 
-## Monochrome assets
+## 흑백 에셋
 
-- `assets/source/music_ui_icons/`: image-generation sources for the clock, temperature/humidity, agent, playback, song, artist, network, computer, and battery icons on the current screen.
-- `assets/source/icons/` and the character images: spare assets from the previous version of the screen; the current home screen does not reference them.
-- `assets/generate_assets.py`: places the generated images, composites them with the English text and layout lines into a strict 400×300 1-bit base image, and then generates the LVGL C arrays; the script does not redraw icons with drawing code.
-- `assets/generate_assets.ps1`: the original Windows/System.Drawing generator, kept for reference. `generate_assets.py` is the portable equivalent used to produce the committed assets.
-- `src/assets/`: monochrome resources that can be linked directly into the simulator and later ported to the ESP32 firmware.
+- `assets/source/music_ui_icons/`: 현재 화면의 시계, 온습도, 에이전트, 재생, 노래, 아티스트, 네트워크, 컴퓨터, 배터리 아이콘의 이미지 생성 소스.
+- `assets/source/icons/`와 캐릭터 이미지: 이전 버전 화면의 예비 에셋으로, 현재 홈 화면은 참조하지 않습니다.
+- `assets/generate_assets.py`: 생성된 이미지를 배치하고 영어 텍스트와 레이아웃 선과 합성해 엄격한 400×300 1비트 베이스 이미지로 만든 뒤 LVGL C 배열을 생성합니다. 스크립트는 드로잉 코드로 아이콘을 다시 그리지 않습니다.
+- `assets/generate_assets.ps1`: 원래의 Windows/System.Drawing 생성기로, 참고용으로 유지합니다. `generate_assets.py`는 커밋된 에셋을 만드는 데 사용된 이식 가능한 동등 구현입니다.
+- `src/assets/`: 시뮬레이터에 직접 링크하고 나중에 ESP32 펌웨어로 이식할 수 있는 흑백 리소스.
 
-After changing an icon or the static layout, run `UI Assets: Regenerate` in VS Code, then run the simulator.
+아이콘이나 정적 레이아웃을 바꾼 뒤에는 VS Code에서 `UI Assets: Regenerate`를 실행한 뒤 시뮬레이터를 실행하세요.
 
-## Music data scope
+## 음악 데이터 범위
 
-The current UI uses "Chapter 7 of the Night" as NetEase Cloud Music preview data and shows only a single lyric line. The desktop Reporter later obtains the title, artist, playback state, and progress through the Windows system media session; the first version of lyrics support targets NetEase Cloud Music only, and other players do not provide lyrics yet.
+현재 UI는 NetEase Cloud Music 미리보기 데이터로 "Chapter 7 of the Night"을 사용하며, 한 줄 가사만 표시합니다. 데스크톱 Reporter는 나중에 Windows 시스템 미디어 세션을 통해 제목, 아티스트, 재생 상태, 진행률을 가져옵니다. 첫 버전의 가사 지원은 NetEase Cloud Music만 대상으로 하며, 다른 플레이어는 아직 가사를 제공하지 않습니다.

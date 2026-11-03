@@ -25,7 +25,7 @@ ES8311 DAC 출력 → PA 앰프 → 스피커 구간으로 좁혀졌습니다.
 | 리샘플링 | `Resampling audio from 24000 to 16000` | 정상 |
 | 코덱 기록 | `esp_codec_dev_write` 반환 0, 960 samples 기록 | 정상 |
 | PA 출력 래치 | GPIO46 출력 래치 = 1 (HIGH) | 정상 |
-| DAC 레지스터 | REG31=0x9f (음소거 아님), REG32=0xa8 (볼륨 정상), REG09/REG0A=0x0c (16 bit I2S) | 정상 |
+| DAC 레지스터 | REG31=0x9f (음소거 아님), REG32=0xa8 (볼륨 정상), REG09/REG0A=0x0c (16 bit I2S), REG0D=0x01 (factory와 동일) | 정상 |
 
 즉 **서버 · 네트워크 · 암호화 · 디코딩 · 리샘플링 · 코덱 API 호출까지는 문제가 없습니다.**
 

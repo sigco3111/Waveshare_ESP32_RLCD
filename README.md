@@ -87,6 +87,41 @@ Reporter는 HTTP `8765`, 검색 포트는 UDP `8766` 을 사용합니다. macOS�
 
 가사는 YouTube가 아니라 **NetEase Cloud Music API**에서 곡명·아티스트로 검색해 가져옵니다. 브라우저 제목에는 설명 문구가 섞여 있으므로 (`IU 'Love wins all' Live Clip (2024 TOUR ...)`) 인용부나 괄호 안의 곡명을 우선 추출해 검색합니다. 곡이 NetEase에 없으면 가사는 `No lyrics` 로 표시되고 나머지 정보는 정상 동작합니다.
 
+### 표시 언어
+
+보드 화면의 말풍선(Syna 대화)과 음악 정보는 **한글을 표시**합니다. 폰트에 한글 음절 11,172개를 포함하며, 한자와 일본어 글리프는 제외되어 있습니다.
+
+| 영역 | 표시 가능 | 비고 |
+| --- | --- | --- |
+| Syna 대화 말풍선 | 한글, 영문, 숫자 | 한글 음절 전체(가~힣) |
+| 음악 제목·아티스트·가사 | 한글, 영문, 숫자 | 한글로 된 곡 제목과 가사 |
+| 중국어·일본어 곡 제목 | **미표시** | 해당 글리프가 폰트에 없음 |
+| 상태 라벨 (`YouTube`, `NET`, `UP`, `DOWN` 등) | 영문 | 별도 폰트 사용 |
+
+한글을 넣고 한자·일본어를 뺀 이유는 용량입니다. Unifont 16px 에서 한자·한글·일본어 글리프는 모두 글자당 32 bytes 로 동일하므로, 한자·일본어를 빼고 그 자리를 한글로 채우면 용량이 거의 서로 상쇄됩니다. 실제 app 파티션 여유는 352 KB → 265 KB 로, 폰트 binary 는 327 KB → 377 KB 로 변했습니다.
+
+중국어·일본어 곡 제목을 표시해야 한다면 `simulator/assets/fonts/cjk-codepoints.json` 에 해당 블록을 되돌리고 `simulator/assets/generate_ui_fonts.py` 를 다시 돌린 뒤 펌웨어를 재빌드하세요. 다만 app 파티션 여유가 줄어들며, 용량을 넘으면 부팅에 실패할 수 있습니다.
+
+### 폰트 재생성
+
+코드포인트 목록은 스크립트로 생성합니다. 수동으로 JSON 을 고치지 마세요.
+
+```bash
+cd simulator/assets
+python3 generate_cjk_codepoints.py     # cjk-codepoints.json 재생성
+python3 generate_ui_fonts.py            # ui_font_*.c 재생성 (Pillow + fontTools 필요)
+```
+
+`generate_cjk_codepoints.py` 는 `fonts/cjk-codepoints.base.json` 을 출발점으로 삼습니다. 이 base 목록을 보존해야 기호·화살표·상자그림 글리프가 화면에서 사라지지 않습니다. 한자와 일본어를 제외하는 블록 목록은 스크립트 안의 `HAN_BLOCKS` 와 `KANA_BLOCKS` 에서 조정합니다.
+
+한글 렌더를 시뮬레이터에서 확인하려면:
+
+```bash
+cd simulator
+AI_PANEL_MEDIA_DEMO=ko AI_PANEL_KOREAN_DEMO=1 AI_PANEL_START_PAGE=syna \
+  AI_PANEL_SCREENSHOT_PATH=/tmp/korean.png ./build/bin/ai_panel_simulator
+```
+
 ## 소스 구성
 
 | 디렉토리 | 내용 |
@@ -99,6 +134,8 @@ Reporter는 HTTP `8765`, 검색 포트는 UDP `8766` 을 사용합니다. macOS�
 | `release/` | 릴리스 서명 도구, 공개키, 서드파티 라이선스 |
 
 펌웨어는 **ESP-IDF 6.0.2** 기반입니다.
+
+`simulator/assets/` 는 화면용 폰트와 이미지를 함께 관리합니다. 폰트 생성기는 시뮬레이터와 펌웨어 양쪽에 같은 C 배열을 쓰며, `simulator/src/assets/ui_font_14_cjk.c` 와 `xiaozhi/overlay/main/boards/waveshare/esp32-s3-rlcd-4.2/ui_font_14_cjk.c` 는 항상 같은 내용이어야 합니다. 한쪽만 갱신하면 기기와 시뮬레이터의 화면이 달라집니다.
 
 빌드 진입점: [빌드 가이드](docs/BUILD.md), 알려진 제한 사항: [릴리스 체크리스트](docs/RELEASE_CHECKLIST.md).
 

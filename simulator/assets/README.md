@@ -33,3 +33,33 @@ python3 simulator/assets/generate_assets.py
 생성기는 이식 가능하며 Pillow와 내장 LVGL 이미지 변환기가 필요합니다(변환기용으로 `pypng`와 `lz4`, `PATH`상의 `pngquant`).
 
 출력물에는 `generated/screen_base.png`와 직접 링크할 수 있는 `src/assets/`의 LVGL 1비트 C 배열이 포함됩니다.
+
+## 폰트 재생성
+
+```bash
+cd simulator/assets
+python3 generate_cjk_codepoints.py    # fonts/cjk-codepoints.json 재생성
+python3 generate_ui_fonts.py           # ui_font_*.c 재생성 (Pillow + fontTools 필요)
+```
+
+### CJK 코드포인트 목록
+
+`fonts/cjk-codepoints.json` 은 `ui_font_14_cjk` 가 어떤 글자를 그릴 수 있는지 정합니다. **직접 편집하지 말고 스크립트로 만드세요.**
+
+- `fonts/cjk-codepoints.base.json` — 출발점. 한자와 일본어를 제거하기 전의 원본 목록입니다. 이 파일을 보존해야 기호·화살표·상자그림 글리프가 유지됩니다.
+- `generate_cjk_codepoints.py` — base 목록에서 한자(`HAN_BLOCKS`)와 일본어(`KANA_BLOCKS`)를 빼고, 한글 음절·자모 전체를 넣습니다.
+
+현재 목록에는 **한글 완성형 음절 11,172개가 모두 들어 있습니다.** 한자와 일본어를 뺀 이유는 용량입니다. Unifont 16px 에서 한자·한글·일본어 글리프의 크기가 모두 32 bytes 로 같아, 한자·일본어를 빼고 그 자리를 한글로 채우면 크기가 거의 상쇄됩니다.
+
+한자나 일본어가 다시 필요하면 `HAN_BLOCKS` / `KANA_BLOCKS` 를 고쳐 스크립트를 다시 돌리고, 이어서 `generate_ui_fonts.py` 를 실행하세요. 그 다음 `simulator/src/assets/` 와 `xiaozhi/overlay/main/boards/waveshare/esp32-s3-rlcd-4.2/` 양쪽의 `ui_font_14_cjk.c` 가 같은 내용인지 확인해야 합니다.
+
+### 한글 렌더 확인
+
+```bash
+cd simulator
+AI_PANEL_MEDIA_DEMO=ko AI_PANEL_KOREAN_DEMO=1 AI_PANEL_START_PAGE=syna \
+  AI_PANEL_SCREENSHOT_PATH=/tmp/korean.png ./build/bin/ai_panel_simulator
+```
+
+`AI_PANEL_MEDIA_DEMO=ko` 는 음악 영역에, `AI_PANEL_KOREAN_DEMO=1` 은 Syna 말풍선에 한글을 넣습니다.
+

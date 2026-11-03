@@ -1,5 +1,9 @@
 # Syna
 
+<p align=center>
+  <img width=900 src="docs/screenshot.png" alt="Syna 보드 화면 — 성능, 에이전트 상태, 대역폭 표시">
+</p>
+
 Waveshare ESP32-S3-RLCD-4.2 데스크톱 어시스턴트와 Windows / macOS Reporter 동반 프로그램입니다.
 
 현재 버전: **1.0.0 릴리스 후보**.

@@ -242,19 +242,42 @@ void ReporterService::CloseSocket() {
 }
 
 void ReporterService::SendDiscovery(int64_t now_ms) {
-    sockaddr_in destination = {};
-    destination.sin_family = AF_INET;
-    destination.sin_port = htons(kDiscoveryPort);
-    destination.sin_addr.s_addr = htonl(INADDR_BROADCAST);
     char request[128];
     const int request_length = snprintf(
         request, sizeof(request),
         "{\"type\":\"%s\",\"board_id\":\"%s\"}",
         kDiscoveryRequest, board_id_);
-    const int result = sendto(socket_, request, request_length, 0,
-                              reinterpret_cast<sockaddr*>(&destination),
-                              sizeof(destination));
-    if (result < 0) ESP_LOGD(kTag, "discovery send failed: errno=%d", errno);
+
+    // Send to both the limited broadcast address and the subnet broadcast
+    // address. The limited address (255.255.255.255) is rejected with
+    // ENETUNREACH on some hosts when the Reporter runs as a background
+    // service and a VPN tunnel owns the default route, so the subnet
+    // broadcast is the address that actually reaches it there.
+    uint32_t subnet_broadcast = 0;
+    esp_netif_t* netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+    esp_netif_ip_info_t ip = {};
+    if (netif != nullptr && esp_netif_get_ip_info(netif, &ip) == ESP_OK &&
+        ip.ip.addr != 0 && ip.netmask.addr != 0) {
+        subnet_broadcast = ip.ip.addr | ~ip.netmask.addr;
+    }
+
+    const uint32_t destinations[] = {
+        htonl(INADDR_BROADCAST),
+        htonl(subnet_broadcast),
+    };
+    for (const uint32_t address : destinations) {
+        if (address == 0) continue;
+        sockaddr_in destination = {};
+        destination.sin_family = AF_INET;
+        destination.sin_port = htons(kDiscoveryPort);
+        destination.sin_addr.s_addr = address;
+        const int result = sendto(socket_, request, request_length, 0,
+                                  reinterpret_cast<sockaddr*>(&destination),
+                                  sizeof(destination));
+        if (result < 0) {
+            ESP_LOGD(kTag, "discovery send to %u failed: errno=%d", address, errno);
+        }
+    }
     last_discovery_ms_ = now_ms;
 }
 

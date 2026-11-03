@@ -17,21 +17,38 @@ LABEL = "local.syna.reporter"
 
 def service_definition(python: Path, entry: Path) -> dict:
     root = application_data_dir()
-    environment = {"SYNA_REPORTER_DATA_DIR": str(root), "PYTHONUNBUFFERED": "1"}
+    environment = {
+        "SYNA_REPORTER_DATA_DIR": str(root),
+        "PYTHONUNBUFFERED": "1",
+    }
     codex = codex_executable()
     if codex:
         environment["SYNA_CODEX_EXECUTABLE"] = codex
+    launcher = entry.parent / "start_background.command"
+    watchdog = entry.parent / "keep_alive.command"
     return {
         "Label": LABEL,
-        "ProgramArguments": [str(python), str(entry), "--no-supervisor"],
+        # macOS applies the local network privacy control per process. A
+        # Reporter that launchd starts in the background session receives LAN
+        # packets but cannot send to a peer on the local network: every send
+        # fails with ENETUNREACH (errno 65), so the panel never receives the
+        # discovery reply and the screen keeps showing stale data.
+        # Launching the Reporter through the GUI login session keeps the
+        # local network permission of that session.
+        #
+        # /bin/open returns as soon as the launcher is scheduled, so the job
+        # would be restarted by KeepAlive in a tight loop. The watchdog stays
+        # alive instead and re-launches the Reporter only when it is gone.
+        "ProgramArguments": [str(watchdog)],
         "WorkingDirectory": str(entry.parent),
         "RunAtLoad": True,
         "KeepAlive": True,
-        "ThrottleInterval": 10,
+        "ThrottleInterval": 30,
         "EnvironmentVariables": environment,
         "StandardOutPath": str(root / "launchd.stdout.log"),
         "StandardErrorPath": str(root / "launchd.stderr.log"),
         "ProcessType": "Background",
+        "LimitLoadToSessionType": "Aqua",
     }
 
 

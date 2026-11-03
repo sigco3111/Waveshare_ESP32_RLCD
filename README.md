@@ -90,6 +90,26 @@ Reporter는 UDP 브로드캐스트로 보드를 찾으므로 **보드와 같은 
 
 Reporter는 HTTP `8765`, 검색 포트는 UDP `8766` 을 사용합니다. macOS에서는 `reporter/start.command`, Windows에서는 `reporter/start.ps1` 로 실행합니다.
 
+### macOS 로그인 시 자동 실행
+
+`reporter/macos_service.py` 로 부팅 시 자동 실행을 등록합니다.
+
+```bash
+cd reporter
+.venv-macos/bin/python macos_service.py install   # 등록 + 시작
+.venv-macos/bin/python macos_service.py status    # 상태 확인
+.venv-macos/bin/python macos_service.py stop      # 중지 (다음 로그인 때 다시 시작)
+.venv-macos/bin/python macos_service.py uninstall # 로그인 시작 제거 (설정·로그는 유지)
+```
+
+자동 실행은 `keep_alive.command` 가 담당합니다. Reporter가 죽으면 감시 스크립트가 다시 띄우고, 부팅할 때마다 로그인 세션에서 실행되므로 복구 지연은 최대 약 30 초입니다.
+
+> **macOS 로컬 네트워크 권한**
+>
+> macOS는 프로세스별로 로컬 네트워크 접근 권한을 적용합니다. launchd 백그라운드 세션에서 직접 실행된 Reporter는 LAN 패킷을 **받을 수는 있지만** 같은 네트워크의 상대에게는 **보내지 못합니다** (`ENETUNREACH`, errno 65). 보드는 Reporter가 UDP 검색에 응답해야 연결되므로, 이 상태에서는 화면에 정보가 갱신되지 않고 이전 값이 남습니다.
+>
+> 그래서 Reporter는 **로그인(GUI) 세션**에서 실행해야 합니다. `keep_alive.command` 는 `open` 으로 GUI 세션에서 `start_background.command` 를 띄우므로 이 조건을 만족합니다. `macos_service.py install` 이 하는 일은 이 감시 스크립트를 등록하는 것뿐입니다.
+
 ### 음악 표시
 
 <p align=center>

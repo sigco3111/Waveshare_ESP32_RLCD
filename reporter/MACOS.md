@@ -125,6 +125,12 @@ Access to the Desktop directory is managed by macOS; if the background start is 
 .venv-macos/bin/python macos_service.py uninstall  # stop and remove the login start, keep config and logs
 ```
 
+#### Why the service runs a watchdog instead of the Reporter directly
+
+macOS applies the local network privacy control per process. A Reporter that launchd starts in the background session can receive LAN packets but cannot send to a peer on the local network: every send fails with `ENETUNREACH` (errno 65). The panel discovers the Reporter by UDP broadcast and only connects when the reply comes back, so in that state the service looks healthy on HTTP `8765` while every panel stays offline and the screen keeps the last values.
+
+The service therefore registers `keep_alive.command`, a watchdog that stays alive under launchd and launches the Reporter through the GUI login session with `open`, which keeps the local network permission of that session. The watchdog re-launches the Reporter when it is gone, so a crash is recovered within about 30 seconds.
+
 The launchd plist parameters have been tested; user login, auto-start, system permission dialogs, and sleep/wake still need verification in a real environment.
 
 ## Configuration, Logs, and Codex Paths

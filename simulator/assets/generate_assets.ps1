@@ -306,12 +306,15 @@ $performanceLatin12 = New-PixelFont 'Consolas' 12
 
 $textSystemPerformance = 'PERFORMANCE'
 $textRealtimeStatus = 'LIVE STATUS'
-$textCpuTemperature = 'CPU TEMP'
-$textGpuTemperature = 'GPU TEMP'
+$textCpuTemperature = 'CPU'
+$textGpuTemperature = 'GPU'
 $textHostHealthy = 'HOST OK'
-$textNetworkLatency = 'NET LATENCY'
-$textUpload = 'UPLOAD'
-$textDownload = 'DOWNLOAD'
+# 'NET LATENCY'/'UPLOAD'/'DOWNLOAD' 는 숫자와 겹친다(각각 70/63/97px).
+# 'NET'/'UP'/'DOWN' 로 축약하고, 펌웨어 숫자 라벨도 같은 열에 맞춰
+# 우측 정렬로 밀어 넣는다 (숫자 박스 우측 끝 382).
+$textNetworkLatency = 'NET'
+$textUpload = 'UP'
+$textDownload = 'DOWN'
 
 try {
     Draw-RoundedOutline $performanceGraphics $performancePen 6 7 388 50 11
@@ -347,10 +350,10 @@ try {
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Network ([System.Drawing.Rectangle]::new(268, 123, 16, 17))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Upload ([System.Drawing.Rectangle]::new(269, 145, 14, 17))
     Draw-GeneratedAsset $performanceGraphics $performanceIcons.Download ([System.Drawing.Rectangle]::new(269, 167, 14, 17))
-    Draw-Text $performanceGraphics $textHostHealthy $performanceArial12 291 103
-    Draw-Text $performanceGraphics $textNetworkLatency $performanceArial12 291 124
-    Draw-Text $performanceGraphics $textUpload $performanceArial12 291 146
-    Draw-Text $performanceGraphics $textDownload $performanceArial12 291 168
+    Draw-Text $performanceGraphics $textHostHealthy $performanceArial12 286 103
+    Draw-Text $performanceGraphics $textNetworkLatency $performanceArial12 286 124
+    Draw-Text $performanceGraphics $textUpload $performanceArial12 286 146
+    Draw-Text $performanceGraphics $textDownload $performanceArial12 286 168
 
     $graphPen = [System.Drawing.Pen]::new([System.Drawing.Color]::Black, 1)
     try {

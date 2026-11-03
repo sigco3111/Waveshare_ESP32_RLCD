@@ -18,6 +18,7 @@ simulator/assets/generated/
 *.log
 .DS_Store
 .vscode/
+simulator/.cache/
 # Private runtime data and signing keys
 .env
 .env.*

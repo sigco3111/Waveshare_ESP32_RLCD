@@ -7,3 +7,27 @@
 5. Xiaozhi 콘솔은 음성 대화 설정용입니다. 컴퓨터 성능, 에이전트, 음악 데이터에는 컴퓨터 측 Reporter가 필요하며, 보드에서도 컴퓨터를 선택해야 합니다.
 
 활성화 코드가 없으면 먼저 기기가 이미 온라인인지 확인하세요. 이미 정상적으로 대화할 수 있는 기기는 대개 다시 활성화할 필요가 없습니다. 콘솔 항목 이름은 웹 페이지에 실제 표시되는 대로 따릅니다.
+
+바인딩이 완료되면 보드 상태가 `activating → idle` 로 바뀌며, 재부팅 후에도 유지됩니다.
+
+## MiniMax 잔액 설정
+
+Xiaozhi 콘솔과 별개로, 보드 화면의 잔액 표시를 채우려면 보드 설정 페이지의 **API Balance** 항목에서 MiniMax API를 직접 지정해야 합니다. MiniMax를 지정해도 AI 음성 대화는 Xiaozhi 클라우드를 그대로 사용합니다.
+
+| 항목 | 값 |
+| --- | --- |
+| Provider Display Name | `MiniMax` |
+| API Base URL | `https://api.minimax.io/v1` |
+| API Key | MiniMax에서 발급한 키 |
+| Balance Fetch Method | `Custom HTTP endpoint` |
+| Balance Endpoint URL | `https://api.minimax.io/v1/token_plan/remains` |
+| Request Method | `GET` |
+| Authentication | `Bearer` |
+| Header / Parameter Name | `Authorization` |
+| Balance JSON Path | `model_remains[0].current_weekly_remaining_percent` |
+| Fixed Unit | `%` |
+| Numeric Scale | `1` |
+| Unit JSON Path | 비움 |
+| POST JSON | 비움 |
+
+`model_remains` 는 배열이므로 `Balance JSON Path` 에 `[0]` 인덱스를 반드시 넣어야 합니다. 빠지면 화면에 `--` 만 표시됩니다.

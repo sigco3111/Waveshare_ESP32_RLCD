@@ -262,8 +262,10 @@ def build_performance_base():
                                  (166, 16, 29, 32)), (166, 16))
     paste(screen, crop_and_scale(PERFORMANCE_SHEET, PERFORMANCE_ICONS['GpuTemperature'],
                                  (272, 17, 38, 30)), (272, 17))
-    draw_text(screen, 'CPU TEMP', arial12, 201, 16)
-    draw_text(screen, 'GPU TEMP', arial12, 319, 16)
+    # 라벨은 'CPU'/'GPU'로 축약한다. 'CPU TEMP'(폭 62px)를 쓰면 아이콘 오른쪽
+    # (196)부터 구분선(262)까지의 66px 창을 넘겨 구분선과 겹친다.
+    draw_text(screen, 'CPU', arial12, 201, 16)
+    draw_text(screen, 'GPU', arial12, 319, 16)
 
     paste(screen, crop_and_scale(PERFORMANCE_SHEET, PERFORMANCE_ICONS['Performance'],
                                  (17, 75, 20, 15)), (17, 75))
@@ -291,10 +293,13 @@ def build_performance_base():
                                  (269, 145, 14, 17)), (269, 145))
     paste(screen, crop_and_scale(PERFORMANCE_SHEET, PERFORMANCE_ICONS['Download'],
                                  (269, 167, 14, 17)), (269, 167))
-    draw_text(screen, 'HOST OK', arial12, 291, 103)
-    draw_text(screen, 'NET LATENCY', arial12, 291, 124)
-    draw_text(screen, 'UPLOAD', arial12, 291, 146)
-    draw_text(screen, 'DOWNLOAD', arial12, 291, 168)
+    draw_text(screen, 'HOST OK', arial12, 286, 103)
+    # 'NET LATENCY'/'UPLOAD'/'DOWNLOAD' 는 숫자와 겹친다(각각 70/63/97px).
+    # 'NET'/'UP'/'DOWN' 로 축약하고, 펌웨어 숫자 라벨도 같은 열에 맞춰
+    # 우측 정렬로 밀어 넣는다 (숫자 박스 우측 끝 382).
+    draw_text(screen, 'NET', arial12, 286, 124)
+    draw_text(screen, 'UP', arial12, 286, 146)
+    draw_text(screen, 'DOWN', arial12, 286, 168)
 
     dashed_line(draw, 196, 187, 386, 187, dash=6, gap=4)
     dashed_line(draw, 196, 187, 196, 246, dash=6, gap=4)

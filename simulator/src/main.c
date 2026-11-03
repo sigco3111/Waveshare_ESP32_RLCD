@@ -170,7 +170,11 @@ int main(void)
     bool screenshot_saved = false;
     const char *auto_close_value = getenv("AI_PANEL_AUTOCLOSE_MS");
     const char *screenshot_path = getenv("AI_PANEL_SCREENSHOT_PATH");
+    const char *screenshot_delay_value = getenv("AI_PANEL_SCREENSHOT_DELAY_MS");
     if(auto_close_value != NULL) auto_close_ms = (uint32_t)strtoul(auto_close_value, NULL, 10);
+    uint32_t screenshot_delay_ms = 200U;
+    if(screenshot_delay_value != NULL)
+        screenshot_delay_ms = (uint32_t)strtoul(screenshot_delay_value, NULL, 10);
 
     while(true) {
         process_pending_commands();
@@ -183,7 +187,7 @@ int main(void)
 
         uint32_t delay_ms = lv_timer_handler();
 
-        if(!screenshot_saved && screenshot_path != NULL && now - started_at >= 200U) {
+        if(!screenshot_saved && screenshot_path != NULL && now - started_at >= screenshot_delay_ms) {
             lv_refr_now(display);
             if(save_screenshot(display, screenshot_path) != 0) {
                 SDL_Log("Could not save simulator screenshot to %s: %s", screenshot_path, SDL_GetError());

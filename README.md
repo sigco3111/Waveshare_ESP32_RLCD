@@ -81,6 +81,12 @@ Reporter는 UDP 브로드캐스트로 보드를 찾으므로 **보드와 같은 
 
 Reporter는 HTTP `8765`, 검색 포트는 UDP `8766` 을 사용합니다. macOS에서는 `reporter/start.command`, Windows에서는 `reporter/start.ps1` 로 실행합니다.
 
+### 음악 표시
+
+대시보드의 음악 칸은 **YouTube 등 브라우저 재생 정보**를 표시합니다. Reporter가 macOS `MediaRemote` / Windows `GlobalSystemMediaTransportControls` 에 등록된 Now Playing 정보를 읽어 곡명, 아티스트, 재생 위치, 가사를 보냅니다.
+
+가사는 YouTube가 아니라 **NetEase Cloud Music API**에서 곡명·아티스트로 검색해 가져옵니다. 브라우저 제목에는 설명 문구가 섞여 있으므로 (`IU 'Love wins all' Live Clip (2024 TOUR ...)`) 인용부나 괄호 안의 곡명을 우선 추출해 검색합니다. 곡이 NetEase에 없으면 가사는 `No lyrics` 로 표시되고 나머지 정보는 정상 동작합니다.
+
 ## 소스 구성
 
 | 디렉토리 | 내용 |

@@ -355,6 +355,53 @@ def _normalized(value: str) -> str:
     return "".join(character for character in value if character.isalnum())
 
 
+# Browser titles carry extra prose around the actual song name, for example
+# "IU 'Love wins all' Live Clip (2024 TOUR CONCERT ENCORE : THE WINNING)".
+# Quoted spans are the most reliable song-name signal, so try them first and
+# fall back to progressively cleaned variants.
+_NOISE_KEYWORDS = re.compile(
+    r"\bofficial\b|\b(?:music\s+)?video\b|\blyrics?\b|\baudio\b|\bonly\b"
+    r"|\blive\s+clip\b|\bhd\b|\bhq\b|\bmv\b",
+    re.IGNORECASE,
+)
+_TITLE_SUFFIX = re.compile(
+    r"\s+(?:official\s+)?(?:music\s+)?video\b.*$"
+    r"|\s+lyrics?\b.*$"
+    r"|\s+official\s+audio\b.*$"
+    r"|\s+audio\s+only\b.*$"
+    r"|\s+live\s+clip\b.*$"
+    r"|\s+mv\b.*$",
+    re.IGNORECASE,
+)
+
+
+def _strip_marketing_noise(title: str) -> str:
+    """Remove bracketed marketing noise and trailing video/lyric suffixes."""
+
+    def bracket(match: re.Match[str]) -> str:
+        # Keep a bracketed span unless it only carries marketing wording.
+        return " " if _NOISE_KEYWORDS.search(match.group(0)) else " " + match.group(0)
+
+    value = re.sub(r"\([^)]*\)|\[[^\]]*\]", bracket, title)
+    value = _TITLE_SUFFIX.sub("", value)
+    return re.sub(r"\s+", " ", value).strip(" -–—|·,")
+
+
+def _title_candidates(title: str) -> list[str]:
+    """Return progressively cleaner song-name candidates for a media title."""
+    candidates: list[str] = []
+
+    def add(value: str) -> None:
+        value = _strip_marketing_noise(value)
+        if value and _normalized(value) not in {_normalized(c) for c in candidates}:
+            candidates.append(value)
+
+    for quoted in re.findall(r"'([^']{2,80})'|\"([^\"]{2,80})\"", title):
+        add(quoted[0] or quoted[1])
+    add(title)
+    return candidates
+
+
 def _artists(song: dict[str, Any]) -> list[str]:
     artists = song.get("artists") or song.get("ar") or []
     return [str(item.get("name") or "") for item in artists if isinstance(item, dict)]
@@ -367,6 +414,8 @@ def _matches(song: dict[str, Any], title: str, artist: str) -> bool:
     if not wanted_artist:
         return True
     actual = _normalized(" ".join(_artists(song)))
+    if not actual:
+        return True
     return wanted_artist in actual or actual in wanted_artist
 
 
@@ -444,13 +493,26 @@ class NeteaseLyricsResolver:
         return None
 
     def _search_song(self, title: str, artist: str) -> int | None:
-        body = urllib.parse.urlencode(
-            {"s": f"{title} {artist}".strip(), "type": 1, "limit": 30, "offset": 0}
-        ).encode("utf-8")
-        data = self._get_json("https://music.163.com/api/search/get", body)
-        for song in (data.get("result") or {}).get("songs") or []:
-            if _matches(song, title, artist):
-                return int(song["id"])
+        # Browser titles carry extra prose, so try the cleaned song-name
+        # candidates from the most specific to the least specific. The query
+        # uses the candidate alone: appending the artist makes the search
+        # backend split the title into unrelated fragments.
+        for candidate in _title_candidates(title):
+            body = urllib.parse.urlencode(
+                {"s": candidate, "type": 1, "limit": 30, "offset": 0}
+            ).encode("utf-8")
+            try:
+                data = self._get_json("https://music.163.com/api/search/get", body)
+            except Exception:
+                continue
+            songs = (data.get("result") or {}).get("songs") or []
+            for song in songs:
+                if _matches(song, candidate, artist):
+                    return int(song["id"])
+            # Relax the artist requirement when only the title matches.
+            for song in songs:
+                if _normalized(str(song.get("name") or "")) == _normalized(candidate):
+                    return int(song["id"])
         return None
 
     @staticmethod
@@ -524,7 +586,16 @@ class NeteaseMediaMonitor:
             None,
         )
         if session is None and precise is None:
-            return MediaSnapshot(updated_at=int(time.time()))
+            # Fall back to any media session so browser playback (YouTube and
+            # friends) is reported on Windows as well. The session title and
+            # artist are only used when the precise reader has none.
+            session = next(
+                (
+                    item for item in (manager.get_sessions() if manager is not None else [])
+                    if item.source_app_user_model_id
+                ),
+                None,
+            )
         try:
             title = str((precise or {}).get("title") or "").strip()
             artist = str((precise or {}).get("artist") or "").strip()

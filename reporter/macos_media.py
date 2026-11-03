@@ -1,9 +1,10 @@
 # Syna project-specific code and modifications: Copyright (c) 2026 Heimu.
 # SPDX-License-Identifier: MIT; third-party notices remain applicable.
-"""Read-only NetEase Now Playing bridge. No UI scripting or player control.
+"""Read-only Now Playing bridge. No UI scripting or player control.
 
-MediaRemote is a private, version-dependent API. Only the selected NetEase
-player is accepted; unavailable/foreign media clears the result.
+MediaRemote is a private, version-dependent API. Any application that registers
+Now Playing metadata is accepted, so browser playback (YouTube and friends) and
+native players are reported. Unavailable/foreign media clears the result.
 """
 from __future__ import annotations
 
@@ -19,21 +20,16 @@ _SCRIPT = r'''
 ObjC.import('AppKit');
 function run() {
     try {
-        const apps = $.NSWorkspace.sharedWorkspace.runningApplications;
-        let running = false;
-        for (let i = 0; i < apps.count; i++) {
-            if (ObjC.unwrap(apps.objectAtIndex(i).bundleIdentifier) === 'com.netease.163music') {
-                running = true; break;
-            }
-        }
-        if (!running) return '{}';
         $.NSBundle.bundleWithPath('/System/Library/PrivateFrameworks/MediaRemote.framework/').load;
         const request = $.NSClassFromString('MRNowPlayingRequest');
         const path = request.localNowPlayingPlayerPath;
+        if (!path) return '{}';
         const bundle = ObjC.unwrap(path.client.bundleIdentifier);
-        if (bundle !== 'com.netease.163music') return '{}';
+        if (!bundle) return '{}';
         const item = request.localNowPlayingItem;
+        if (!item) return '{}';
         const info = item.nowPlayingInfo;
+        if (!info) return '{}';
         function field(name) { return ObjC.unwrap(info.valueForKey('kMRMediaRemoteNowPlayingInfo' + name)); }
         return JSON.stringify({
             bundle: bundle,
@@ -54,7 +50,7 @@ class MacNeteaseTimeline:
 
     @staticmethod
     def normalize(data: Any) -> dict[str, Any] | None:
-        if not isinstance(data, dict) or data.get('bundle') != 'com.netease.163music':
+        if not isinstance(data, dict) or not data.get('bundle'):
             return None
         title = str(data.get('title') or '').strip()
         if not title:

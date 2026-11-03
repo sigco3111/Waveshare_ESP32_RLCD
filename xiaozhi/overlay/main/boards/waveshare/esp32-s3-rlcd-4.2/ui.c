@@ -471,7 +471,7 @@ void ui_show_dashboard(void)
         screen, "Not playing", &ui_font_14_cjk, 222, 82);
     lv_obj_set_size(dashboard_media_status_label, 77, 18);
     dashboard_media_title_label = make_label(
-        screen, "NetEase Music", &ui_font_14_cjk, 257, 116);
+        screen, "YouTube", &ui_font_14_cjk, 257, 116);
     lv_label_set_long_mode(dashboard_media_title_label, LV_LABEL_LONG_CLIP);
     lv_obj_set_size(dashboard_media_title_label, 124, 18);
     dashboard_media_artist_label = make_label(
@@ -1172,7 +1172,7 @@ void ui_update_media(bool available, const char *status, const char *title,
     }
     if(dashboard_media_title_label != NULL) {
         lv_label_set_text(dashboard_media_title_label,
-                          available && title != NULL && title[0] ? title : "NetEase Music");
+                          available && title != NULL && title[0] ? title : "YouTube");
     }
     if(dashboard_media_artist_label != NULL) {
         lv_label_set_text(dashboard_media_artist_label,

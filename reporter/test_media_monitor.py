@@ -9,6 +9,8 @@ import threading
 from media_monitor import lyric_at, parse_lrc, NeteaseLocalState
 from media_monitor import DESKTOP_LYRICS_TITLE, NETEASE_APP_TITLE
 from media_monitor import NeteaseMediaMonitor
+from media_monitor import NeteaseLyricsResolver, _title_candidates
+from macos_media import MacNeteaseTimeline
 from unittest.mock import patch, Mock
 
 
@@ -158,6 +160,77 @@ class LyricsTests(unittest.TestCase):
 
     def test_empty_lyrics(self):
         self.assertEqual("No lyrics", lyric_at([], 10))
+
+
+class BrowserTitleTests(unittest.TestCase):
+    """Browser media titles carry prose around the real song name."""
+
+    def test_quoted_song_name_is_preferred(self):
+        title = "IU 'Love wins all' Live Clip (2024 TOUR CONCERT ENCORE : THE WINNING)"
+        candidates = _title_candidates(title)
+        self.assertEqual("Love wins all", candidates[0])
+
+    def test_parens_and_brackets_are_stripped(self):
+        title = "'모두 잠든 후에' [김원준] 시티팝 여자 커버"
+        candidates = _title_candidates(title)
+        self.assertEqual("모두 잠든 후에", candidates[0])
+        self.assertNotIn("[", candidates[0])
+        self.assertNotIn("(", candidates[0])
+
+    def test_official_video_suffix_is_removed(self):
+        title = "Some Song - Artist Official Video"
+        self.assertIn("Some Song - Artist", _title_candidates(title))
+
+    def test_plain_title_still_produces_candidate(self):
+        self.assertEqual("Plain Song", _title_candidates("Plain Song")[0])
+
+    def test_search_query_uses_song_name_without_artist(self):
+        resolver = NeteaseLyricsResolver()
+        song = {"id": 42, "name": "Love wins all", "artists": [{"name": "IU"}]}
+        with patch.object(resolver, "_get_json", return_value={"result": {"songs": [song]}}) as get_json:
+            found = resolver._search_song("IU 'Love wins all' Live Clip", "IU")
+        self.assertEqual(42, found)
+        body = get_json.call_args.args[1].decode("utf-8")
+        self.assertIn("s=Love+wins+all", body)
+        self.assertNotIn("IU", body)
+
+    def test_search_falls_back_to_title_only_match(self):
+        resolver = NeteaseLyricsResolver()
+        song = {"id": 7, "name": "Cover Song", "artists": [{"name": "Other Artist"}]}
+        with patch.object(resolver, "_get_json", return_value={"result": {"songs": [song]}}):
+            found = resolver._search_song("Cover Song", "Reina&Mika")
+        self.assertEqual(7, found)
+
+
+class MacMediaTests(unittest.TestCase):
+    def test_any_bundle_is_accepted(self):
+        sample = {
+            "bundle": "com.google.Chrome",
+            "title": "IU 'Love wins all' Live Clip",
+            "artist": "IU Official",
+            "duration": 385.3,
+            "rate": 1,
+            "position": 139.9,
+        }
+        normalized = MacNeteaseTimeline.normalize(sample)
+        self.assertIsNotNone(normalized)
+        self.assertEqual("IU 'Love wins all' Live Clip", normalized["title"])
+        self.assertEqual("playing", normalized["playback_status"])
+
+    def test_netease_bundle_is_still_accepted(self):
+        sample = {
+            "bundle": "com.netease.163music",
+            "title": "Love wins all",
+            "artist": "IU",
+            "duration": 200.0,
+            "rate": 1,
+            "position": 10.0,
+        }
+        self.assertIsNotNone(MacNeteaseTimeline.normalize(sample))
+
+    def test_missing_title_is_rejected(self):
+        self.assertIsNone(MacNeteaseTimeline.normalize({"bundle": "com.google.Chrome", "title": ""}))
+        self.assertIsNone(MacNeteaseTimeline.normalize({}))
 
 
 if __name__ == "__main__":

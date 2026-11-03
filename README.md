@@ -80,6 +80,10 @@ MiniMax API 키를 넣으면 **화면의 잔액 표시**가 채워집니다. AI 
 
 ## Reporter 연결
 
+<p align=center>
+  <img width=900 src="docs/screenshot-computers.png" alt="컴퓨터 목록 화면 — 발견된 컴퓨터와 에이전트 상태">
+</p>
+
 화면의 CPU·메모리 그래프와 네트워크 수치는 컴퓨터 측 Reporter가 제공합니다.
 
 Reporter는 UDP 브로드캐스트로 보드를 찾으므로 **보드와 같은 L2 네트워크**에 있어야 합니다. 서로 다른 서브넷에 두면 검색되지 않습니다. 공유기를 쓰는 경우 보드와 컴퓨터를 모두 2.4 GHz 대역의 같은 공유기에 연결하세요.
@@ -93,6 +97,10 @@ Reporter는 HTTP `8765`, 검색 포트는 UDP `8766` 을 사용합니다. macOS�
 가사는 YouTube가 아니라 **NetEase Cloud Music API**에서 곡명·아티스트로 검색해 가져옵니다. 브라우저 제목에는 설명 문구가 섞여 있으므로 (`IU 'Love wins all' Live Clip (2024 TOUR ...)`) 인용부나 괄호 안의 곡명을 우선 추출해 검색합니다. 곡이 NetEase에 없으면 가사는 `No lyrics` 로 표시되고 나머지 정보는 정상 동작합니다.
 
 ### 표시 언어
+
+<p align=center>
+  <img width=900 src="docs/screenshot-syna.png" alt="Syna 대화 화면 — 한글 말풍선과 오늘의 할 일">
+</p>
 
 보드 화면의 말풍선(Syna 대화)과 음악 정보는 **한글을 표시**합니다. 폰트에 한글 음절 11,172개를 포함하며, 한자와 일본어 글리프는 제외되어 있습니다.
 

@@ -132,6 +132,10 @@ int main(void)
     ui_update_pc_connected(true);
     ui_update_syna_conversation("Anything else planned today?",
                                 "You have 2 to-do items; the latest one is to tidy up the development docs.");
+    if(getenv("AI_PANEL_KOREAN_DEMO") != NULL) {
+        ui_update_syna_conversation("오늘 회의는 몇 시에 끝나요?",
+                                    "오후 6시에 끝날 예정입니다. 회의록은 바로 정리해 드리겠습니다.");
+    }
     const ui_todo_item_t todo_demo[] = {
         {.id = 1, .text = "Tidy up the development docs", .completed = true},
         {.id = 2, .text = "Verify the screen layout", .completed = true},
@@ -143,6 +147,11 @@ int main(void)
     if(media_demo != NULL && strcmp(media_demo, "1") == 0) {
         ui_update_media(true, "playing", "Ring of Coins", "Lindsey Stirling",
                         114, 271, "Instrumental music, please enjoy");
+    }
+    if(media_demo != NULL && strcmp(media_demo, "ko") == 0) {
+        ui_update_media(true, "playing", "안녕하세요 반갑습니다",
+                        "김동률 · 사랑은 도 Wide",
+                        114, 271, "오늘 날씨가 정말 좋네요");
     }
     const char *start_page = getenv("AI_PANEL_START_PAGE");
     if(start_page != NULL && strcmp(start_page, "computers") == 0) ui_show_computers();

@@ -10,6 +10,10 @@ Waveshare ESP32-S3-RLCD-4.2 데스크톱 어시스턴트와 Windows / macOS Repo
 
 ## 기능 및 지원 범위
 
+<p align=center>
+  <img width=900 src="docs/screenshot-dashboard.png" alt="Syna 대시보드 — 온도·습도, AI 에이전트 쿼터, YouTube 재생 정보">
+</p>
+
 - 보드에서 컴퓨터 성능, 에이전트 상태 및 쿼터, 음악 정보를 표시합니다.
 - LAN에서 컴퓨터를 검색하고 바인딩할 컴퓨터를 선택하며, 업그레이드 후에도 설정이 유지됩니다.
 - Windows 올인원 설치 프로그램은 Reporter 전용, 설정 유지 업그레이드, 최초 설치의 세 가지 모드를 제공합니다.

@@ -6,8 +6,13 @@
 #define ESP32_I2C_HOST      I2C_NUM_0
 #define ESP32_LCD_HOST      SPI3_HOST
 
-#define AUDIO_INPUT_SAMPLE_RATE  24000
-#define AUDIO_OUTPUT_SAMPLE_RATE 24000
+// The reference Waveshare configuration for this board runs the codec at
+// 16000 Hz with 2 channels (CodecPort_SetInfo("es8311 & es7210", 1, 16000, 2, 16)),
+// and the ESPHome configuration for this board uses 16000 Hz as well. Running at
+// 24000 Hz forces the ES7210/ES8311 clock dividers off their reference values
+// and the microphone path has to resample the AFE output.
+#define AUDIO_INPUT_SAMPLE_RATE  16000
+#define AUDIO_OUTPUT_SAMPLE_RATE 16000
 
 #define AUDIO_INPUT_REFERENCE    true
 

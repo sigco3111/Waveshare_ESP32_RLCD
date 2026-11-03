@@ -11,6 +11,10 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 COMMIT='5df5b7fb4da2b4d80e2b7f87285ec1f8a9ca565c'
 BOARD=Path('main/boards/waveshare/esp32-s3-rlcd-4.2')
+# Board specific codec overrides. The ES7210/ES8311 pair on this board needs a
+# TDM framed duplex stream, a two channel input with channel_mask = 0 and a
+# stereo output frame, which differs from the upstream defaults.
+CODECS=Path('main/audio/codecs')
 
 def patch(path, marker, old, new):
     text=path.read_text()
@@ -87,6 +91,8 @@ def source(root):
     single_turn(root)
     for p in (HERE/'overlay'/BOARD).iterdir():
         if p.is_file():shutil.copy2(p,root/BOARD/p.name)
+    for p in (HERE/'overlay'/CODECS).iterdir():
+        if p.is_file():shutil.copy2(p,root/CODECS/p.name)
     p=root/'main/CMakeLists.txt'
     patch(p,'                        esp_http_client\n','                    PRIV_REQUIRES\n','                    PRIV_REQUIRES\n                        esp_http_client\n')
     config=json.loads((HERE/'overlay'/BOARD/'config.json').read_text())

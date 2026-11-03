@@ -18,10 +18,19 @@ def data(**changes):
 
 
 class MacMediaTests(unittest.TestCase):
-    def test_rejects_other_players_empty_and_invalid_numbers(self):
-        for value in [{}, [], data(bundle='com.apple.Music'), data(title=''),
+    def test_rejects_empty_and_invalid_numbers(self):
+        # Any player is accepted, so only empty payloads and invalid numbers
+        # are rejected. See the YouTube/general Now Playing generalisation.
+        for value in [{}, [], data(title=''),
                       data(position=float('nan')), data(rate='bad')]:
             self.assertIsNone(MacNeteaseTimeline.normalize(value))
+
+    def test_accepts_any_player_bundle(self):
+        for bundle in ['com.netease.163music', 'com.apple.Music',
+                       'com.google.Chrome', 'com.brave.Browser']:
+            value = MacNeteaseTimeline.normalize(data(bundle=bundle))
+            self.assertIsNotNone(value)
+            self.assertEqual(value['title'], 'Song')
 
     def test_timeline_clamps_and_pauses(self):
         value = MacNeteaseTimeline.normalize(data(position=900, rate=0))

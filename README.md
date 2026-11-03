@@ -11,6 +11,7 @@ Waveshare ESP32-S3-RLCD-4.2 데스크톱 어시스턴트와 Windows / macOS Repo
 - Windows 올인원 설치 프로그램은 Reporter 전용, 설정 유지 업그레이드, 최초 설치의 세 가지 모드를 제공합니다.
 - 현재 펌웨어는 한 번의 문답마다 한 번씩 웨이크업하며, 응답 중에는 음성 인터럽트를 받지 않습니다. 컴파일과 플래싱은 완료되었으며, 실제 음성 사용감은 아직 검증이 필요합니다.
 - 음악 타이밍은 현재 추정 로직을 사용하므로, 정확한 실시간 진행률이 보장되지는 않습니다.
+- **스피커 출력이 아직 정상 아닙니다.** 마이크, STT, 서버 TTS 수신, Opus 디코딩, 코덱 기록까지는 정상이나, 스피커에서 소리가 나지 않습니다. 확인된 범위와 남은 가설은 [음성 출력 진단](docs/AUDIO_OUTPUT_DIAGNOSIS.md)에 정리했습니다.
 
 하드웨어 타깃은 ESP32-S3-RLCD-4.2이며, 16 MB 플래시와 8 MB PSRAM을 탑재했습니다. 다른 모델에는 펌웨어를 플래싱하지 마세요.
 
@@ -126,7 +127,7 @@ AI_PANEL_MEDIA_DEMO=ko AI_PANEL_KOREAN_DEMO=1 AI_PANEL_START_PAGE=syna \
 
 | 디렉토리 | 내용 |
 | --- | --- |
-| `xiaozhi/` | 고정된 Xiaozhi 업스트림 버전에 대한 패치, 보드 수준 소스, ESP-IDF 빌드 진입점 |
+| `xiaozhi/` | 고정된 Xiaozhi 업스트림 버전에 대한 패치, 보드 수준 소스, 오디오 코덱 오버레이, ESP-IDF 빌드 진입점 |
 | `reporter/` | 컴퓨터 측 상태 서비스, 미디어 수집, Windows / Mac UI |
 | `installer/` | Windows / Mac 설치 프로그램 소스 |
 | `simulator/` | LVGL UI 시뮬레이터, 에셋, 폰트 생성기 |
